@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="js,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zxlg's notes" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="JavaScript 中包含以下 7 个全局函数escape( )、eval( )、isFinite( )、isNaN( )、parseFloat( )、parseInt( )、unescape( )。 JavaScript为指定元素绑定一个事件处理器函数Javascript块内声明函数不要在块内声明一个函数（严格模式会报语法错误）。如果确实需要在块中定义函数，可以使用函数表达式来声明函数。 12">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javascript零散笔记">
+<meta property="og:url" content="http://happylg.cn/2017/08/06/js-other/index.html">
+<meta property="og:site_name" content="zxlg&#39;s notes">
+<meta property="og:description" content="JavaScript 中包含以下 7 个全局函数escape( )、eval( )、isFinite( )、isNaN( )、parseFloat( )、parseInt( )、unescape( )。 JavaScript为指定元素绑定一个事件处理器函数Javascript块内声明函数不要在块内声明一个函数（严格模式会报语法错误）。如果确实需要在块中定义函数，可以使用函数表达式来声明函数。 12">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-12T12:15:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Javascript零散笔记">
+<meta name="twitter:description" content="JavaScript 中包含以下 7 个全局函数escape( )、eval( )、isFinite( )、isNaN( )、parseFloat( )、parseInt( )、unescape( )。 JavaScript为指定元素绑定一个事件处理器函数Javascript块内声明函数不要在块内声明一个函数（严格模式会报语法错误）。如果确实需要在块中定义函数，可以使用函数表达式来声明函数。 12">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://happylg.cn/2017/08/06/js-other/">
+
+
+
+
+
+  <title>Javascript零散笔记 | zxlg's notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zxlg's notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://happylg.cn/2017/08/06/js-other/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zxlg">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zxlg's notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Javascript零散笔记</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-06T22:30:57+08:00">
+                2017-08-06
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-08-12T20:15:47+08:00">
+                2019-08-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">Javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/06/js-other/" class="leancloud_visitors" data-flag-title="Javascript零散笔记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="JavaScript-中包含以下-7-个全局函数"><a href="#JavaScript-中包含以下-7-个全局函数" class="headerlink" title="JavaScript 中包含以下 7 个全局函数"></a>JavaScript 中包含以下 7 个全局函数</h2><p>escape( )、eval( )、isFinite( )、isNaN( )、parseFloat( )、parseInt( )、unescape( )。</p>
+<h2 id="JavaScript为指定元素绑定一个事件处理器函数"><a href="#JavaScript为指定元素绑定一个事件处理器函数" class="headerlink" title="JavaScript为指定元素绑定一个事件处理器函数"></a>JavaScript为指定元素绑定一个事件处理器函数</h2><h2 id="Javascript块内声明函数"><a href="#Javascript块内声明函数" class="headerlink" title="Javascript块内声明函数"></a>Javascript块内声明函数</h2><p>不要在块内声明一个函数（严格模式会报语法错误）。如果确实需要在块中定义函数，可以使用函数表达式来声明函数。</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/* Recommended */</span><br><span class="line">if (x) &#123;</span><br><span class="line">	var foo = function() &#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/* Wrong */</span><br><span class="line">if (x) &#123;</span><br><span class="line">	function foo() &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><a id="more"></a>
+<h2 id="Jquery获取宽高"><a href="#Jquery获取宽高" class="headerlink" title="Jquery获取宽高"></a>Jquery获取宽高</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">alert($(window).height()); //浏览器当前窗口可视区域高度 </span><br><span class="line">alert($(document).height()); //浏览器当前窗口文档的高度 </span><br><span class="line">alert($(document.body).height());//浏览器当前窗口文档body的高度 </span><br><span class="line">alert($(document.body).outerHeight(true));//浏览器当前窗口文档body的总高度 包括border padding margin </span><br><span class="line">alert($(window).width()); //浏览器当前窗口可视区域宽度 </span><br><span class="line">alert($(document).width());//浏览器当前窗口文档对象宽度 </span><br><span class="line">alert($(document.body).width());//浏览器当前窗口文档body的高度 </span><br><span class="line">alert($(document.body).outerWidth(true));//浏览器当前窗口文档body的总宽度 包括border padding margin</span><br></pre></td></tr></table></figure>
+<h2 id="浏览器兼容性问题"><a href="#浏览器兼容性问题" class="headerlink" title="浏览器兼容性问题"></a>浏览器兼容性问题</h2><ul>
+<li>SD9017: Firefox 不支持 DOM 对象的 outerHTML、innerText、outerText 属性(参见<a href="http://w3help.org/zh-cn/causes/SD9017" target="_blank" rel="noopener">http://w3help.org/zh-cn/causes/SD9017</a>)</li>
+<li>SD9010: 仅 IE 中的 createElement 方法支持传入 HTML String 做参数</li>
+<li>SD9006: IE 混淆了 DOM 对象属性（property）及 HTML 标签属性（attribute），造成了对 setAttribute、getAttribute 的不正确实现</li>
+</ul>
+<hr>
+<p>2017.08.15更新</p>
+<hr>
+<h2 id="parseInt"><a href="#parseInt" class="headerlink" title="parseInt()"></a>parseInt()</h2><p>parseInt() 函数解析一个字符串参数，并返回一个指定基数的整数 (数学系统的基础)。</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parseInt(string, radix);</span><br></pre></td></tr></table></figure>
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><p><code>string</code><br>要被解析的值。如果参数不是一个字符串，则将其转换为字符串(使用<code>ToString</code>抽象操作)。字符串开头的空白符将会被忽略。<br><code>radix</code><br>一个介于2和36之间的整数(数学系统的基础)，表示上述字符串的基数。比如参数”10”表示使用我们通常使用的十进制数值系统。始终指定此参数可以消除阅读该代码时的困惑并且保证转换结果可预测。当未指定基数时，不同的实现会产生不同的结果，通常将值默认为10。</p>
+<h3 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h3><p>返回解析后的整数值。 如果被解析参数的第一个字符无法被转化成数值类型，则返回<code>NaN</code>。</p>
+<h3 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h3><p><code>parseInt</code>函数将其第一个参数转换为字符串，解析它，并返回一个整数或<code>NaN</code>。如果不是<code>NaN</code>，返回的值将是作为指定基数（基数）中的数字的第一个参数的整数。<br>例如：<code>radix</code>参数为10将会把第一个参数看作是一个数的十进制表示，8对应八进制，16对应十六进制，等等。基数大于10时，用字母表中的字母来表示大于9的数字。例如十六进制中，使用A到F。<br>如果<code>parseInt</code>遇到了不属于<code>radix</code>参数所指定的基数中的字符那么该字符和其后的字符都将被忽略。接着返回已经解析的整数部分。<code>parseInt</code>将截取整数部分。开头和结尾的空白符允许存在，会被忽略。<br>在没有指定基数，或者基数为0的情况下，JavaScript作如下处理：</p>
+<ol>
+<li>如果字符串<code>string</code>以”0x”或者”0X”开头,则基数是16(16进制).</li>
+<li>如果字符串<code>string</code>以”0”开头,基数是8（八进制）或者10（十进制），那么具体是哪个基数由实现环境决定。ECMAScript5规定使用10，但是并不是所有的浏览器都遵循这个规定。因此，永远都要明确给出radix参数的值。</li>
+<li>如果字符串<code>string</code>以其它任何值开头，则基数是10(十进制)。</li>
+<li>如果第一个字符不能被转换成数字，<code>parseInt</code>返回<code>NaN</code>。</li>
+</ol>
+<p>算术上，<code>NaN</code>不是任何一个进制下的数。你可以调用<code>isNaN</code>来判断<code>parseInt</code>是否返回<code>NaN</code>。<code>NaN</code>参与的数学运算其结果总是<code>NaN</code>。<br>将整型数值以特定基数转换成它的字符串值可以使用<code>intValue.toString(radix)</code>.</p>
+<h2 id="null与undefined"><a href="#null与undefined" class="headerlink" title="null与undefined"></a>null与undefined</h2><p>值<code>null</code>是一个 JavaScript 字面量，表示空值（null or an “empty” value），即没有对象被呈现（no object value is present）。它是JavaScript原始数据类型之一。</p>
+<p>全局属性<code>undefined</code>表示原始值<code>undefined</code>。它是一个JavaScript的原始数据类型 。<br>JavaScript的原始数据类型：<code>String</code>,<code>Number</code>,<code>Bollean</code>,<code>null</code>,<code>undefined</code>,<code>symbol</code>(ES2015新增)</p>
+<p><code>null</code>与<code>undefined</code>的不同点：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">typeof null        // object (因为一些以前的原因而不是&apos;null&apos;)</span><br><span class="line">typeof undefined   // undefined</span><br><span class="line">null === undefined // false</span><br><span class="line">null  == undefined // true</span><br><span class="line">null === null // true</span><br><span class="line">null == null // true</span><br><span class="line">!null //true</span><br><span class="line">isNaN(1 + null) // false</span><br><span class="line">isNaN(1 + undefined) // true</span><br></pre></td></tr></table></figure></p>
+<h2 id="js精度丢失"><a href="#js精度丢失" class="headerlink" title="js精度丢失"></a>js精度丢失</h2><p>计算机的二进制实现和位数限制有些数无法有限表示。就像一些无理数不能有限表示，如 圆周率 3.1415926…，1.3333… 等。JS 遵循 IEEE 754 规范，采用双精度存储（double precision），占用 64 bit。<br>解决方案：</p>
+<ul>
+<li>对于整数，前端出现问题的几率可能比较低，毕竟很少有业务需要需要用到超大整数，只要运算结果不超过 Math.pow(2, 53) 就不会丢失精度。</li>
+<li>对于小数，前端出现问题的几率还是很多的，尤其在一些电商网站涉及到金额等数据。解决方式：把小数放到位整数（乘倍数），再缩小回原来倍数（除倍数）</li>
+</ul>
+<h2 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h2><p><code>switch()</code>使用<code>===</code>判断相等</p>
+<hr>
+<p>2017.08.19更新</p>
+<hr>
+<h2 id="Number-prototype-toString-使用注意"><a href="#Number-prototype-toString-使用注意" class="headerlink" title="Number.prototype.toString()使用注意"></a>Number.prototype.toString()使用注意</h2><p><code>Number</code>对象使用<code>toString</code>方法，<code>Number</code>对象必须加上<code>()</code>,否则表示小数。不加括号会报错。</p>
+<hr>
+<p>2017.08.20更新</p>
+<hr>
+<h2 id="RegExp-prototype-exec"><a href="#RegExp-prototype-exec" class="headerlink" title="RegExp.prototype.exec()"></a>RegExp.prototype.exec()</h2><h2 id="RegExp-prototype-test"><a href="#RegExp-prototype-test" class="headerlink" title="RegExp.prototype.test()"></a>RegExp.prototype.test()</h2><h2 id="Date对象"><a href="#Date对象" class="headerlink" title="Date对象"></a>Date对象</h2><h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">new Date();//访问当前时间</span><br><span class="line">new Date(value);</span><br><span class="line">new Date(dateString);</span><br><span class="line">new Date(year, month[, day[, hour[, minutes[, seconds[, milliseconds]]]]]);</span><br></pre></td></tr></table></figure>
+<h3 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h3><p><code>value</code><br>代表自1970年1月1日00:00:00 (世界标准时间) 起经过的毫秒数。<br><code>dateString`</code><br>表示日期的字符串值。该字符串应该能被<code>Date.parse()</code>方法识别(符合<a href="https://tools.ietf.org/html/rfc2822#page-14" target="_blank" rel="noopener">IETF-compliant RFC 2822 timestamps</a>或<a href="http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15" target="_blank" rel="noopener">version of ISO8601</a>)。<br><code>year</code><br>代表年份的整数值。为了避免2000年问题最好指定4位数的年份; 使用 1998, 而不要用 98.<br><code>month</code><br><strong>代表月份的整数值从0（1月）到11（12月）。</strong><br><code>day</code><br>代表一个月中的第几天的整数值，从1开始。<br><code>hour</code><br>代表一天中的小时数的整数值 (24小时制)。<br><code>minute</code><br>分钟数。<br><code>second</code><br>秒数。<br><code>millisecond</code><br>表示时间的毫秒部分的整数值。</p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><blockquote>
+<p>Note 1: 需要注意的是只能通过调用<code>Date</code>构造函数来实例化日期对象：以常规函数调用它（即不加<code>new</code>操作符）将会返回&gt;一个字符串，而不是一个日期对象。另外，不像其他JavaScript 类型，<code>Date</code>对象没有字面量格式。</p>
+</blockquote>
+<blockquote>
+<p>Note2 : 当<code>Date</code>作为构造函数调用并传入多个参数时，如果数值大于合理范围时（如月份为13或者分钟数为70），相邻的数值会被调整。比如<code>new Date(2013, 13, 1)</code>等于<code>new Date(2014, 1, 1)</code>，它们都表示日期2014-02-01（注意月份是从0开始的）。其他数值也是类似，<code>new Date(2013, 2, 1, 0, 70)</code>等于<code>new Date(2013, 2, 1, 1, 10)</code>，都表示时间2013-03-01T01:10:00。</p>
+</blockquote>
+<h2 id="Date-parse"><a href="#Date-parse" class="headerlink" title="Date.parse()"></a>Date.parse()</h2><p><code>Date.parse()</code>方法解析一个表示某个日期的字符串，并返回从1970-1-1 00:00:00 UTC 到该日期对象（该日期对象的UTC时间）的毫秒数，如果该字符串无法识别，或者一些情况下，包含了不合法的日期数值（如：2015-02-31），则返回值为<code>NaN</code>。</p>
+<h3 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h3><p>显示调用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Date.parse(dateString)</span><br></pre></td></tr></table></figure></p>
+<p>隐式调用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new Date(dateString)</span><br></pre></td></tr></table></figure></p>
+<h3 id="参数-2"><a href="#参数-2" class="headerlink" title="参数"></a>参数</h3><p><code>dateString</code><br>一个符合<a href="https://tools.ietf.org/html/rfc2822#page-14" target="_blank" rel="noopener">IETF-compliant RFC 2822 timestamps</a>或<a href="http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15" target="_blank" rel="noopener">version of ISO8601</a>日期格式的字符串（其他格式也许也支持，但结果可能与预期不符）。</p>
+<h3 id="返回值-1"><a href="#返回值-1" class="headerlink" title="返回值"></a>返回值</h3><p>一个表示从1970-1-1 00:00:00 UTC到给定日期字符串所表示时间的毫秒数的数值。如果参数不能解析为一个有效的日期，则返回NaN。<br>描述</p>
+<h2 id="Date-prototype-getDay"><a href="#Date-prototype-getDay" class="headerlink" title="Date.prototype.getDay()"></a>Date.prototype.getDay()</h2><h3 id="语法-2"><a href="#语法-2" class="headerlink" title="语法"></a>语法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dateObj.getDay()</span><br></pre></td></tr></table></figure>
+<h3 id="参数-3"><a href="#参数-3" class="headerlink" title="参数"></a>参数</h3><p>无</p>
+<h3 id="返回值-2"><a href="#返回值-2" class="headerlink" title="返回值"></a>返回值</h3><p><strong><code>getDay()</code>返回一个整数值：0代表星期日,1代表星期一,2代表星期二,依次类推。</strong></p>
+<h2 id="Date-prototype-getDate"><a href="#Date-prototype-getDate" class="headerlink" title="Date.prototype.getDate()"></a>Date.prototype.getDate()</h2><h3 id="语法-3"><a href="#语法-3" class="headerlink" title="语法"></a>语法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dateObj.getDate()</span><br></pre></td></tr></table></figure>
+<h3 id="参数-4"><a href="#参数-4" class="headerlink" title="参数"></a>参数</h3><p>无</p>
+<h3 id="返回值-3"><a href="#返回值-3" class="headerlink" title="返回值"></a>返回值</h3><p><strong><code>getDate()</code>返回一个1到31的整数值。</strong></p>
+<p>## </p>
+<h2 id="语法-4"><a href="#语法-4" class="headerlink" title="语法"></a>语法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dateObj.getMonth()</span><br></pre></td></tr></table></figure>
+<h3 id="参数-5"><a href="#参数-5" class="headerlink" title="参数"></a>参数</h3><p>无</p>
+<h3 id="返回值-4"><a href="#返回值-4" class="headerlink" title="返回值"></a>返回值</h3><p><strong><code>getMonth</code>返回一个0到11的整数值：0代表一月份，1代表二月分，2 代表三月份，依次类推。</strong></p>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><h2 id="RegExp"><a href="#RegExp" class="headerlink" title="RegExp"></a>RegExp</h2><p><code>g</code><br>全局匹配;找到所有匹配，而不是在第一个匹配后停止</p>
+<h2 id="浏览器内核"><a href="#浏览器内核" class="headerlink" title="浏览器内核"></a>浏览器内核</h2><p>chrome: Webkit –&gt; Blink<br>Safari: Webkit<br>Mozilla: Gecko<br>IE: Trident<br>Opear: Presto –&gt; Blink</p>
+<h2 id="浏览器解析方式"><a href="#浏览器解析方式" class="headerlink" title="浏览器解析方式"></a>浏览器解析方式</h2><ol>
+<li>非怪异（标准）模式</li>
+<li>怪异模式(一个不含任何<code>DOCTYPE</code>的网页将会以 怪异(quirks) 模式渲染。)</li>
+<li>部分怪异（近乎标准）模式(实施了一种表单元格尺寸的怪异行为，除此之外符合标准定义。)</li>
+</ol>
+<p>HTML5提供的<code>&lt;DOCTYPE html&gt;</code>是标准模式，向后兼容的, 等同于开启了标准模式，那么浏览器就得老老实实的按照W3C的 标准解析渲染页面，这样一来，你的页面在所有的浏览器里显示的就都是一个样子了。</p>
+<h2 id="DOM结构"><a href="#DOM结构" class="headerlink" title="DOM结构"></a>DOM结构</h2><h3 id="DOM节点"><a href="#DOM节点" class="headerlink" title="DOM节点"></a>DOM节点</h3><p>根据 W3C 的 HTML DOM 标准，HTML 文档中的所有内容都是节点：</p>
+<ol>
+<li>整个文档是一个文档节点</li>
+<li>每个 HTML 元素是元素节点</li>
+<li>HTML 元素内的文本是文本节点</li>
+<li>每个 HTML 属性是属性节点</li>
+<li>注释是注释节点</li>
+</ol>
+<h3 id="节点的关系"><a href="#节点的关系" class="headerlink" title="节点的关系"></a>节点的关系</h3><p>父（parent）、子（child）和同胞（sibling）等术语用于描述这些关系。父节点拥有子节点。同级的子节点被称为同胞（兄弟或姐妹）:</p>
+<ol>
+<li>在节点树中，顶端节点被称为根（root）</li>
+<li>每个节点都有父节点、除了根（它没有父节点）</li>
+<li>一个节点可拥有任意数量的子</li>
+<li>同胞是拥有相同父节点的节点</li>
+</ol>
+<h2 id="HTML5新增"><a href="#HTML5新增" class="headerlink" title="HTML5新增"></a>HTML5新增</h2><h3 id="与HTML4不同之处"><a href="#与HTML4不同之处" class="headerlink" title="与HTML4不同之处"></a>与HTML4不同之处</h3><ul>
+<li>文件类型声明（&lt;!DOCTYPE&gt;）仅有一型：&lt;!DOCTYPE HTML&gt;。</li>
+<li>新的解析顺序：不再基于SGML。</li>
+<li>新的元素：section, video, progress, nav, meter, time, aside, canvas, command, datalist, details, embed, figcaption, figure, footer, header, hgroup, keygen, mark, output, rp, rt, ruby, source, summary, wbr。</li>
+<li>input元素的新类型：date, email, url等等。</li>
+<li>新的属性：ping（用于a与area）, charset（用于meta）, async（用于script）。</li>
+<li>全域属性：id, tabindex, repeat。</li>
+<li>新的全域属性：contenteditable, contextmenu, draggable, dropzone, hidden, spellcheck。</li>
+<li>移除元素：acronym, applet, basefont, big, center, dir, font, frame, frameset, isindex, noframes, strike, tt。</li>
+</ul>
+<h3 id="新应用程序接口（API）"><a href="#新应用程序接口（API）" class="headerlink" title="新应用程序接口（API）"></a>新应用程序接口（API）</h3><p>除了原先的DOM接口，HTML5增加了更多样化的API:- </p>
+<ul>
+<li>HTML Geolocation</li>
+<li>HTML Drag and Drop</li>
+<li>HTML Local Storage</li>
+<li>HTML Application Cache</li>
+<li>HTML Web Workers</li>
+<li>HTML SSE</li>
+<li>HTML Canvas/WebGL</li>
+<li>HTML Audio/Video<h2 id="HTML5文档类型声明"><a href="#HTML5文档类型声明" class="headerlink" title="HTML5文档类型声明"></a>HTML5文档类型声明</h2>在 HTML5 中，文档类型声明很简单：<br>&lt;!DOCTYPE HTML&gt;<br>在所有 HTML 文档中规定文档类型很重要，这样浏览器才能了解所预期的文档类型。<br>HTML 4.01 中的 doctype 需要引用一个 DTD，这是因为 HTML 4.01 基于 SGML。HTML5 不基于 SGML，也不需要引用 DTD，但是需要声明文档类型让浏览器按照它们应该的方式来运行。 </li>
+</ul>
+<h2 id="外边距叠加"><a href="#外边距叠加" class="headerlink" title="外边距叠加"></a>外边距叠加</h2><p>外边距叠加是一个相当简单的概念。 但是，在实践中对网页进行布局时， 它会造成许多混淆。 简单的说， 当两个或更多个垂直边距相遇时， 它们将形成一个外边距。这个外边距的高度等于两个发生叠加的外边距的高度中的较大者。但是注意只有普通文档流中块框的垂直外边距才会发生外边距叠加。 行内框、 浮动框或绝对定位框之间的外边距不会叠加。</p>
+<p>一般来说， 垂直外边距叠加有三种情况：</p>
+<ol>
+<li>元素自身叠加。当元素没有内容（即空元素）、内边距、边框时，它的上下边距就相遇了，即会产生叠加（垂直方向）。 当为元素添加内容、内边距、边框任何一项，就会取消叠加。</li>
+<li>相邻元素叠加。相邻的两个元素，如果它们的上下边距相遇，即会产生叠加。</li>
+<li>包含（父子）元素叠加。包含元素的外边距隔着父元素的内边距和边框， 当这两项都不存在的时候，父子元素垂直外边距相邻，产生叠加。添加任何一项即会取消叠加。</li>
+</ol>
+<p>参见<a href="https://www.zhihu.com/question/65645035/answer/233316283" target="_blank" rel="noopener">给了body position:relative后 margin-top影响其他元素定位位置是为什么?</a></p>
+<h2 id="变量对象"><a href="#变量对象" class="headerlink" title="变量对象"></a>变量对象</h2><h3 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h3><p>红宝书上解释的五种基本类型：</p>
+<ul>
+<li><code>number</code></li>
+<li><code>string</code></li>
+<li><code>boolean</code></li>
+<li><code>undefined</code></li>
+<li><code>null</code><br>但是也有人认为是六种，加上<code>object</code>, 成为复杂数据类型。</li>
+</ul>
+<h3 id="特殊包装类"><a href="#特殊包装类" class="headerlink" title="特殊包装类"></a>特殊包装类</h3><p><code>Boolean</code>: 布尔对象<br><code>String</code>: 字符串对象<br><code>Number</code>: 数字对象<br>这些对象的创建，是通过相应的内置构造器创建，并且包含原生值作为其内部属性，这些对象可以转换省原始值，反之亦然。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> <span class="built_in">Boolean</span>(<span class="literal">true</span>);</span><br><span class="line"><span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">'test'</span>);</span><br><span class="line"><span class="keyword">var</span> e = <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 转换成原始值</span></span><br><span class="line"><span class="comment">// 使用不带new关键字的函数</span></span><br><span class="line">с = <span class="built_in">Boolean</span>(c);</span><br><span class="line">d = <span class="built_in">String</span>(d);</span><br><span class="line">e = <span class="built_in">Number</span>(e);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 重新转换成对象</span></span><br><span class="line">с = <span class="built_in">Object</span>(c);</span><br><span class="line">d = <span class="built_in">Object</span>(d);</span><br><span class="line">e = <span class="built_in">Object</span>(e);</span><br></pre></td></tr></table></figure></p>
+<h3 id="typeof操作符"><a href="#typeof操作符" class="headerlink" title="typeof操作符"></a>typeof操作符</h3><p>返回的类型只有六种:</p>
+<ul>
+<li><code>string</code></li>
+<li><code>number</code></li>
+<li><code>boolean</code></li>
+<li><code>undefined</code></li>
+<li><code>object</code></li>
+<li><code>function</code></li>
+</ul>
+<h3 id="instanceof操作符"><a href="#instanceof操作符" class="headerlink" title="instanceof操作符"></a>instanceof操作符</h3><p><code>instanceof</code>操作符用来比较两个操作数的构造函数。只有在比较自定义的对象时才有意义。如果用来比较内置类型，将会和<code>typeof</code>操作符 一样用处不大。</p>
+<h3 id="Object-prototype-toString获取-class"><a href="#Object-prototype-toString获取-class" class="headerlink" title="Object.prototype.toString获取[[class]]"></a>Object.prototype.toString获取[[class]]</h3><p>检测一个对象的类型，强烈推荐使用<code>Object.prototype.toString</code>方法； 因为这是唯一一个可依赖的方式。正如上面表格所示，<code>typeof</code>的一些返回值在标准文档中并未定义， 因此不同的引擎实现可能不同。 我们使用<code>Object.prototype.toString</code>方法:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.prototype.toString.call([])    <span class="comment">// "[object Array]"</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(&#123;&#125;)    <span class="comment">// "[object Object]"</span></span><br><span class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="number">2</span>)    <span class="comment">// "[object Number]"</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="事件监听"><a href="#事件监听" class="headerlink" title="事件监听"></a>事件监听</h2><h3 id="HTML内联属性"><a href="#HTML内联属性" class="headerlink" title="HTML内联属性"></a>HTML内联属性</h3><p>类似<code>&lt;button onclick=&quot;alert(&#39;你点击了这个按钮&#39;);&quot;&gt;</code>点击这个按钮<code>&lt;/button&gt;</code>的方式，这种方式会使JS与HTML高度耦合，不利于开发和维护，不推荐使用。</p>
+<h3 id="DOM属性绑定"><a href="#DOM属性绑定" class="headerlink" title="DOM属性绑定"></a>DOM属性绑定</h3><p>使用DOM元素的<code>onXXX</code>属性设置，简单易懂，兼容性好。缺点是只能绑定一个处理函数。</p>
+<h3 id="事件监听函数"><a href="#事件监听函数" class="headerlink" title="事件监听函数"></a>事件监听函数</h3><p>使用事件监听函数<code>element.addEventListener(&lt;event-name&gt;, &lt;callback&gt;, &lt;use-capture&gt;);</code>，在<code>element</code>这个对象上面添加一个事件监听器，当监听到有事件发生的时候，调用这个回调函数。至于这个参数，表示该事件监听是在“捕获”阶段中监听（设置为<code>true</code>）还是在“冒泡”阶段中监听（设置为<code>false</code>）。</p>
+<h3 id="移除事件监听"><a href="#移除事件监听" class="headerlink" title="移除事件监听"></a>移除事件监听</h3><p>使用事件解除绑定方法:<code>element.removeEventListener(&lt;event-name&gt;, &lt;callback&gt;, &lt;use-capture&gt;)</code>;<br>需要注意的是，绑定事件时的回调函数不能是匿名函数，必须是一个<strong>声明的函数</strong>，因为解除事件绑定时需要传递这个回调函数的引用，才可以断开绑定。</p>
+<h3 id="模拟触发事件"><a href="#模拟触发事件" class="headerlink" title="模拟触发事件"></a>模拟触发事件</h3><p>内置的时间也可以被JavaScript模拟触发，使用<code>dispatchEvent</code>方法。</p>
+<h3 id="自定义事件"><a href="#自定义事件" class="headerlink" title="自定义事件"></a>自定义事件</h3><p>与自定义事件的函数有<code>Event</code>、<code>CustomEvent</code>和<code>dispatchEvent</code>。</p>
+<h4 id="Event"><a href="#Event" class="headerlink" title="Event"></a>Event</h4><p>直接自定义事件，使用<code>Event</code>构造函数</p>
+<h4 id="CustonEvent"><a href="#CustonEvent" class="headerlink" title="CustonEvent"></a>CustonEvent</h4><p><code>CustomEvent</code>可以创建一个更高度自定义事件，还可以附带一些数据，具体用法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var myEvent = new CustomEvent(eventname, options);</span><br></pre></td></tr></table></figure></p>
+<h4 id="dispatchEvent"><a href="#dispatchEvent" class="headerlink" title="dispatchEvent"></a>dispatchEvent</h4><p>这个用于触发自定义的事件</p>
+<h3 id="事件顺序"><a href="#事件顺序" class="headerlink" title="事件顺序"></a>事件顺序</h3><p>W3C :首先进入事件捕获阶段-&gt;达到元素后-&gt;进入事件冒泡阶段。<br>开发者可以通过<code>addEventListener</code>函数的第三个参数设置事件触发的阶段，默认为false,冒泡阶段。而DOM1级别的事件绑定则只能在冒泡阶段触发。</p>
+<h3 id="事件代理"><a href="#事件代理" class="headerlink" title="事件代理"></a>事件代理</h3><p>事件绑定后，检测顺序就会从被绑定的DOM下滑到触发的元素，再冒泡会绑定的DOM上。也就是说，如果你监听了一个DOM节点，那也就等于你监听了其所有的后代节点。<br>代理的意思就是只监听父节点的事件触发，以来代理对其后代节点的监听，而你需要做的只是通过<code>currentTarget</code>属性得到触发元素并作出回应。<br>使用事件代理意味着你可以节省大量重复的事件监听，以减少浏览器资源消耗。还有一个好处就是让HTML独立起来，比如之后还有要加子元素的需求，也不需要再为其单独加事件监听了。<br>获取点击的<code>li</code>节点的内容<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">"parent-list"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Item 1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Item 2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Item 3<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Item 4<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Item 5<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Item 6<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ul =<span class="built_in">document</span>.getElementsByTagName(<span class="string">"ul"</span>)[<span class="number">0</span>];</span><br><span class="line">ul.addEventListener(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="comment">//兼容IE</span></span><br><span class="line">    event = event || <span class="built_in">window</span>.event;</span><br><span class="line">    <span class="comment">//IE使用srcElement，这里获取目标元素</span></span><br><span class="line">    <span class="keyword">var</span> target = event.target || event.srcElement;</span><br><span class="line">	<span class="comment">//对目标元素进行判定</span></span><br><span class="line">	<span class="keyword">if</span>(target&amp;&amp;target.nodeName.toUpperCase()==<span class="string">"LI"</span>)&#123;<span class="comment">/*判断目标事件是否为li*/</span></span><br><span class="line">		alert(target.innerHTML);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;,<span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="jquery-delegate函数"><a href="#jquery-delegate函数" class="headerlink" title="jquery delegate函数"></a>jquery delegate函数</h4><p><code>$(selector).delegate(childSelector,event,data,function)</code><br><code>delegate()</code>方法为指定的元素（属于被选元素的子元素）添加一个或多个事件处理程序，并规定当这些事件发生时运行的函数。<br>使用<code>delegate()</code>方法的事件处理程序适用于当前或未来的元素（比如由脚本创建的新元素）。</p>
+<h3 id="事件的Event对象"><a href="#事件的Event对象" class="headerlink" title="事件的Event对象"></a>事件的Event对象</h3><p>当一个事件被触发的时候，会创建一个事件对象（Event Object），这个对象里面包含了一些有用的属性或者方法。事件对象会作为第一个参数，传递给我们的回调函数。</p>
+<h4 id="常用属性和方法"><a href="#常用属性和方法" class="headerlink" title="常用属性和方法"></a>常用属性和方法</h4><p><code>type(string)</code>: 事件的名称，比如 “click”。<br><code>target(node)</code>: 事件要触发的目标节点。<br><code>currentTarget(node)</code>: 它就指向正在处理事件的元素：这恰是我们需要的。很不幸的是微软模型中并没有相似的属性, 你也可以使用”this”关键字。事件属性也提供了一个值可供访问:<code>event.currentTarge</code>t。<br><code>bubbles (boolean)</code>: 表明该事件是否是在冒泡阶段触发的。<br><code>preventDefault (function)</code>: 这个方法可以禁止一切默认的行为，例如点击 a 标签时，会打开一个新页面，如果为 a 标签监听事件 click 同时调用该方法，则不会打开新页面。<br><code>stopPropagation (function)</code>: 很多时候，我们触发某个元素，会顺带触发出它父级身上的事件，这有时候是我们不想要的，大多数我们想要的还是事件相互独立。所以我们可以选择阻止事件冒泡，使用<code>event.stopPropagation()</code>.<br><code>stopImmediatePropagation (function)</code>: 与<code>stopPropagation</code>类似，就是阻止触发其他监听函数。但是与<code>stopPropagation</code>不同的是，它更加 “强力”，<strong>阻止除了目标之外的事件触发，甚至阻止针对同一个目标节点的相同事件。</strong><br><code>cancelable (boolean)</code>: 这个属性表明该事件是否可以通过调用<code>event.preventDefault</code>方法来禁用默认行为。<br>e<code>ventPhase (number)</code>: 这个属性的数字表示当前事件触发在什么阶段。</p>
+<ul>
+<li>0: none</li>
+<li>1: 捕获</li>
+<li>2: 目标</li>
+<li>3: 冒泡<br><code>pageX</code>和<code>pageY (number)</code>: 这两个属性表示触发事件时，鼠标相对于页面的坐标。<br><code>isTrusted (boolean)</code>: 表明该事件是浏览器触发（用户真实操作触发），还是 JavaScript代码触发的。</li>
+</ul>
+<h3 id="事件的回调函数"><a href="#事件的回调函数" class="headerlink" title="事件的回调函数"></a>事件的回调函数</h3><p>事件绑定函数时，该函数会以当前元素为作用域执行,所以回调函数中的this是当前的DOM元素。如果我们需要指定作用域，可以选择:</p>
+<ul>
+<li>使用匿名函数包裹回调函数</li>
+<li>使用<code>bind</code>方法</li>
+</ul>
+<h3 id="常用事件"><a href="#常用事件" class="headerlink" title="常用事件"></a>常用事件</h3><p><code>load</code> 资源加载完成时触发。这个资源可以是图片、CSS 文件、JS 文件、视频、<code>document</code>和<code>window</code>等等。<br><code>DOMContentLoaded</code> DOM构建完毕的时候触发, jQuery的ready方法包裹的就是这个事件。<br><code>beforeunload</code> 当浏览者在页面上的输入框输入一些内容时，未保存、误操作关掉网页可能会导致输入信息丢失。当浏览者输入信息但未保存时关掉网页，我们就可以开始监听这个事件,这时候试图关闭网页的时候，会弹窗阻止操作，点击确认之后才会关闭。当然，如果没有必要，就不要监听，不要以为使用它可以为你留住浏览者。<br><code>resize</code> 当节点尺寸发生变化时，触发这个事件。通常用在<code>window</code>上，这样可以监听浏览器窗口的变化。通常用在复杂布局和响应式上。出于对性能的考虑，你可以使用函数<code>throttle</code>或者<code>debounce</code>技巧来进行优化，<code>throttle</code>方法大体思路就是在某一段时间内无论多次调用，只执行一次函数，到达时间就执行；<code>debounce</code> 方法大体思路就是在某一段时间内等待是否还会重复调用，如果不会再调用，就执行函数，如果还有重复调用，则不执行继续等待。<br><code>error</code> 当我们加载资源失败或者加载成功但是只加载一部分而无法使用时，就会触发<code>error</code>事件，我们可以通过监听该事件来提示一个友好的报错或者进行其他处理。比如 JS 资源加载失败，则提示尝试刷新；图片资源加载失败，在图片下面提示图片加载失败等。该事件不会冒泡。因为子节点加载失败，并不意味着父节点加载失败，所以你的处理函数必须精确绑定到目标节点。</p>
+<h3 id="IE事件"><a href="#IE事件" class="headerlink" title="IE事件"></a>IE事件</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">element.attachEvent(&lt;event-name&gt;, &lt;callback&gt;);</span><br><span class="line">event = event || window.event`</span><br><span class="line">node = event.srcElement || event.target;</span><br></pre></td></tr></table></figure>
+<h2 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h2><p>先记录一些内容：</p>
+<ul>
+<li>Arrow Function</li>
+<li>Let</li>
+<li>Proxy</li>
+<li>Destructuring</li>
+<li>Tail Calling</li>
+<li>Template Strings</li>
+<li>Class</li>
+<li>Promises</li>
+<li>Generator</li>
+</ul>
+<h2 id="for…in…和for…of…"><a href="#for…in…和for…of…" class="headerlink" title="for…in…和for…of…"></a>for…in…和for…of…</h2><h3 id="for……in……"><a href="#for……in……" class="headerlink" title="for……in……"></a>for……in……</h3><p>遍历对象所有的可枚举对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    <span class="string">'a'</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="string">'b'</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="string">'c'</span>: <span class="number">3</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">Object</span>.prototype.age = <span class="number">24</span>;</span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj, <span class="string">"school"</span>, &#123;</span><br><span class="line">    configurable: <span class="literal">true</span>,</span><br><span class="line">    writable: <span class="literal">true</span>,</span><br><span class="line">    <span class="comment">//枚举的属性</span></span><br><span class="line">    enumerable: <span class="literal">true</span>,</span><br><span class="line">    value: <span class="string">'whut'</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// var a = Object.keys(obj);</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> index <span class="keyword">in</span> obj) &#123;</span><br><span class="line">    <span class="keyword">if</span> (obj.hasOwnProperty(index)) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(obj[index]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="for……of……"><a href="#for……of……" class="headerlink" title="for……of……"></a>for……of……</h3><h3 id="CSS截断"><a href="#CSS截断" class="headerlink" title="CSS截断"></a>CSS截断</h3><h4 id="单行截断"><a href="#单行截断" class="headerlink" title="单行截断"></a>单行截断</h4><h4 id="多行截断"><a href="#多行截断" class="headerlink" title="多行截断"></a>多行截断</h4><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" rel="noopener">MDN-Date</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Date/parse" target="_blank" rel="noopener">MDN-Date.parse()</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Date/getDay" target="_blank" rel="noopener">MDN-Date.prototype.getDay()</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Date/getDate" target="_blank" rel="noopener">MDN-Date.prototype.getDate()</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Date/getMonth" target="_blank" rel="noopener">MDN-Date.prototype.getMonth()</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions" target="_blank" rel="noopener">MDN-正则表达式</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp" target="_blank" rel="noopener">MDN-RegExp</a></li>
+<li><a href="https://leohxj.gitbooks.io/front-end-database/javascript-basic/variable-object.html" target="_blank" rel="noopener">变量对象</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    zxlg
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://happylg.cn/2017/08/06/js-other/" title="Javascript零散笔记">http://happylg.cn/2017/08/06/js-other/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/05/js-scope/" rel="next" title="Javascript函数和作用域总结">
+                <i class="fa fa-chevron-left"></i> Javascript函数和作用域总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/07/js-dom/" rel="prev" title="Javascript操作DOM总结">
+                Javascript操作DOM总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/avatar.png" alt="zxlg">
+          <p class="site-author-name" itemprop="name">zxlg</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">65</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">98</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/zxlg1993" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      微博
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/gongzhibin" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
+            </a>
+          </div>
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript-中包含以下-7-个全局函数"><span class="nav-number">1.</span> <span class="nav-text">JavaScript 中包含以下 7 个全局函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript为指定元素绑定一个事件处理器函数"><span class="nav-number">2.</span> <span class="nav-text">JavaScript为指定元素绑定一个事件处理器函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Javascript块内声明函数"><span class="nav-number">3.</span> <span class="nav-text">Javascript块内声明函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jquery获取宽高"><span class="nav-number">4.</span> <span class="nav-text">Jquery获取宽高</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器兼容性问题"><span class="nav-number">5.</span> <span class="nav-text">浏览器兼容性问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#parseInt"><span class="nav-number">6.</span> <span class="nav-text">parseInt()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">6.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数"><span class="nav-number">6.2.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#返回值"><span class="nav-number">6.3.</span> <span class="nav-text">返回值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#描述"><span class="nav-number">6.4.</span> <span class="nav-text">描述</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null与undefined"><span class="nav-number">7.</span> <span class="nav-text">null与undefined</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#js精度丢失"><span class="nav-number">8.</span> <span class="nav-text">js精度丢失</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#switch"><span class="nav-number">9.</span> <span class="nav-text">switch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Number-prototype-toString-使用注意"><span class="nav-number">10.</span> <span class="nav-text">Number.prototype.toString()使用注意</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RegExp-prototype-exec"><span class="nav-number">11.</span> <span class="nav-text">RegExp.prototype.exec()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RegExp-prototype-test"><span class="nav-number">12.</span> <span class="nav-text">RegExp.prototype.test()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Date对象"><span class="nav-number">13.</span> <span class="nav-text">Date对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数"><span class="nav-number">13.1.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数-1"><span class="nav-number">13.2.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意"><span class="nav-number">13.3.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Date-parse"><span class="nav-number">14.</span> <span class="nav-text">Date.parse()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法-1"><span class="nav-number">14.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数-2"><span class="nav-number">14.2.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#返回值-1"><span class="nav-number">14.3.</span> <span class="nav-text">返回值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Date-prototype-getDay"><span class="nav-number">15.</span> <span class="nav-text">Date.prototype.getDay()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法-2"><span class="nav-number">15.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数-3"><span class="nav-number">15.2.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#返回值-2"><span class="nav-number">15.3.</span> <span class="nav-text">返回值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Date-prototype-getDate"><span class="nav-number">16.</span> <span class="nav-text">Date.prototype.getDate()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法-3"><span class="nav-number">16.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数-4"><span class="nav-number">16.2.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#返回值-3"><span class="nav-number">16.3.</span> <span class="nav-text">返回值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法-4"><span class="nav-number">17.</span> <span class="nav-text">语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参数-5"><span class="nav-number">17.1.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#返回值-4"><span class="nav-number">17.2.</span> <span class="nav-text">返回值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式"><span class="nav-number">18.</span> <span class="nav-text">正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RegExp"><span class="nav-number">19.</span> <span class="nav-text">RegExp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器内核"><span class="nav-number">20.</span> <span class="nav-text">浏览器内核</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器解析方式"><span class="nav-number">21.</span> <span class="nav-text">浏览器解析方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DOM结构"><span class="nav-number">22.</span> <span class="nav-text">DOM结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DOM节点"><span class="nav-number">22.1.</span> <span class="nav-text">DOM节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#节点的关系"><span class="nav-number">22.2.</span> <span class="nav-text">节点的关系</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML5新增"><span class="nav-number">23.</span> <span class="nav-text">HTML5新增</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#与HTML4不同之处"><span class="nav-number">23.1.</span> <span class="nav-text">与HTML4不同之处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新应用程序接口（API）"><span class="nav-number">23.2.</span> <span class="nav-text">新应用程序接口（API）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML5文档类型声明"><span class="nav-number">24.</span> <span class="nav-text">HTML5文档类型声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#外边距叠加"><span class="nav-number">25.</span> <span class="nav-text">外边距叠加</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量对象"><span class="nav-number">26.</span> <span class="nav-text">变量对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本类型"><span class="nav-number">26.1.</span> <span class="nav-text">基本类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊包装类"><span class="nav-number">26.2.</span> <span class="nav-text">特殊包装类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#typeof操作符"><span class="nav-number">26.3.</span> <span class="nav-text">typeof操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#instanceof操作符"><span class="nav-number">26.4.</span> <span class="nav-text">instanceof操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object-prototype-toString获取-class"><span class="nav-number">26.5.</span> <span class="nav-text">Object.prototype.toString获取[[class]]</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件监听"><span class="nav-number">27.</span> <span class="nav-text">事件监听</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML内联属性"><span class="nav-number">27.1.</span> <span class="nav-text">HTML内联属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DOM属性绑定"><span class="nav-number">27.2.</span> <span class="nav-text">DOM属性绑定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件监听函数"><span class="nav-number">27.3.</span> <span class="nav-text">事件监听函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#移除事件监听"><span class="nav-number">27.4.</span> <span class="nav-text">移除事件监听</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模拟触发事件"><span class="nav-number">27.5.</span> <span class="nav-text">模拟触发事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义事件"><span class="nav-number">27.6.</span> <span class="nav-text">自定义事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Event"><span class="nav-number">27.6.1.</span> <span class="nav-text">Event</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CustonEvent"><span class="nav-number">27.6.2.</span> <span class="nav-text">CustonEvent</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatchEvent"><span class="nav-number">27.6.3.</span> <span class="nav-text">dispatchEvent</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件顺序"><span class="nav-number">27.7.</span> <span class="nav-text">事件顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件代理"><span class="nav-number">27.8.</span> <span class="nav-text">事件代理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#jquery-delegate函数"><span class="nav-number">27.8.1.</span> <span class="nav-text">jquery delegate函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件的Event对象"><span class="nav-number">27.9.</span> <span class="nav-text">事件的Event对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#常用属性和方法"><span class="nav-number">27.9.1.</span> <span class="nav-text">常用属性和方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件的回调函数"><span class="nav-number">27.10.</span> <span class="nav-text">事件的回调函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用事件"><span class="nav-number">27.11.</span> <span class="nav-text">常用事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IE事件"><span class="nav-number">27.12.</span> <span class="nav-text">IE事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ES6"><span class="nav-number">28.</span> <span class="nav-text">ES6</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#for…in…和for…of…"><span class="nav-number">29.</span> <span class="nav-text">for…in…和for…of…</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#for……in……"><span class="nav-number">29.1.</span> <span class="nav-text">for……in……</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#for……of……"><span class="nav-number">29.2.</span> <span class="nav-text">for……of……</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS截断"><span class="nav-number">29.3.</span> <span class="nav-text">CSS截断</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单行截断"><span class="nav-number">29.3.1.</span> <span class="nav-text">单行截断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多行截断"><span class="nav-number">29.3.2.</span> <span class="nav-text">多行截断</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">30.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zxlg</span>
+
+  
+</div>
+
+
+  <div class="powered-by">
+    由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  </div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">
+    主题 &mdash;
+    <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+      NexT.Mist
+    </a>
+  </div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  
+
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://happylg.cn/2017/08/06/js-other/';
+          this.page.identifier = '2017/08/06/js-other/';
+          this.page.title = 'Javascript零散笔记';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://happylg.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("hR3ATs8pfE23chEpVt6B1ovg-gzGzoHsz", "oIbFkcd43Cjd1FqkymLs6o2D");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

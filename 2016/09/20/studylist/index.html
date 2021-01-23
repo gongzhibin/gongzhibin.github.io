@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="学习笔记,IT,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zxlg's notes" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="2016.09.20之前笔记学习笔记7.10 sass和compassSass是一个CSS3的扩展语言, 它提供了丰富的特性使得编写样式更加容易: 嵌套样式, 变量定义, 扩展, mixin等等;Compass是一个使用了Sass的库, 它将很多常用样式打包成了一些模块, 我们可以在自己的项目中使用这些模块, 比如模块reset可以用来将不同浏览器的差异抹平, css3则用来生成CSS3相关的属性">
+<meta name="keywords" content="学习笔记,IT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="零散笔记">
+<meta property="og:url" content="http://happylg.cn/2016/09/20/studylist/index.html">
+<meta property="og:site_name" content="zxlg&#39;s notes">
+<meta property="og:description" content="2016.09.20之前笔记学习笔记7.10 sass和compassSass是一个CSS3的扩展语言, 它提供了丰富的特性使得编写样式更加容易: 嵌套样式, 变量定义, 扩展, mixin等等;Compass是一个使用了Sass的库, 它将很多常用样式打包成了一些模块, 我们可以在自己的项目中使用这些模块, 比如模块reset可以用来将不同浏览器的差异抹平, css3则用来生成CSS3相关的属性">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-02-24T09:48:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="零散笔记">
+<meta name="twitter:description" content="2016.09.20之前笔记学习笔记7.10 sass和compassSass是一个CSS3的扩展语言, 它提供了丰富的特性使得编写样式更加容易: 嵌套样式, 变量定义, 扩展, mixin等等;Compass是一个使用了Sass的库, 它将很多常用样式打包成了一些模块, 我们可以在自己的项目中使用这些模块, 比如模块reset可以用来将不同浏览器的差异抹平, css3则用来生成CSS3相关的属性">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://happylg.cn/2016/09/20/studylist/">
+
+
+
+
+
+  <title>零散笔记 | zxlg's notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zxlg's notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://happylg.cn/2016/09/20/studylist/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zxlg">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zxlg's notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">零散笔记</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-20T10:13:41+08:00">
+                2016-09-20
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-02-24T17:48:59+08:00">
+                2019-02-24
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/其他/" itemprop="url" rel="index">
+                    <span itemprop="name">其他</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2016/09/20/studylist/" class="leancloud_visitors" data-flag-title="零散笔记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="2016-09-20之前笔记"><a href="#2016-09-20之前笔记" class="headerlink" title="2016.09.20之前笔记"></a>2016.09.20之前笔记</h1><h2 id="学习笔记"><a href="#学习笔记" class="headerlink" title="学习笔记"></a>学习笔记</h2><h3 id="7-10-sass和compass"><a href="#7-10-sass和compass" class="headerlink" title="7.10 sass和compass"></a>7.10 sass和compass</h3><p>Sass是一个CSS3的扩展语言, 它提供了丰富的特性使得编写样式更加容易: 嵌套样式, 变量定义, 扩展, mixin等等;<br>Compass是一个使用了Sass的库, 它将很多常用样式打包成了一些模块, 我们可以在自己的项目中使用这些模块, 比如模块reset可以用来将不同浏览器的差异抹平, css3则用来生成CSS3相关的属性等.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gem install compass</span><br><span class="line">compass create projectNamesublime</span><br></pre></td></tr></table></figure>
+<p>插件: emmet, html-css-js</p>
+<h3 id="7-11"><a href="#7-11" class="headerlink" title="7.11"></a>7.11</h3><p>ubuntu16.04安装网易云音乐 源可换成阿里源;<br>安装shadowsocks客户端时, linux使其自启动可在<code>/etc/rc.local</code>中 <code>exit0</code> 前加入命令 <code>sudo ssolocal -c /etc/shadowsock.json -d start</code><br><a id="more"></a></p>
+<h3 id="7-12"><a href="#7-12" class="headerlink" title="7.12"></a>7.12</h3><p>mongodb需要安装<code>mongdb-server</code>和<code>mongodb-clients</code>后可以不用一直输入<code>./mongod --dbpath ../blog/</code><br>删除数据库: <code>db.dropDatabase()</code><br>删除集合: <code>db.collection.drop()</code></p>
+<h3 id="7-26"><a href="#7-26" class="headerlink" title="7.26"></a>7.26</h3><p>今天复习了下bootstrap, 这几天都有点颓废, 把亮剑小说看完了, 瞬间热血沸腾, 其实电视里拍的只是小说的一部分啊, 我想我应该学习老李的是勇敢顽强, 为了真理永远不能屈服, 那么才能培养出一生正气至于文革, 我想说的是很同意知乎上一个知友的说法, 对于日本篡改教科书, 不承认南京大屠杀, 当局强烈谴责; 那么对于自己的wg, 64, 为什么不能正确面对; 我希望未来的中国是民主的正气的自由的积极向上的, 我想中华民主几千年文明的底蕴传承, 中国未来是有希望的。而我也要在其中做出自己的一份贡献, 最近看了很多不是那么美好的事实, 无知是幸福的, 但是真理是我们应该追求的, 即使痛苦。但是庆幸的是, 我还是个积极向上的阳光青年值得注意的是别那么傲娇了, 嘴下积德, 好好的读好书, 好好学习本领(听着 《再见 小时候》好听)<br><code>&amp;amp; nbsp</code>表示Non-breaking space<br>使用bootstrap框架不要直接在元素里加<code>row</code>class</p>
+<h3 id="8-02"><a href="#8-02" class="headerlink" title="8.02"></a>8.02</h3><p>JS对象的属性用.(点)叠加, 数组用 [下标] 来访问。</p>
+<h3 id="8-04"><a href="#8-04" class="headerlink" title="8.04"></a>8.04</h3><p>JS中str是不变的, <code>str.toLowerCase()/str.toUpperCase()</code>不能改变原字符串</p>
+<h3 id="8-14"><a href="#8-14" class="headerlink" title="8.14"></a>8.14</h3><p>JS中<code>break, continue</code>可以加标签, <code>break: label</code>跳转到该标签位置</p>
+<h3 id="8-17"><a href="#8-17" class="headerlink" title="8.17"></a>8.17</h3><p>debian开机自启动, 网上查看开机自启动脚本位于<code>/etc/local</code>, 但是假如脚本无法启动, 也没有<code>/etc/rc.d/rc.local</code>这个文件, 通过<code>vim /etc/inittab</code>查看需要启动服务的script的放置路径, 我的vps位于<code>/etc/init.d/rc.local</code>, 直接在这个里添加脚本可以开机自启动</p>
+<h3 id="8-28"><a href="#8-28" class="headerlink" title="8.28"></a>8.28</h3><p>ll命令: 打开<code>.bashrc</code>文件修改<code>ll</code>, 并使其生效 <code>source .bashrc</code></p>
+<h3 id="8-31"><a href="#8-31" class="headerlink" title="8.31"></a>8.31</h3><p>rtl8188eus无线网卡内核驱动, (来自: <a href="https://github.com/lwfinger/" target="_blank" rel="noopener">https://github.com/lwfinger/</a>)<br>rtl8188eu通过此处代码编译, 编译流程:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">configure</span><br><span class="line">make all</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<p>双系统linux系统时间要比windows快8小时, Windows/Ubuntu 双系统用户会发现在 Ubuntu 里面的时间正常的情况下Windows的系统时间被改到8小时前。 原来 Linux 操作系统是以 CMOS 时间做为格林威治标准时间, 再根据系统设置的时区来确定目前系统时间。但是Windows 会直接修改CMOS 时间。而中国的时区是+8区, 所以才会造成时间被调整了-8个小时。所以您可以让 Windows 去使用时区或者让 Ubuntu 使用本地时间。<br>修改 Windows 使用时区的方法是在注册表: <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation\</code> 下增加一个名为 <code>RealTimeIsUniversal</code> 的<code>REG_DWORD</code> 键, 并赋值为 1。<br>而让Ubuntu 使用本地时间的方法是: <code>sudo gedit /etc/default/rcS</code> 把里面的 <code>UTC=yes</code> 改为 <code>UTC=no</code> (来自: http: //blog.chinaunix.net/uid-8305736-id-2033022.html)</p>
+<h3 id="互联网网络协议"><a href="#互联网网络协议" class="headerlink" title="互联网网络协议"></a>互联网网络协议</h3><ul>
+<li><p>实体层: 把电脑连接起来的物理手段。它主要规定了网络的一些电气特性, 作用是负责传送0和1的电信号。</p>
+</li>
+<li><p>链接层: 确定了0和1的分组方式。以太网协议: 一帧(frame): Head+Data; Head包含发送和接受者的信息, 即网卡地址(MAC地址), 每个网卡的地址是独一无二的; 广播: (arp协议识别接收方网卡地址)以太网它不是把数据包准确送到接收方, 而是向本网络内所有计算机发送, 让同一子网每台计算机自己判断MAC地址与标头中接受方的MAC地址, 是否为接收方。(数据包的定义、网卡的MAC地址、广播的发送方式)</p>
+</li>
+<li><p>网络层</p>
+<ol>
+<li><p>必须找到一种方法, 能够区分哪些MAC地址属于同一个子网络, 哪些不是。如果是同一个子网络, 就采用广播方式发送, 否则就采用”路由”方式发送。(“路由”的意思, 就是指如何向不同的子网络分发数据包, 这是一个很大的主题); 这就导致了”网络层”的诞生, 它的作用是引进一套新的地址, 使得我们能够区分不同的计算机是否属于同一个子网络。这套地址就叫做”网络地址”, 简称”网址”。”网络层”出现以后, 每台计算机有了两种地址, 一种是MAC地址, 另一种是网络地址。两种地址之间没有任何联系, MAC地址是绑定在网卡上的, 网络地址则是管理员分配的, 它们只是随机组合在一起。网络地址帮助我们确定计算机所在的子网络, MAC地址则将数据包送到该子网络中的目标网卡。因此, 从逻辑上可以推断, 必定是先处理网络地址, 然后再处理MAC地址。</p>
+</li>
+<li><p>规定网络地址的协议叫IP协议, IP4为32地址, 前24位为网络部分, 后8位为主机部分, 处于同一子网络的计算机的网络部分应相同。所谓”子网掩码”, 就是表示子网络特征的一个参数。它在形式上等同于IP地址, 也是一个32位二进制数字, 它的网络部分全部为1, 主机部分全部为0。判断方法是将两个IP地址与子网掩码分别进行AND运算(两个数位都为1, 运算结果为1, 否则为0), 然后比较结果是否相同, 如果是的话, 就表明它们在同一个子网络中, 否则就不是。IP数据包直接放进以太网中的数据部分。不在同一个子网络中需要通过网关转发, 而使用ARP协议可以得到同一个子网络内的主机MAC地址。</p>
+</li>
+</ol>
+</li>
+<li><p>传输层: 我们还需要一个参数, 表示这个数据包到底供哪个程序(进程)使用。这个参数就叫做”端口”(port), 它其实是每一个使用网卡的程序的编号。每个数据包都发到主机的特定端口, 所以不同的程序就能取到自己所需要的数据。。”传输层”的功能, 就是建立”端口到端口”的通信。相比之下, “网络层”的功能是建立”主机到主机”的通信。只要确定主机和端口, 我们就能实现程序之间的交流。因此, Unix系统就把主机+端口, 叫做”套接字”(socket)。UDP协议: UDP数据包, 也是由”标头”和”数据”两部分组成。”标头”部分主要定义了发出端口和接收端口, “数据”部分就是具体的内容。然后, 把整个UDP数据包放入IP数据包的”数据”部分, 而前面说过, IP数据包又是放在以太网数据包之中的。特点是简单, 但可靠性差。TCP协议: 可以近似认为, 它就是有确认机制的UDP协议, 每发出一个数据包都要求确认。如果有一个数据包遗失, 就收不到确认, 发出方就知道有必要重发这个数据包了。TCP协议能够确保数据不会遗失。它的缺点是过程复杂、实现困难、消耗较多的资源。TCP数据包和UDP数据包一样, 都是内嵌在IP数据包的”数据”部分。TCP数据包没有长度限制, 理论上可以无限长, 但是为了保证网络的效率, 通常TCP数据包的长度不会超过IP数据包的长度, 以确保单个TCP数据包不必再分割。(以太网数据包的数据部分, 最大长度为1500字节, 超出需分割)</p>
+</li>
+<li><p>应用层: “应用层”的作用, 就是规定应用程序的数据格式。举例来说, TCP协议可以为各种各样的程序传递数据, 比如Email、WWW、FTP等等。那么, 必须有不同协议规定电子邮件、网页、FTP数据的格式, 这些应用程序协议就构成了”应用层”。这是最高的一层, 直接面对用户。它的数据就放在TCP数据包的”数据”部分。因此, 现在的以太网的数据包就变成下面这样。</p>
+</li>
+</ul>
+<h3 id="上网设置"><a href="#上网设置" class="headerlink" title="上网设置"></a>上网设置</h3><ul>
+<li>本机的IP地址</li>
+<li>子网掩码</li>
+<li>网关的IP地址</li>
+<li>DNS的IP地址(把网址转换为IP地址)</li>
+</ul>
+<h3 id="9-5"><a href="#9-5" class="headerlink" title="9.5"></a>9.5</h3><p>shadowsocks, 500 internal privoxy error.怎么解决？(https: //<a href="http://www.zhihu.com/question/40771057" target="_blank" rel="noopener">www.zhihu.com/question/40771057</a>)<br>以管理员身份运行CMD, 执行:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">netsh interface ipv4 reset</span><br><span class="line">netsh interface ipv6 reset</span><br><span class="line">netsh winsock reset</span><br></pre></td></tr></table></figure>
+<p>重启电脑, 解决。</p>
+<h3 id="9-10"><a href="#9-10" class="headerlink" title="9.10"></a>9.10</h3><p> Vim 编辑文件报错: <code>Swap file &quot;Hello.java.swp&quot; already exists!</code><br> 问题原因: Vim 编辑 Hello.java 文件的时候, 非正常退出, 然后又重新再 Vim 这个文件一般都会提示这个。<br> 解决办法: 进入被编辑的文件目录, 比如: Hello.java 我放在 <code>/opt</code> 目录下, 那就先: <code>cd /opt</code>, 然后: <code>ls -A</code>, 会发现有一个: <code>.Hello.java.swp</code>, 把这个文件删除掉: <code>rm -f .Hello.java.swp</code>, 然后重新 Vim 文件即可。</p>
+<h3 id="9-20"><a href="#9-20" class="headerlink" title="9.20"></a>9.20</h3><p> wordpress安装: LAMP; 数据库建立; 5分钟安装; 插件授权录后, 执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R www-data /var/www/wordpress</span><br><span class="line">sudo chmod -R 775 /var/www/wordpress</span><br></pre></td></tr></table></figure>
+<p>这样就完全解决问题了.注意了, 不需要把<code>/var/www/</code>目录的所有者也设置为www-data, 而只需要设置wordpress文件夹的所有者<code>.wp-config.php</code>里加入下面代码:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="string">"FS_METHOD"</span>, <span class="string">"direct"</span>); </span><br><span class="line">define(<span class="string">"FS_CHMOD_DIR"</span>, <span class="number">0777</span>); </span><br><span class="line">define(<span class="string">"FS_CHMOD_FILE"</span>, <span class="number">0777</span>);</span><br></pre></td></tr></table></figure>
+<hr>
+<p>2017-08-27更新</p>
+<hr>
+<h2 id="unbuntu引导设置默认"><a href="#unbuntu引导设置默认" class="headerlink" title="unbuntu引导设置默认"></a>unbuntu引导设置默认</h2><p>由于双系统问题, 每次启动都需要手动选择启动, 查阅资料发现可以对其引导项默认值进行修改, <code>sudo vim /etc/default/grub</code>打开grub文件进行修改, <code>GRUB_DEFAULT=0</code>修改为想要默认启动的序号, 序号默认从0开始, 我的windows为第五项序号为4改为<code>GRUB_DEFAULT=4</code></p>
+<h2 id="vps中的shadowsocks版本更换"><a href="#vps中的shadowsocks版本更换" class="headerlink" title="vps中的shadowsocks版本更换"></a>vps中的shadowsocks版本更换</h2><p>由于之前python版本的shadowsocks经常自动关闭, 而且现在更新也不够及时, 选择shadowsocks-libev<br>参见<a href="http: //happylg.cn/2017/08/27/right-to-Internet/#安装" target="_blank" rel="noopener">安装shadowsocks-libev</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    zxlg
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://happylg.cn/2016/09/20/studylist/" title="零散笔记">http://happylg.cn/2016/09/20/studylist/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/学习笔记/" rel="tag"># 学习笔记</a>
+          
+            <a href="/tags/IT/" rel="tag"># IT</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/20/ordinary-world/" rel="prev" title="读《平凡的世界》">
+                读《平凡的世界》 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/avatar.png" alt="zxlg">
+          <p class="site-author-name" itemprop="name">zxlg</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">65</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">98</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/zxlg1993" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      微博
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/gongzhibin" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
+            </a>
+          </div>
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2016-09-20之前笔记"><span class="nav-number">1.</span> <span class="nav-text">2016.09.20之前笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#学习笔记"><span class="nav-number">1.1.</span> <span class="nav-text">学习笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-10-sass和compass"><span class="nav-number">1.1.1.</span> <span class="nav-text">7.10 sass和compass</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-11"><span class="nav-number">1.1.2.</span> <span class="nav-text">7.11</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-12"><span class="nav-number">1.1.3.</span> <span class="nav-text">7.12</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-26"><span class="nav-number">1.1.4.</span> <span class="nav-text">7.26</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-02"><span class="nav-number">1.1.5.</span> <span class="nav-text">8.02</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-04"><span class="nav-number">1.1.6.</span> <span class="nav-text">8.04</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-14"><span class="nav-number">1.1.7.</span> <span class="nav-text">8.14</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-17"><span class="nav-number">1.1.8.</span> <span class="nav-text">8.17</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-28"><span class="nav-number">1.1.9.</span> <span class="nav-text">8.28</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-31"><span class="nav-number">1.1.10.</span> <span class="nav-text">8.31</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#互联网网络协议"><span class="nav-number">1.1.11.</span> <span class="nav-text">互联网网络协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#上网设置"><span class="nav-number">1.1.12.</span> <span class="nav-text">上网设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-5"><span class="nav-number">1.1.13.</span> <span class="nav-text">9.5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-10"><span class="nav-number">1.1.14.</span> <span class="nav-text">9.10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-20"><span class="nav-number">1.1.15.</span> <span class="nav-text">9.20</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unbuntu引导设置默认"><span class="nav-number">1.2.</span> <span class="nav-text">unbuntu引导设置默认</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vps中的shadowsocks版本更换"><span class="nav-number">1.3.</span> <span class="nav-text">vps中的shadowsocks版本更换</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zxlg</span>
+
+  
+</div>
+
+
+  <div class="powered-by">
+    由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  </div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">
+    主题 &mdash;
+    <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+      NexT.Mist
+    </a>
+  </div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  
+
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://happylg.cn/2016/09/20/studylist/';
+          this.page.identifier = '2016/09/20/studylist/';
+          this.page.title = '零散笔记';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://happylg.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("hR3ATs8pfE23chEpVt6B1ovg-gzGzoHsz", "oIbFkcd43Cjd1FqkymLs6o2D");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

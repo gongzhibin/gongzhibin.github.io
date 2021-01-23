@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="css,浮动,清除浮动,闭合浮动,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zxlg's notes" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="参见那些年我们一起清除过的浮动 浮动文档流: 文档流是文档中可显示对象在排列时所占用的位置。浮动的定义: 使元素脱离文档流，按照指定方向发生移动，遇到父级边界或者相邻的浮动元素停了下来。 浮动的实际用途，可设置文字环绕或使元素宽度由内容填充（类似inline-block)。使用浮动需要注意的是如果浮动的元素高度比父级容器还高，那么需要设置父级容器的overflow属性为auto,使其自动撑满。">
+<meta name="keywords" content="css,浮动,清除浮动,闭合浮动">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS清除浮动&#x2F;闭合浮动">
+<meta property="og:url" content="http://happylg.cn/2017/09/24/css-clearfix/index.html">
+<meta property="og:site_name" content="zxlg&#39;s notes">
+<meta property="og:description" content="参见那些年我们一起清除过的浮动 浮动文档流: 文档流是文档中可显示对象在排列时所占用的位置。浮动的定义: 使元素脱离文档流，按照指定方向发生移动，遇到父级边界或者相邻的浮动元素停了下来。 浮动的实际用途，可设置文字环绕或使元素宽度由内容填充（类似inline-block)。使用浮动需要注意的是如果浮动的元素高度比父级容器还高，那么需要设置父级容器的overflow属性为auto,使其自动撑满。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-12T12:15:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS清除浮动&#x2F;闭合浮动">
+<meta name="twitter:description" content="参见那些年我们一起清除过的浮动 浮动文档流: 文档流是文档中可显示对象在排列时所占用的位置。浮动的定义: 使元素脱离文档流，按照指定方向发生移动，遇到父级边界或者相邻的浮动元素停了下来。 浮动的实际用途，可设置文字环绕或使元素宽度由内容填充（类似inline-block)。使用浮动需要注意的是如果浮动的元素高度比父级容器还高，那么需要设置父级容器的overflow属性为auto,使其自动撑满。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://happylg.cn/2017/09/24/css-clearfix/">
+
+
+
+
+
+  <title>CSS清除浮动/闭合浮动 | zxlg's notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zxlg's notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://happylg.cn/2017/09/24/css-clearfix/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zxlg">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zxlg's notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">CSS清除浮动/闭合浮动</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-24T21:00:46+08:00">
+                2017-09-24
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-08-12T20:15:47+08:00">
+                2019-08-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSS/" itemprop="url" rel="index">
+                    <span itemprop="name">CSS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/09/24/css-clearfix/" class="leancloud_visitors" data-flag-title="CSS清除浮动/闭合浮动">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>参见<a href="http://www.iyunlu.com/view/css-xhtml/55.html" target="_blank" rel="noopener">那些年我们一起清除过的浮动</a></p>
+<h2 id="浮动"><a href="#浮动" class="headerlink" title="浮动"></a>浮动</h2><p>文档流: 文档流是文档中可显示对象在排列时所占用的位置。<br>浮动的定义: 使元素脱离文档流，按照指定方向发生移动，遇到父级边界或者相邻的浮动元素停了下来。</p>
+<p>浮动的实际用途，可设置文字环绕或使元素宽度由内容填充（类似<code>inline-block</code>)。使用浮动需要注意的是如果浮动的元素高度比父级容器还高，那么需要设置父级容器的<code>overflow</code>属性为<code>auto</code>,使其自动撑满。<br><a id="more"></a></p>
+<h2 id="清除浮动还是闭合浮动（Enclosing-float-or-Clearing-float）"><a href="#清除浮动还是闭合浮动（Enclosing-float-or-Clearing-float）" class="headerlink" title="清除浮动还是闭合浮动（Enclosing float or Clearing float）"></a>清除浮动还是闭合浮动（Enclosing float or Clearing float）</h2><blockquote>
+<p>很多人都已经习惯称之为清除浮动，以前我也一直这么叫着，但是确切地来说是不准确的。我们应该用严谨的态度来对待代码，也能更好地帮助我们理解开头的三个问题。<br>1）清除浮动: 清除对应的单词是<code>clear</code>，对应CSS中的属性是<code>clear: left | right | both | none</code>；<br>2）闭合浮动: 更确切的含义是使浮动元素闭合，从而减少浮动带来的影响。<br>通过以上实例发现，其实我们想要达到的效果更确切地说是闭合浮动，而不是单纯的清除浮动，在footer上设置<code>clear: both</code>清除浮动并不能解决<code>wrap</code>高度塌陷的问题。<br>结论: 用闭合浮动比清除浮动更加严谨，所以后文中统一称之为: 闭合浮动。<br>参见<a href="https://codepen.io/zxlg/pen/MEbvMO" target="_blank" rel="noopener">DEMO: 高度塌陷</a></p>
+</blockquote>
+<h2 id="为何要闭合浮动？"><a href="#为何要闭合浮动？" class="headerlink" title="为何要闭合浮动？"></a>为何要闭合浮动？</h2><p>要解答这个问题，我们得先说说CSS中的定位机制: 普通流，浮动，绝对定位 （其中<code>position:fixed</code>是<code>position:absolute</code>的一个子类）。<br>1）普通流: 很多人或者文章称之为文档流或者普通文档流，其实标准里根本就没有这个词。如果把文档流直译为英文就是document flow，但标准里只有另一个词，叫做普通流（normal flow)，或者称之为常规流。但似乎大家更习惯文档流的称呼，因为很多中文翻译的书就是这么来的。比如《CSS Mastery》，英文原书中至始至终都只有普通流normal flow（普通流） 这一词，从来没出现过document flow （文档流）<br>2）浮动: 浮动的框可以左右移动，直至它的外边缘遇到包含框或者另一个浮动框的边缘。浮动框不属于文档中的普通流，当一个元素浮动之后，不会影响到块级框的布局而只会影响内联框（通常是文本）的排列，文档中的普通流就会表现得和浮动框不存在一样。<strong>当浮动框高度超出包含框的时候，也就会出现包含框不会自动伸高来闭合浮动元素（“高度塌陷”现象）。</strong>顾名思义，就是漂浮于普通流之上，像浮云一样，但是只能左右浮动。<br>正是因为浮动的这种特性，导致本属于普通流中的元素浮动之后，包含框内部由于不存在其他普通流元素了，也就表现出高度为0（高度塌陷）。在实际布局中，往往这并不是我们所希望的，所以需要闭合浮动元素，使其包含框表现出正常的高度。</p>
+<h2 id="闭合浮动的原理——了解hasLayout和Block-formatting-contexts"><a href="#闭合浮动的原理——了解hasLayout和Block-formatting-contexts" class="headerlink" title="闭合浮动的原理——了解hasLayout和Block formatting contexts"></a>闭合浮动的原理——了解hasLayout和Block formatting contexts</h2><h3 id="清除浮动的方式"><a href="#清除浮动的方式" class="headerlink" title="清除浮动的方式"></a>清除浮动的方式</h3><h4 id="1）添加额外标签"><a href="#1）添加额外标签" class="headerlink" title="1）添加额外标签"></a>1）添加额外标签</h4><p>这是在学校老师就告诉我们的 一种方法，通过在浮动元素末尾添加一个空的标签例如<code>&lt;div style=”clear:both”&gt;&lt;/div&gt;</code>，其他标签<code>&lt;br&gt;</code>等亦可。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap"</span> <span class="attr">id</span>=<span class="string">"float1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>1）添加额外标签<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main left"</span>&gt;</span>.main&#123;float:left;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"side right"</span>&gt;</span>.side&#123;float:right;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"clear:both;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"footer"</span>&gt;</span>.footer<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>参见<a href="https://codepen.io/zxlg/pen/VMmMmZ" target="_blank" rel="noopener">DEMO: 清除浮动clear:both–空div</a><br>优点: 通俗易懂，容易掌握<br>缺点: 可以想象通过此方法，会添加多少无意义的空标签，有违结构与表现的分离，在后期维护中将是噩梦，这是坚决不能忍受的，所以你看了这篇文章之后还是建议不要用了吧。</p>
+<h4 id="2）使用br标签和其自身的html属性"><a href="#2）使用br标签和其自身的html属性" class="headerlink" title="2）使用br标签和其自身的html属性"></a>2）使用<code>br</code>标签和其自身的html属性</h4><p>这个方法有些小众，<code>br</code>有<code>clear=“all | left | right | none”</code>属性</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap"</span> <span class="attr">id</span>=<span class="string">"float2"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>2）使用 br标签和其自身的 html属性<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main left"</span>&gt;</span>.main&#123;float:left;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"side right"</span>&gt;</span>.side&#123;float:right;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">br</span> <span class="attr">clear</span>=<span class="string">"all"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"footer"</span>&gt;</span>.footer<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>参见<a href="https://codepen.io/zxlg/pen/aLBLdQ" target="_blank" rel="noopener">DEMO: 清除浮动clear:both–br</a><br>优点: 比空标签方式语义稍强，代码量较少<br>缺点: 同样有违结构与表现的分离，不推荐使用</p>
+<h4 id="3-父元素设置overflow-hidden"><a href="#3-父元素设置overflow-hidden" class="headerlink" title="3) 父元素设置overflow:hidden"></a>3) 父元素设置<code>overflow:hidden</code></h4><p>通过设置父元素<code>overflow</code>值设置为<code>hidden</code>；在IE6中还需要触发<code>hasLayout</code>，例如<code>zoom: 1</code>；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap"</span> <span class="attr">id</span>=<span class="string">"float3"</span> <span class="attr">style</span>=<span class="string">"overflow:hidden; *zoom:1;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>3)父元素设置 overflow <span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"main left"</span>&gt;</span>.main&#123;float:left;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"side right"</span>&gt;</span>.side&#123;float:right;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"footer"</span>&gt;</span>.footer<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>参见<a href="https://codepen.io/zxlg/pen/wrorrd" target="_blank" rel="noopener">DEMO:清除浮动–父元素设置overflow:hidden</a><br>优点: 不存在结构和语义化问题，代码量极少<br>缺点: 内容增多时候容易造成不会自动换行导致内容被隐藏掉，无法显示需要溢出的元素；04年POPO就发现<a href="http://plod.popoever.com/archives/000309.html" target="_blank" rel="noopener"><code>overflow:hidden</code>会导致中键失效</a>,所以还是不要使用了。</p>
+<h4 id="4-父元素设置overflow-auto属性"><a href="#4-父元素设置overflow-auto属性" class="headerlink" title="4) 父元素设置overflow:auto属性"></a>4) 父元素设置<code>overflow:auto</code>属性</h4><p>同样IE6需要触发hasLayout，演示和3差不多<br>参见<a href="https://codepen.io/zxlg/pen/QqGqQa" target="_blank" rel="noopener">DEMO:清除浮动–父元素设置overflow:auto</a><br>优点: 不存在结构和语义化问题，代码量极少<br>缺点: 多个嵌套后，firefox某些情况会造成内容全选；IE中<code>mouseover</code>造成宽度改变时会出现最外层模块有滚动条等，firefox早期版本会无故产生<code>focus</code>等,不要使用</p>
+<h4 id="5）父元素也设置浮动"><a href="#5）父元素也设置浮动" class="headerlink" title="5）父元素也设置浮动"></a>5）父元素也设置浮动</h4><p>优点: 不存在结构和语义化问题，代码量极少<br>缺点: 使得与父元素相邻的元素的布局会受到影响，不可能一直浮动到<code>body</code>，不推荐使用</p>
+<h4 id="6）父元素设置display-table"><a href="#6）父元素设置display-table" class="headerlink" title="6）父元素设置display:table"></a>6）父元素设置<code>display:table</code></h4><p>参见<a href="https://codepen.io/zxlg/pen/veyejG" target="_blank" rel="noopener">DEMO:清除浮动–父元素设置display:table</a><br>优点: 结构语义化完全正确，代码量极少<br>缺点: 盒模型属性已经改变，由此造成的一系列问题，得不偿失，不推荐使用</p>
+<h4 id="7）使用-after伪元素"><a href="#7）使用-after伪元素" class="headerlink" title="7）使用::after伪元素"></a>7）使用<code>::after</code>伪元素</h4><p>需要注意的是<code>::after</code>是伪元素（Pseudo-Element），不是伪类（某些CSS手册里面称之为“伪对象”），很多闭合浮动大全之类的文章都称之为伪类，不过csser要严谨一点，这是一种态度。<br>由于IE6-7不支持<code>::after</code>，使用<code>zoom:1</code>触发hasLayout。</p>
+<p>该方法源自于:<a href="http://www.positioniseverything.net/easyclearing.html" target="_blank" rel="noopener">How To Clear Floats Without Structural Markup</a><br>原文全部代码如下:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="css">  <span class="selector-class">.clearfix</span><span class="selector-pseudo">::after</span> &#123;</span></span><br><span class="line"><span class="undefined">    content: ".";</span></span><br><span class="line"><span class="undefined">    display: block;</span></span><br><span class="line"><span class="undefined">    height: 0;</span></span><br><span class="line"><span class="undefined">    clear: both;</span></span><br><span class="line"><span class="undefined">    visibility: hidden;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span><span class="comment">&lt;!-- main stylesheet ends, CC with new stylesheet below... --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--[if IE]&gt;</span></span><br><span class="line"><span class="comment">&lt;style type="text/css"&gt;</span></span><br><span class="line"><span class="comment">  .clearfix &#123;</span></span><br><span class="line"><span class="comment">    zoom: 1; /* triggers hasLayout */</span></span><br><span class="line"><span class="comment">  &#125;  </span></span><br><span class="line"><span class="comment">/* Only IE can see inside the conditional comment</span></span><br><span class="line"><span class="comment">and read this CSS rule. Don't ever use a normal HTML</span></span><br><span class="line"><span class="comment">comment inside the CC or it will close prematurely. */</span></span><br><span class="line"><span class="comment">&lt;/style&gt;</span></span><br><span class="line"><span class="comment">&lt;![endif]--&gt;</span></span><br></pre></td></tr></table></figure>
+<p>鉴于 IE/Mac的市场占有率极低,我们直接忽略掉,最后精简的代码如下:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="css">    <span class="selector-class">.clearfix</span><span class="selector-pseudo">::after</span> &#123;</span></span><br><span class="line"><span class="undefined">        content: ".";</span></span><br><span class="line"><span class="undefined">        display: block;</span></span><br><span class="line"><span class="undefined">        height: 0;</span></span><br><span class="line"><span class="undefined">        clear: both;</span></span><br><span class="line"><span class="undefined">        visibility: hidden;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.clearfix</span> &#123;</span></span><br><span class="line"><span class="css">        *<span class="selector-tag">zoom</span><span class="selector-pseudo">:1</span>;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>参见<a href="https://codepen.io/zxlg/pen/MEbEPz" target="_blank" rel="noopener">DEMO:清除浮动–父元素设置::after伪元素</a></p>
+<h3 id="清除浮动方式总结"><a href="#清除浮动方式总结" class="headerlink" title="清除浮动方式总结"></a>清除浮动方式总结</h3><p>通过对比，我们不难发现，其实以上列举的方法，无非有两类:</p>
+<h4 id="利用clear属性清除浮动"><a href="#利用clear属性清除浮动" class="headerlink" title="利用clear属性清除浮动"></a>利用<code>clear</code>属性清除浮动</h4><p><strong>其一，通过在浮动元素的末尾添加一个空元素，设置<code>clear: both</code>属性，<code>::after</code>伪元素其实也是通过content在元素的后面生成了内容为一个点的块级元素；</strong></p>
+<p>当<code>clear</code>应用于非浮动元素时，它将非浮动元素的边框边界移动到所有相关浮动元素外边界的下方。这个行为作用时会导致margin collapsing不起作用。<br>当<code>clear</code>应用于浮动元素时，它将元素的外边界移动到所有相关的浮动元素外边界的下方。这会影响后面浮动元素的布局，后面的浮动元素的位置无法高于它之前的元素。<br>要被清除的相关浮动元素指在相同BFC中的前置浮动。</p>
+<h4 id="使父容器形成BFC"><a href="#使父容器形成BFC" class="headerlink" title="使父容器形成BFC"></a>使父容器形成BFC</h4><p><strong>其二，通过设置父元素<code>overflow</code>或者<code>display: table</code>属性来闭合浮动</strong></p>
+<h3 id="清除浮动-闭合浮动原理"><a href="#清除浮动-闭合浮动原理" class="headerlink" title="清除浮动/闭合浮动原理"></a>清除浮动/闭合浮动原理</h3><p>在CSS2.1里面有一个很重要的概念，但是国内的技术博客介绍到的比较少，那就是<a href="https://www.w3.org/TR/CSS21/visuren.html#block-formatting" target="_blank" rel="noopener">Block formatting contexts</a> （块级格式化上下文），以下简称 BFC。<br>CSS3里面对这个规范做了改动，称之为: <a href="https://www.w3.org/TR/css3-box/#block-level0" target="_blank" rel="noopener">flow root</a>，并且对触发条件进行了进一步说明。</p>
+<h4 id="BFC特性"><a href="#BFC特性" class="headerlink" title="BFC特性"></a>BFC特性</h4><h5 id="1-BFC会阻止垂直外边距叠加"><a href="#1-BFC会阻止垂直外边距叠加" class="headerlink" title="1) BFC会阻止垂直外边距叠加"></a>1) BFC会阻止垂直外边距叠加</h5><p>当两个相邻的块框在同一个BFC中时，只要他们之间没有阻挡（边框，非空内容，padding等），它们之间垂直方向的外边距会发生叠加。<br>换句话说，如果这两个相邻的块框不属于同一个BFC，那么它们的外边距就不会叠加。对于相邻两个元素意义不大，没有必要给他们加一个外壳。但是对于嵌套元素来说就很有必要了，只要把父元素设置为BFC就可以了。这样子元素的<code>margin</code>就不会和父元素的<code>margin</code>发生重叠了。</p>
+<h5 id="2-BFC不会重叠浮动元素"><a href="#2-BFC不会重叠浮动元素" class="headerlink" title="2) BFC不会重叠浮动元素"></a>2) BFC不会重叠浮动元素</h5><p>根据规定，一个BFC的边框不能和它里面的元素的外边距重叠。这就意味着浏览器将会给块级格式化上下文创建隐式的外边距来阻止它和浮动元素的外边距叠加。由于这个原因，当给一个挨着浮动的块级格式化上下文添加负的外边距时将会不起作用（Webkit和IE6在这点上有一个问题——可以看这个<a href="http://www.cssmojo.com/tjkdesign.html" target="_blank" rel="noopener">测试用例</a>）。 </p>
+<h5 id="3-BFC可以包含浮动"><a href="#3-BFC可以包含浮动" class="headerlink" title="3) BFC可以包含浮动"></a>3) BFC可以包含浮动</h5><p>利用这三条特性我们可以用来闭合浮动，也就是说只要父元素形成BFC就可以。</p>
+<h4 id="如何触发BFC"><a href="#如何触发BFC" class="headerlink" title="如何触发BFC"></a>如何触发BFC</h4><ul>
+<li>根元素或其它包含它的元素</li>
+<li>浮动元素 (元素的<code>float</code>不是<code>none</code>)</li>
+<li>绝对定位元素 (元素具有<code>position</code>为<code>absolute</code>或<code>fixed</code>)</li>
+<li>内联块 (元素具有<code>display: inline-block</code>)</li>
+<li>表格单元格 (元素具有<code>display: table-cell</code>，HTML表格单元格默认属性)</li>
+<li>表格标题 (元素具有<code>display: table-caption</code>, HTML表格标题默认属性)</li>
+<li>具有<code>overflow</code>且值不是<code>visible</code>的块元素(<code>hidden</code>，<code>auto</code>，<code>scroll</code>)</li>
+<li><code>display: flow-root</code></li>
+<li><code>column-span: all</code>应当总是会创建一个新的格式化上下文，即便具有<code>column-span: all</code>的元素并不被包裹在一个多列容器中。</li>
+<li><code>fieldset</code>元素</li>
+</ul>
+<p><code>display:table</code>本身并不会创建BFC，但是它会产生<a href="https://www.w3.org/TR/CSS21/tables.html#anonymous-boxes" target="_blank" rel="noopener">匿名框</a>(anonymous boxes)，而匿名框中的<code>display:table-cell</code>可以创建新的BFC，换句话说，触发块级格式化上下文的是匿名框，而不是<code>display:table</code>。所以通过<code>display:table</code>和<code>display:table-cell</code>创建的BFC效果是不一样的。<br><code>fieldset</code>元素在<a href="http://www.w3.org里目前没有任何有关这个触发行为的信息，直到HTML5标准里才出现。有些浏览器bugs（Webkit，Mozilla）提到过这个触发行为，但是没有任何官方声明。实际上，即使`fieldset`在大多数的浏览器上都能创建新的块级格式化上下文，开发者也不应该把这当做是理所当然的。CSS" target="_blank" rel="noopener">www.w3.org里目前没有任何有关这个触发行为的信息，直到HTML5标准里才出现。有些浏览器bugs（Webkit，Mozilla）提到过这个触发行为，但是没有任何官方声明。实际上，即使`fieldset`在大多数的浏览器上都能创建新的块级格式化上下文，开发者也不应该把这当做是理所当然的。CSS</a> 2.1没有定义哪种属性适用于表单控件，也没有定义如何使用CSS来给它们添加样式。用户代理可能会给这些属性应用CSS属性，建议开发者们把这种支持当做实验性质的，更高版本的CSS可能会进一步规范这个。</p>
+<p>通俗地来说: 创建了BFC的元素就是一个独立的盒子，里面的子元素不会在布局上影响外面的元素，反之亦然，同时BFC仍然属于文档中的普通流。<br>至此，您或许明白了为什么<code>overflow:hidden</code>或者<code>auto</code>可以闭合浮动了，真是因为父元素创建了新的BFC。</p>
+<h4 id="hasLayout"><a href="#hasLayout" class="headerlink" title="hasLayout"></a>hasLayout</h4><p>从表现上来说，<code>hasLayout</code>可以等同于 BFC。<br>IE6-7的显示引擎使用的是一个称为布局（layout）的内部概念，由于这个显示引擎自身存在很多的缺陷，直接导致了IE6-7的很多显示bug。当我们说一个元素“得到 layout”，或者说一个元素“拥有 layout” 的时候，我们的意思是指它的微软专有属性<code>[hasLayout]</code>为此被设为了<code>true</code>。IE6-7使用布局的概念来控制元素的尺寸和定位，那些拥有布局（have layout）的元素负责本身及其子元素的尺寸设置和定位。如果一个元素的<code>hasLayout</code>为<code>false</code>，那么它的尺寸和位置由最近拥有布局的祖先元素控制。</p>
+<h4 id="触发hasLayout的条件"><a href="#触发hasLayout的条件" class="headerlink" title="触发hasLayout的条件"></a>触发hasLayout的条件</h4><ul>
+<li><code>position: absolute</code></li>
+<li><code>float: left|right</code></li>
+<li><code>display: inline-block</code></li>
+<li><code>width</code>: 除<code>auto</code>外的任意值</li>
+<li><code>height</code>: 除<code>auto</code>外的任意值(例如很多人闭合浮动会用到 height: 1% )</li>
+<li><code>zoom</code>: 除<code>normal</code>外的任意值</li>
+<li><code>writing-mode</code>: tb-rl</li>
+</ul>
+<p>在 IE7 中，<code>overflow</code>也变成了一个 layout 触发器:</p>
+<ul>
+<li><code>overflow: hidden|scroll|auto</code> （ 这个属性在IE之前版本中没有触发 layout 的功能。 ）</li>
+<li><code>overflow-x|-y: hidden|scroll|auto</code> （CSS3 盒模型中的属性，尚未得到浏览器的广泛支持。他们在之前IE版本中同样没有触发 layout 的功能）</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>在支持BFC的浏览器（IE8+，firefox，chrome，safari）通过创建新的BFC闭合浮动；<br>在不支持BFC的浏览器 （IE6-7），通过触发hasLayout闭合浮动。</p>
+<h2 id="闭合浮动改进方法"><a href="#闭合浮动改进方法" class="headerlink" title="闭合浮动改进方法"></a>闭合浮动改进方法</h2><p>上面已经列举了7种闭合浮动的方法，通过第三节分析的原理，我们发现其实更多的: <code>display: table-cell</code>，<code>display: inline-block</code>等只要触发了BFC的属性值都可以闭合浮动。从各个方面比较，<code>::after</code>伪元素闭合浮动无疑是相对比较好的解决方案了，下面详细说说该方法。</p>
+<h3 id="伪元素和伪类"><a href="#伪元素和伪类" class="headerlink" title="伪元素和伪类"></a>伪元素和伪类</h3><p><strong>伪类的操作对象是文档树中已有的元素，而伪元素则创建了一个文档数外的元素。因此，伪类与伪元素的区别在于：有没有创建一个文档树之外的元素。</strong><br>伪元素使用<code>::</code>，伪类使用<code>:</code>。</p>
+<h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">::after</span> &#123;<span class="attribute">content</span>:<span class="string">"."</span>; <span class="attribute">display</span>:block; <span class="attribute">height</span>:<span class="number">0</span>; <span class="attribute">visibility</span>:hidden; <span class="attribute">clear</span>:both; &#125;</span><br><span class="line">.clearfix &#123; *zoom:1; &#125;</span><br></pre></td></tr></table></figure>
+<p>1) <code>display:block</code>使生成的元素以块级元素显示,占满剩余空间;<br>2) <code>height:0</code>避免生成内容破坏原有布局的高度。<br>3) <code>visibility:hidden</code>使生成的内容不可见，并允许可能被生成内容盖住的内容可以进行点击和交互;<br>4）通过<code>content:&quot;.&quot;</code>生成内容作为最后一个元素，至于content里面是点还是其他都是可以的，例如oocss里面就有经典的<code>content:&quot;XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&quot;</code>,有些版本可能<code>content</code>里面内容为空,一丝冰凉是不推荐这样做的,firefox直到7.0<code>content:&quot;&quot;</code>仍然会产生额外的空隙；<br>5）<code>zoom: 1</code>触发IE hasLayout。<br>通过分析发现，除了<code>clear: both</code>用来闭合浮动的，其他代码无非都是为了隐藏掉content生成的内容，这也就是其他版本的闭合浮动为什么会有<code>font-size:0</code>，<code>line-height:0</code>。</p>
+<h3 id="精益求精方案"><a href="#精益求精方案" class="headerlink" title="精益求精方案"></a>精益求精方案</h3><p>由Nicolas Gallagher 大湿提出来的,原文<a href="http://nicolasgallagher.com/micro-clearfix-hack/" target="_blank" rel="noopener">:A new micro clearfix hack</a>，该方法也不存在firefox中空隙的问题。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* For modern browsers */</span></span><br><span class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">::before</span>,<span class="selector-class">.clearfix</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>:<span class="string">""</span>;</span><br><span class="line">    <span class="attribute">display</span>:table;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">::after</span> &#123; </span><br><span class="line">    <span class="attribute">clear</span>:both;</span><br><span class="line">&#125;<span class="comment">/* For IE 6/7 (trigger hasLayout) */</span></span><br><span class="line"><span class="selector-class">.clearfix</span> &#123;</span><br><span class="line">    <span class="attribute">zoom</span>:<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参见<a href="https://codepen.io/zxlg/pen/YrpYwj" target="_blank" rel="noopener">清除浮动–父元素设置::after ::before伪元素</a></p>
+<p>需要注意的是：<br>上面的方法用到了<code>::before</code>伪元素，很多人对这个有些迷惑，到底我什么时候需要用<code>before</code>呢？为什么方案一没有呢？其实它是用来处理<code>margin</code>边距重叠的，由于内部元素<code>float</code>创建了BFC，导致内部元素的<code>margin-top</code>和上一个盒子的<code>margin-bottom</code>发生叠加。如果这不是你所希望的，那么就可以加上<code>before</code>，如果只是单纯的闭合浮动，<code>after</code>就够了！</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="http://www.iyunlu.com/view/css-xhtml/55.html" target="_blank" rel="noopener">那些年我们一起清除过的浮动</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Block_formatting_context" target="_blank" rel="noopener">块格式化上下文</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/clear" target="_blank" rel="noopener">clear</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    zxlg
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://happylg.cn/2017/09/24/css-clearfix/" title="CSS清除浮动/闭合浮动">http://happylg.cn/2017/09/24/css-clearfix/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/css/" rel="tag"># css</a>
+          
+            <a href="/tags/浮动/" rel="tag"># 浮动</a>
+          
+            <a href="/tags/清除浮动/" rel="tag"># 清除浮动</a>
+          
+            <a href="/tags/闭合浮动/" rel="tag"># 闭合浮动</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/23/http-head/" rel="next" title="HTTP首部字段解析">
+                <i class="fa fa-chevron-left"></i> HTTP首部字段解析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/25/css-selector/" rel="prev" title="CSS选择器总结">
+                CSS选择器总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/avatar.png" alt="zxlg">
+          <p class="site-author-name" itemprop="name">zxlg</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">65</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">98</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/zxlg1993" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      微博
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/gongzhibin" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
+            </a>
+          </div>
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#浮动"><span class="nav-number">1.</span> <span class="nav-text">浮动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#清除浮动还是闭合浮动（Enclosing-float-or-Clearing-float）"><span class="nav-number">2.</span> <span class="nav-text">清除浮动还是闭合浮动（Enclosing float or Clearing float）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为何要闭合浮动？"><span class="nav-number">3.</span> <span class="nav-text">为何要闭合浮动？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#闭合浮动的原理——了解hasLayout和Block-formatting-contexts"><span class="nav-number">4.</span> <span class="nav-text">闭合浮动的原理——了解hasLayout和Block formatting contexts</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#清除浮动的方式"><span class="nav-number">4.1.</span> <span class="nav-text">清除浮动的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1）添加额外标签"><span class="nav-number">4.1.1.</span> <span class="nav-text">1）添加额外标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2）使用br标签和其自身的html属性"><span class="nav-number">4.1.2.</span> <span class="nav-text">2）使用br标签和其自身的html属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-父元素设置overflow-hidden"><span class="nav-number">4.1.3.</span> <span class="nav-text">3) 父元素设置overflow:hidden</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-父元素设置overflow-auto属性"><span class="nav-number">4.1.4.</span> <span class="nav-text">4) 父元素设置overflow:auto属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5）父元素也设置浮动"><span class="nav-number">4.1.5.</span> <span class="nav-text">5）父元素也设置浮动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6）父元素设置display-table"><span class="nav-number">4.1.6.</span> <span class="nav-text">6）父元素设置display:table</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7）使用-after伪元素"><span class="nav-number">4.1.7.</span> <span class="nav-text">7）使用::after伪元素</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清除浮动方式总结"><span class="nav-number">4.2.</span> <span class="nav-text">清除浮动方式总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#利用clear属性清除浮动"><span class="nav-number">4.2.1.</span> <span class="nav-text">利用clear属性清除浮动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使父容器形成BFC"><span class="nav-number">4.2.2.</span> <span class="nav-text">使父容器形成BFC</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清除浮动-闭合浮动原理"><span class="nav-number">4.3.</span> <span class="nav-text">清除浮动/闭合浮动原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BFC特性"><span class="nav-number">4.3.1.</span> <span class="nav-text">BFC特性</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-BFC会阻止垂直外边距叠加"><span class="nav-number">4.3.1.1.</span> <span class="nav-text">1) BFC会阻止垂直外边距叠加</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-BFC不会重叠浮动元素"><span class="nav-number">4.3.1.2.</span> <span class="nav-text">2) BFC不会重叠浮动元素</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-BFC可以包含浮动"><span class="nav-number">4.3.1.3.</span> <span class="nav-text">3) BFC可以包含浮动</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何触发BFC"><span class="nav-number">4.3.2.</span> <span class="nav-text">如何触发BFC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hasLayout"><span class="nav-number">4.3.3.</span> <span class="nav-text">hasLayout</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#触发hasLayout的条件"><span class="nav-number">4.3.4.</span> <span class="nav-text">触发hasLayout的条件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">4.4.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#闭合浮动改进方法"><span class="nav-number">5.</span> <span class="nav-text">闭合浮动改进方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#伪元素和伪类"><span class="nav-number">5.1.</span> <span class="nav-text">伪元素和伪类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现过程"><span class="nav-number">5.2.</span> <span class="nav-text">实现过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#精益求精方案"><span class="nav-number">5.3.</span> <span class="nav-text">精益求精方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">6.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zxlg</span>
+
+  
+</div>
+
+
+  <div class="powered-by">
+    由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  </div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">
+    主题 &mdash;
+    <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+      NexT.Mist
+    </a>
+  </div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  
+
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://happylg.cn/2017/09/24/css-clearfix/';
+          this.page.identifier = '2017/09/24/css-clearfix/';
+          this.page.title = 'CSS清除浮动/闭合浮动';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://happylg.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("hR3ATs8pfE23chEpVt6B1ovg-gzGzoHsz", "oIbFkcd43Cjd1FqkymLs6o2D");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

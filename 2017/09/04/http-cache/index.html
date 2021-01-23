@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="http,缓存,离线应用,前端优化,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zxlg's notes" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="为什么使用Web缓存 减少网络带宽消耗 降低服务器压力 减少网络延迟，加快页面打开速度  Web缓存类型数据库数据缓存Web应用，特别是SNS类型的应用，往往关系比较复杂，数据库表繁多，如果频繁进行数据库查询，很容易导致数据库不堪重荷。为了提供查询的性能，会将查询后的数据放到内存中进行缓存，下次查询时，直接从内存缓存直接返回，提供响应效率。">
+<meta name="keywords" content="http,缓存,离线应用,前端优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web缓存总结">
+<meta property="og:url" content="http://happylg.cn/2017/09/04/http-cache/index.html">
+<meta property="og:site_name" content="zxlg&#39;s notes">
+<meta property="og:description" content="为什么使用Web缓存 减少网络带宽消耗 降低服务器压力 减少网络延迟，加快页面打开速度  Web缓存类型数据库数据缓存Web应用，特别是SNS类型的应用，往往关系比较复杂，数据库表繁多，如果频繁进行数据库查询，很容易导致数据库不堪重荷。为了提供查询的性能，会将查询后的数据放到内存中进行缓存，下次查询时，直接从内存缓存直接返回，提供响应效率。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-12T12:15:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Web缓存总结">
+<meta name="twitter:description" content="为什么使用Web缓存 减少网络带宽消耗 降低服务器压力 减少网络延迟，加快页面打开速度  Web缓存类型数据库数据缓存Web应用，特别是SNS类型的应用，往往关系比较复杂，数据库表繁多，如果频繁进行数据库查询，很容易导致数据库不堪重荷。为了提供查询的性能，会将查询后的数据放到内存中进行缓存，下次查询时，直接从内存缓存直接返回，提供响应效率。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://happylg.cn/2017/09/04/http-cache/">
+
+
+
+
+
+  <title>Web缓存总结 | zxlg's notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zxlg's notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://happylg.cn/2017/09/04/http-cache/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zxlg">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zxlg's notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Web缓存总结</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-04T14:03:23+08:00">
+                2017-09-04
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-08-12T20:15:47+08:00">
+                2019-08-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/09/04/http-cache/" class="leancloud_visitors" data-flag-title="Web缓存总结">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="为什么使用Web缓存"><a href="#为什么使用Web缓存" class="headerlink" title="为什么使用Web缓存"></a>为什么使用Web缓存</h2><ol>
+<li>减少网络带宽消耗</li>
+<li>降低服务器压力</li>
+<li>减少网络延迟，加快页面打开速度</li>
+</ol>
+<h2 id="Web缓存类型"><a href="#Web缓存类型" class="headerlink" title="Web缓存类型"></a>Web缓存类型</h2><h3 id="数据库数据缓存"><a href="#数据库数据缓存" class="headerlink" title="数据库数据缓存"></a>数据库数据缓存</h3><p>Web应用，特别是SNS类型的应用，往往关系比较复杂，数据库表繁多，如果频繁进行数据库查询，很容易导致数据库不堪重荷。为了提供查询的性能，会将查询后的数据放到内存中进行缓存，下次查询时，直接从内存缓存直接返回，提供响应效率。<br><a id="more"></a></p>
+<h3 id="服务器端缓存"><a href="#服务器端缓存" class="headerlink" title="服务器端缓存"></a>服务器端缓存</h3><h4 id="代理服务器缓存"><a href="#代理服务器缓存" class="headerlink" title="代理服务器缓存"></a>代理服务器缓存</h4><p>代理服务器是浏览器和源服务器之间的中间服务器，浏览器先向这个中间服务器发起Web请求，经过处理后（比如权限验证，缓存匹配等），再将请求转发到源服务器。代理服务器缓存的运作原理跟浏览器的运作原理差不多，只是规模更大。可以把它理解为一个共享缓存，不只为一个用户服务，一般为大量用户提供服务，因此在减少相应时间和带宽使用方面很有效，同一个副本会被重用多次。</p>
+<h4 id="CDN缓存"><a href="#CDN缓存" class="headerlink" title="CDN缓存"></a>CDN缓存</h4><p>CDN（Content delivery networks）缓存，也叫网关缓存、反向代理缓存。CDN缓存一般是由网站管理员自己部署，为了让他们的网站更容易扩展并获得更好的性能。浏览器先向CDN网关发起Web请求，网关服务器后面对应着一台或多台负载均衡源服务器，会根据它们的负载请求，动态将请求转发到合适的源服务器上。虽然这种架构负载均衡源服务器之间的缓存没法共享，但却拥有更好的处扩展性。从浏览器角度来看，整个CDN就是一个源服务器，从这个层面来说，本文讨论浏览器和服务器之间的缓存机制，在这种架构下同样适用。</p>
+<h3 id="浏览器端缓存"><a href="#浏览器端缓存" class="headerlink" title="浏览器端缓存"></a>浏览器端缓存</h3><p>浏览器缓存根据一套与服务器约定的规则进行工作，在同一个会话过程中会检查一次并确定缓存的副本足够新。如果你浏览过程中，比如前进或后退，访问到同一个图片，这些图片可以从浏览器缓存中调出而即时显现。</p>
+<h3 id="Web应用层缓存"><a href="#Web应用层缓存" class="headerlink" title="Web应用层缓存"></a>Web应用层缓存</h3><p>应用层缓存指的是从代码层面上，通过代码逻辑和缓存策略，实现对数据，页面，图片等资源的缓存，可以根据实际情况选择将数据存在文件系统或者内存中，减少数据库查询或者读写瓶颈，提高响应效率。</p>
+<h2 id="浏览器缓存规则"><a href="#浏览器缓存规则" class="headerlink" title="浏览器缓存规则"></a>浏览器缓存规则</h2><p>对于浏览器端的缓存来讲，这些规则是在HTTP协议头和HTML页面的<code>Meta</code>标签中定义的。</p>
+<h3 id="不能使用缓存"><a href="#不能使用缓存" class="headerlink" title="不能使用缓存"></a>不能使用缓存</h3><p>定义任何时候都不使用缓存，返回的响应码为200。</p>
+<p>http头部：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Cache-Control</span>: no-store</span><br></pre></td></tr></table></figure>
+<h3 id="强制缓存"><a href="#强制缓存" class="headerlink" title="强制缓存"></a>强制缓存</h3><p>定义使用缓存，在缓存未过期之前，或未定义强制进行服务器校验，使用浏览器中的保存的缓存，返回的响应码为200。</p>
+<p>HTTP头部：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Cache-Control</span>: max-age: XXX   // 缓存可以使用XXX秒</span><br><span class="line"><span class="attribute">Expires</span>: XXX                  // 缓存可以使用到XXX(日期)</span><br><span class="line"><span class="attribute">Cache-Control</span>: no-cache       // 定义强制进行服务器校验</span><br><span class="line"><span class="attribute">Pragma</span>: no-cache             //  定义强制进行服务器校验(HTTP/1.0 中规定的通用首部)</span><br></pre></td></tr></table></figure>
+<h3 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h3><p>进行服务器校验时，发现缓存文件未发生改变，使用浏览器中的缓存，返回的响应码为304。</p>
+<p>HTTP头部：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Last-Modified</span>: XXX        // 文件最后修改时间</span><br><span class="line"><span class="attribute">Etag</span>: XXX                 // 文件对应的唯一标识符（md5标志）</span><br></pre></td></tr></table></figure>
+<h3 id="从服务器获取资源"><a href="#从服务器获取资源" class="headerlink" title="从服务器获取资源"></a>从服务器获取资源</h3><p>进行服务器校验时，发现缓存文件已发生改变，使用服务器返回数据，返回的响应码为200。</p>
+<h2 id="http首部字段"><a href="#http首部字段" class="headerlink" title="http首部字段"></a>http首部字段</h2><h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><h4 id="通用首部字段"><a href="#通用首部字段" class="headerlink" title="通用首部字段"></a>通用首部字段</h4><p>通用首部字段：请求报文和响应报文均能使用</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字段名称</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Cache-Control</td>
+<td style="text-align:center">控制缓存行为</td>
+</tr>
+<tr>
+<td style="text-align:center">Pragma</td>
+<td style="text-align:center">HTTP1.0遗留，值为“no-cache”禁止缓存</td>
+</tr>
+</tbody>
+</table>
+<h4 id="请求首部字段"><a href="#请求首部字段" class="headerlink" title="请求首部字段"></a>请求首部字段</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">字段名称</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">if-Match</td>
+<td style="text-align:center">比较ETag是否一致</td>
+</tr>
+<tr>
+<td style="text-align:center">if-None-Match</td>
+<td style="text-align:center">比较ETag是否不一致</td>
+</tr>
+<tr>
+<td style="text-align:center">if-Modified-Since</td>
+<td style="text-align:center">比较最后资源更新的时间是否一致</td>
+</tr>
+<tr>
+<td style="text-align:center">if-Unmodified-Since</td>
+<td style="text-align:center">比较最后资源更新的时间是否不一致</td>
+</tr>
+</tbody>
+</table>
+<h4 id="响应首部字段"><a href="#响应首部字段" class="headerlink" title="响应首部字段"></a>响应首部字段</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">字段名称</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ETag</td>
+<td style="text-align:center">资源的匹配信息</td>
+</tr>
+</tbody>
+</table>
+<h4 id="实体首部字段"><a href="#实体首部字段" class="headerlink" title="实体首部字段"></a>实体首部字段</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">字段名称</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Expires</td>
+<td style="text-align:center">HTTP1.0遗留，实体主体开始时间</td>
+</tr>
+<tr>
+<td style="text-align:center">Last-Modified</td>
+<td style="text-align:center">资源最后一次修改时间</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h3><p><strong>“Expires时间是相对服务器而言，无法保证和客户端时间统一”的问题</strong>，http1.1新增了<code>Cache-Control</code>来定义缓存过期时间，若报文中同时出现了<code>Pragma</code>、<code>Expires</code> 和<code>Cache-Control</code>，会以<code>Cache-Control</code>为准。</p>
+<h4 id="Cache-Control请求指令表"><a href="#Cache-Control请求指令表" class="headerlink" title="Cache-Control请求指令表"></a>Cache-Control请求指令表</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Cache-Control: max-age=seconds</td>
+<td>设置缓存存储的最大周期，超过这个时间缓存被认为过期(单位秒)。与Expires相反，时间是相对于请求的时间。</td>
+</tr>
+<tr>
+<td style="text-align:center">Cache-Control: max-stale[=seconds]</td>
+<td>表明客户端愿意接收一个已经过期的资源。 可选的设置一个时间 (单位秒)，表示响应不能超过的过时时间。</td>
+</tr>
+<tr>
+<td style="text-align:center">Cache-Control: min-fresh=seconds</td>
+<td>表示客户端希望在指定的时间内获取最新的响应。</td>
+</tr>
+<tr>
+<td style="text-align:center">Cache-control: no-cache</td>
+<td>强制所有缓存了该响应的缓存用户，在使用已存储的缓存数据前，发送带验证器的请求到原始服务器</td>
+</tr>
+<tr>
+<td style="text-align:center">Cache-control: no-store</td>
+<td>缓存不应存储有关客户端请求或服务器响应的任何内容。</td>
+</tr>
+<tr>
+<td style="text-align:center">Cache-control: no-transform</td>
+<td>不得对资源进行转换或转变。Content-Encoding, Content-Range, Content-Type等HTTP头不能由代理修改。</td>
+</tr>
+<tr>
+<td style="text-align:center">Cache-control: only-if-cached</td>
+<td>表明如果缓存存在，只使用缓存，无论原始服务器数据是否有更新。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="Cache-Control响应指令表"><a href="#Cache-Control响应指令表" class="headerlink" title="Cache-Control响应指令表"></a>Cache-Control响应指令表</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Cache-control: must-revalidate</td>
+<td>缓存必须在使用之前验证旧资源的状态，并且不可使用过期资源</td>
+</tr>
+<tr>
+<td style="text-align:center">Cache-control: no-cache</td>
+<td>强制所有缓存了该响应的缓存用户，在使用已存储的缓存数据前，发送带验证器的请求到原始服务器</td>
+</tr>
+<tr>
+<td style="text-align:center">Cache-control: no-store</td>
+<td>缓存不应存储有关客户端请求或服务器响应的任何内容</td>
+</tr>
+<tr>
+<td style="text-align:center">Cache-control: no-transform</td>
+<td>不得对资源进行转换或转变。Content-Encoding, Content-Range, Content-Type等HTTP头不能由代理修改</td>
+</tr>
+<tr>
+<td style="text-align:center">Cache-control: public</td>
+<td>表明响应可以被任何对象（包括：发送请求的客户端，代理服务器，等等）缓存</td>
+</tr>
+<tr>
+<td style="text-align:center">Cache-control: private</td>
+<td>表明响应只能被单个用户缓存，不能作为共享缓存（即代理服务器不能缓存它）</td>
+</tr>
+<tr>
+<td style="text-align:center">Cache-control: proxy-revalidate</td>
+<td>与must-revalidate作用相同，但它仅适用于共享缓存（例如代理），并被私有缓存忽略</td>
+</tr>
+<tr>
+<td style="text-align:center">Cache-Control: max-age=seconds</td>
+<td>设置缓存存储的最大周期，超过这个时间缓存被认为过期(单位秒)。与Expires相反，时间是相对于请求的时间</td>
+</tr>
+<tr>
+<td style="text-align:center">Cache-control: s-maxage=seconds</td>
+<td>覆盖max-age 或者 Expires 头，但是仅适用于共享缓存(比如各个代理)，并且私有缓存中它被忽略</td>
+</tr>
+</tbody>
+</table>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Cache-Control</span>: no-store</span><br><span class="line"><span class="attribute">Cache-Control</span>: no-cache, no-store, must-revalidate</span><br></pre></td></tr></table></figure>
+<p>缓存中不得存储任何关于客户端请求和服务端响应的内容。每次由客户端发起的请求都会下载完整的响应内容。</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Cache-Control</span>: no-cache</span><br></pre></td></tr></table></figure>
+<p>每次有请求发出时，缓存会将此请求发到服务器（译者注：该请求应该会带有与本地缓存相关的验证字段），服务器端会验证请求中所描述的缓存是否过期，若未过期（注：实际就是返回304），则缓存才使用本地缓存副本。</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Cache-Control</span>: max-age=3600, must-revalidate</span><br></pre></td></tr></table></figure>
+<p>它意味着该资源是从原服务器上取得的，且其缓存（新鲜度）的有效时间为一小时，在后续一小时内，用户重新访问该资源则无须发送请求。</p>
+<h3 id="Last-Modified"><a href="#Last-Modified" class="headerlink" title="Last-Modified"></a>Last-Modified</h3><p>服务器将资源传递给客户端时，会将资源最后更改的时间以“Last-Modified: GMT”的形式加在实体首部上一起返回给客户端。客户端会为资源标记上该信息，下次再次请求时，会把该信息附带在请求报文中一并带给服务器去做检查，若传递的时间值与服务器上该资源最终修改时间是一致的，则说明该资源没有被修改过，直接返回304状态码即可。传递标记起来的最终修改时间的请求报文首部字段有：<code>If-Modified-Since</code>和<code>If-Unmodified-Since</code>。</p>
+<h4 id="If-Modified-Since-Last-Modified-value"><a href="#If-Modified-Since-Last-Modified-value" class="headerlink" title="If-Modified-Since: Last-Modified-value"></a>If-Modified-Since: Last-Modified-value</h4><p>示例为<code>If-Modified-Since: Thu, 31 Mar 2016 07:07:52 GMT</code><br>该请求首部告诉服务器如果客户端传来的最后修改时间与服务器上的一致，则直接回送304 和响应报头即可。<br>当前各浏览器均是使用的该请求首部来向服务器传递保存的 Last-Modified 值。</p>
+<h4 id="If-Unmodified-Since-Last-Modified-value"><a href="#If-Unmodified-Since-Last-Modified-value" class="headerlink" title="If-Unmodified-Since: Last-Modified-value"></a>If-Unmodified-Since: Last-Modified-value</h4><p>告诉服务器，若<code>Last-Modified</code>没有匹配上（资源在服务端的最后更新时间改变了），则应当返回<code>412(Precondition Failed)</code>状态码给客户端。<br>当遇到下面情况时，<code>If-Unmodified-Since</code>字段会被忽略：</p>
+<ol>
+<li><code>Last-Modified</code>值对上了（资源在服务端没有新的修改）；</li>
+<li>服务端需返回2XX和412之外的状态码；</li>
+<li>传来的指定日期不合法</li>
+</ol>
+<h3 id="ETag"><a href="#ETag" class="headerlink" title="ETag"></a>ETag</h3><p>为了解决上述<code>Last-Modified</code>可能存在的不准确的问题，Http1.1还推出了<code>ETag</code>实体首部字段。服务器会通过某种算法，给资源计算得出一个唯一标识符（比如md5标志），在把资源响应给客户端的时候，会在实体首部加上<code>ETag: 唯一标识符</code>一起返回给客户端。客户端会保留该<code>ETag</code>字段，并在下一次请求时将其一并带过去给服务器。服务器只需要比较客户端传来的<code>ETag</code>跟自己服务器上该资源的<code>ETag</code>是否一致，就能很好地判断资源相对客户端而言是否被修改过了。如果服务器发现<code>ETag</code>匹配不上，那么直接以常规<code>GET</code>200回包形式将新的资源（当然也包括了新的ETag）发给客户端；如果<code>ETag</code>是一致的，则直接返回304知会客户端直接使用本地缓存即可。请求报文中有两个首部字段<code>If-None-Match</code>和<code>If-Match</code>可以带上<code>ETag</code>值。</p>
+<h4 id="If-None-Match-ETag-value"><a href="#If-None-Match-ETag-value" class="headerlink" title="If-None-Match: ETag-value"></a>If-None-Match: ETag-value</h4><p>示例为<code>If-None-Match: &quot;56fcccc8-1699&quot;</code><br>告诉服务端如果<code>ETag</code>没匹配上需要重发资源数据，否则直接回送304和响应报头即可。<br>当前各浏览器均是使用的该请求首部来向服务器传递保存的<code>ETag</code>值。</p>
+<h4 id="If-Match-ETag-value"><a href="#If-Match-ETag-value" class="headerlink" title="If-Match: ETag-value"></a>If-Match: ETag-value</h4><p>告诉服务器如果没有匹配到<code>ETag</code>，或者收到了“*”值而当前并没有该资源实体，则应当返回<code>412(Precondition Failed)</code>状态码给客户端。否则服务器直接忽略该字段。<code>If-Match</code>的一个应用场景是，客户端走<code>PUT</code>方法向服务端请求上传/更替资源，这时候可以通过<code>If-Match</code>传递资源的<code>ETag</code>。</p>
+<p>如果<code>Last-Modified</code>和<code>ETag</code>同时被使用，则要求它们的验证都必须通过才会返回304，若其中某个验证没通过，则服务器会按常规返回资源实体及200状态码。</p>
+<h3 id="HTTP1-0缓存"><a href="#HTTP1-0缓存" class="headerlink" title="HTTP1.0缓存"></a>HTTP1.0缓存</h3><h4 id="Prama"><a href="#Prama" class="headerlink" title="Prama"></a>Prama</h4><p><code>Pragma</code>是HTTP/1.0标准中定义的一个<code>header</code>属性，请求中包含<code>Pragma</code>的效果跟在头信息中定义<code>Cache-Control: no-cache</code>相同，但是HTTP的响应头不支持这个属性，所以它不能拿来完全替代HTTP/1.1中定义的<code>Cache-control</code>头。通常定义<code>Pragma</code>以向后兼容基于HTTP/1.0的客户端。<br>当该字段值为<code>no-cache</code>的时候（事实上现在RFC中也仅标明该可选值），会知会客户端不要对该资源读缓存，即每次都得向服务器发一次请求才行。</p>
+<p><code>Pragma</code>属于通用首部字段，在客户端上使用时，常规要求我们往html上加上这段meta元标签（而且可能还得做些hack放到body后面去）：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Pragma"</span> <span class="attr">content</span>=<span class="string">"no-cache"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>它告诉浏览器每次请求页面时都不要读缓存，都得往服务器发一次请求才行。 事实上这种禁用缓存的形式用处很有限：</p>
+<ol>
+<li>仅有IE才能识别这段meta标签含义，其它主流浏览器仅能识别<code>Cache-Control: no-store</code>的meta标签（见出处）。</li>
+<li>在IE中识别到该meta标签含义，并不一定会在请求字段加上<code>Pragma</code>，但的确会让当前页面每次都发新请求（仅限页面，页面上的资源则不受影响）。</li>
+</ol>
+<h4 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h4><p>有了<code>Pragma</code>来禁用缓存，自然也需要有个东西来启用缓存和定义缓存时间，对http1.0而言，<code>Expires</code>就是做这件事的首部字段。<br><code>Expires</code>的值对应一个GMT（格林尼治时间），比如“Mon, 22 Jul 2017 11:12:01 GMT”来告诉浏览器资源缓存过期时间，如果还没过该时间点则不发请求。<br>在客户端我们同样可以使用meta标签来知会IE（也仅有IE能识别）页面（同样也只对页面有效，对页面上的资源无效）缓存时间：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"expires"</span> <span class="attr">content</span>=<span class="string">"mon, 18 apr 2016 14:30:00 GMT"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果希望在IE下页面不走缓存，希望每次刷新页面都能发新请求，那么可以把<code>content</code>里的值写为“-1”或“0”。注意的是该方式仅仅作为知会IE缓存时间的标记，你并不能在请求或响应报文中找到Expires字段。如果是在服务端报头返回Expires字段，则在任何浏览器中都能正确设置资源缓存的时间。</p>
+<p>通过<code>Pragma</code>禁用缓存，又给<code>Expires</code>定义一个还未到期的时间，刷新页面时发现均发起了新请求，<code>Pragma</code>字段的优先级会更高。</p>
+<h2 id="离线应用"><a href="#离线应用" class="headerlink" title="离线应用"></a>离线应用</h2><h3 id="离线应用之AppCache"><a href="#离线应用之AppCache" class="headerlink" title="离线应用之AppCache"></a>离线应用之AppCache</h3><p><strong>已废弃，使用Service Workers代替</strong><br>HTML5 提供一种应用程序缓存机制，使得基于web的应用程序可以离线运行。开发者可以使用 Application Cache (AppCache) 接口设定浏览器应该缓存的资源并使得离线用户可用。 在处于离线状态时，即使用户点击刷新按钮，应用也能正常加载与工作。</p>
+<h4 id="启用应用缓存"><a href="#启用应用缓存" class="headerlink" title="启用应用缓存"></a>启用应用缓存</h4><p>服务端：<br>在服务器上添加MIME TYPE支，让服务器能够识别manifest后缀的文件,<code>AddType text/cache-manifest manifest</code></p>
+<p>前端页面：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">manifest</span>=<span class="string">"example.appcache"</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>manifest 特性与 缓存清单(cache manifest) 文件关联，这个文件包含了浏览器需要为你的应用程序缓存的资源(文件)列表。你应当在每一个意图缓存的页面上添加 manifest 特性。浏览器不会缓存不带有manifest 特性的页面，除非这个页面已经被写在清单文件内的列表里了。你没有必要添加所有你意图缓存的页面的清单文件，浏览器会暗中将用户访问过的并带有 manifest 特性的所有页面添加进应用缓存中。</p>
+<h4 id="缓存清单"><a href="#缓存清单" class="headerlink" title="缓存清单"></a>缓存清单</h4><p>缓存清单文件中的段落： CACHE， NETWORK，与 FALLBACK</p>
+<p>CACHE:<br>这是缓存文件中记录所属的默认段落。在 CACHE: 段落标题后(或直接跟在 CACHE MANIFEST 行后)列出的文件会在它们第一次下载完毕后缓存起来。</p>
+<p>NETWORK:<br>在 NETWORK: 段落标题下列出的文件是需要与服务器连接的白名单资源。所有类似资源的请求都会绕过缓存，即使用户处于离线状态。可以使用通配符。</p>
+<p>FALLBACK:<br>FALLBACK: 段指定了一个后备页面，当资源无法访问时，浏览器会使用该页面。该段落的每条记录都列出两个 URI—第一个表示资源，第二个表示后备页面。两个 URI 都必须使用相对路径并且与清单文件同源。可以使用通配符。</p>
+<p>CACHE， NETWORK， 和 FALLBACK 段落可以以任意顺序出现在缓存清单文件中，并且每个段落可以在同一清单文件中出现多次。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CACHE MANIFEST</span><br><span class="line"># v1 2011-08-14</span><br><span class="line"># This is another comment</span><br><span class="line">index.html</span><br><span class="line">cache.html</span><br><span class="line">style.css</span><br><span class="line">image1.png</span><br><span class="line"></span><br><span class="line"># Use from network if available</span><br><span class="line">NETWORK:</span><br><span class="line">network.html</span><br><span class="line"></span><br><span class="line"># Fallback content</span><br><span class="line">FALLBACK:</span><br><span class="line">/ fallback.html</span><br></pre></td></tr></table></figure>
+<h4 id="加载文档"><a href="#加载文档" class="headerlink" title="加载文档"></a>加载文档</h4><p>使用AppCache文档加载流程：</p>
+<ul>
+<li>如果应用缓存存在，浏览器直接从缓存中加载文档与相关资源，不会访问网络。这会提升文档加载速度。</li>
+<li>浏览器检查清单文件列出的资源是否在服务器上被修改。</li>
+<li>如果清单文件被更新了, 浏览器会下载新的清单文件和相关的资源。 这都是在后台执行的，基本不会影响到webapp的性能。</li>
+</ul>
+<h4 id="存在问题"><a href="#存在问题" class="headerlink" title="存在问题"></a>存在问题</h4><p>缓存文件更新控制不灵活:就目前HTML5提供的manifest机制来讲，一个页面只能引用一个manifest页面，而且一旦发现这个manifest改变了，就会把里面所有定义的缓存文件全部重新拉取一遍，不管实际上有没有更新，控制比较不灵活。针对这个问题，也有的同学提出了一些建议，比如把需要缓存的文件分模块切分到不同manifest中，并分开用HTML引用，再使用强大的iframe嵌入到入口页面，这样就当某一个模式需要有更新，不会导致其他模块的文件也重新拉取一遍。</p>
+<h3 id="离线应用之Service-Workers"><a href="#离线应用之Service-Workers" class="headerlink" title="离线应用之Service Workers"></a>离线应用之Service Workers</h3><p>AppCache — 看起来是个不错的方法，因为它可以很容易地指定需要离线缓存的资源。但是它假定你使用时会遵循诸多规则，如果你不严格遵循这些规则，会出现很大的问题。客户端和服务器之间加入一个Service Workers，主要是为了实现离线处理和消息推送等，让web app可以和native app开始真正意义上的竞争。</p>
+<h4 id="使用限制"><a href="#使用限制" class="headerlink" title="使用限制"></a>使用限制</h4><p>1、非主线程<br>平常浏览器窗口中跑的页面运行的是主JavaScript线程，DOM和window全局变量都是可以访问的。而Service Worker是走的另外的线程，可以理解为在浏览器背后默默运行的一个线程，脱离浏览器窗体，因此，window以及DOM都是不能访问的，此时我们可以使用self访问全局上下文</p>
+<p>2、异步<br>Service Worker设计为完全异步，同步API（如XHR和localStorage）不能在Service Worker中使用。Service workers大量使用Promise，因为通常它们会等待响应后继续，并根据响应返回一个成功或者失败的操作，这些场景非常适合Promise</p>
+<p>3、https协议<br>Service Worker对协议也有要求，必须是https协议的</p>
+<h4 id="Service-Worker生命周期"><a href="#Service-Worker生命周期" class="headerlink" title="Service Worker生命周期"></a>Service Worker生命周期</h4><ol>
+<li>Download – 下载注册的JS文件</li>
+<li>Install – 安装</li>
+<li>Activate – 激活</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">self.addEventListener(<span class="string">'install'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123; <span class="comment">/* 安装后... */</span> &#125;);</span><br><span class="line">self.addEventListener(<span class="string">'activate'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123; <span class="comment">/* 激活后... */</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//响应和拦截各种请求</span></span><br><span class="line">self.addEventListener(<span class="string">'fetch'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123; <span class="comment">/* 请求后... */</span> &#125;);</span><br></pre></td></tr></table></figure>
+<p>目前Service Worker的所有应用都是基于上面3个事件的，例如离线开发中，<code>install</code>用来缓存文件，<code>activate</code>用来缓存更新，<code>fetch</code>用来拦截请求直接返回缓存数据。三者构成了完整的缓存控制结构。</p>
+<h4 id="Cache和CacheStorage"><a href="#Cache和CacheStorage" class="headerlink" title="Cache和CacheStorage"></a>Cache和CacheStorage</h4><p><code>Cache</code>直接和请求打交道，<code>CacheStorage</code>和<code>Cache</code>对象打交道，可以直接使用全局的<code>caches</code>属性访问<code>CacheStorage</code>。<br><code>Cache</code>和<code>CacheStorage</code>的出现让浏览器的缓存类型又多了一个：之前有memoryCache和diskCache，现在又多了个ServiceWorker cache。参见<a href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API" target="_blank" rel="noopener">具体API</a></p>
+<h4 id="借助Service-Worker和cacheStorage离线开发"><a href="#借助Service-Worker和cacheStorage离线开发" class="headerlink" title="借助Service Worker和cacheStorage离线开发"></a>借助Service Worker和cacheStorage离线开发</h4><p>1.在页面上注册一个Service Worker，例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="string">'serviceWorker'</span> <span class="keyword">in</span> navigator) &#123;</span><br><span class="line">    navigator.serviceWorker.register(<span class="string">'./cache.js'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.将<code>cache.js</code>这个JS中复制如下代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> VERSION = <span class="string">'v1'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 缓存</span></span><br><span class="line">self.addEventListener(<span class="string">'install'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  event.waitUntil(</span><br><span class="line">    caches.open(VERSION).then(<span class="function"><span class="keyword">function</span>(<span class="params">cache</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//把cache.addAll()方法中缓存文件数组换成你希望缓存的文件数组。</span></span><br><span class="line">      <span class="keyword">return</span> cache.addAll([</span><br><span class="line">        <span class="string">'./start.html'</span>,</span><br><span class="line">        <span class="string">'./static/jquery.min.js'</span>,</span><br><span class="line">        <span class="string">'./static/mm.jpg'</span></span><br><span class="line">      ]);</span><br><span class="line">    &#125;)</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 缓存更新</span></span><br><span class="line">self.addEventListener(<span class="string">'activate'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  event.waitUntil(</span><br><span class="line">    caches.keys().then(<span class="function"><span class="keyword">function</span>(<span class="params">cacheNames</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Promise</span>.all(</span><br><span class="line">        cacheNames.map(<span class="function"><span class="keyword">function</span>(<span class="params">cacheName</span>) </span>&#123;</span><br><span class="line">          <span class="comment">// 如果当前版本和缓存版本不一致</span></span><br><span class="line">          <span class="keyword">if</span> (cacheName !== VERSION) &#123;</span><br><span class="line">            <span class="keyword">return</span> caches.delete(cacheName);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">      );</span><br><span class="line">    &#125;)</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 捕获请求并返回缓存数据</span></span><br><span class="line">self.addEventListener(<span class="string">'fetch'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  event.respondWith(caches.match(event.request).catch(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fetch(event.request);</span><br><span class="line">  &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">response</span>) </span>&#123;</span><br><span class="line">    caches.open(VERSION).then(<span class="function"><span class="keyword">function</span>(<span class="params">cache</span>) </span>&#123;</span><br><span class="line">      cache.put(event.request, response);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> response.clone();</span><br><span class="line">  &#125;).catch(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> caches.match(<span class="string">'./static/mm.jpg'</span>);</span><br><span class="line">  &#125;));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="http://www.alloyteam.com/2012/03/web-cache-1-web-cache-overview/" target="_blank" rel="noopener">【Web缓存机制系列】1 – Web缓存的作用与类型</a></li>
+<li><a href="http://www.alloyteam.com/2012/03/web-cache-2-browser-cache/" target="_blank" rel="noopener">【Web缓存机制系列】2 – Web缓存的作用与类型</a></li>
+<li><a href="http://www.cnblogs.com/vajoy/p/5341664.html" target="_blank" rel="noopener">浅谈浏览器http的缓存机制</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Cache-Control" target="_blank" rel="noopener">Cache-Control</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching_FAQ" target="_blank" rel="noopener">HTTP缓存</a></li>
+<li><a href="http://www.alloyteam.com/2012/03/web-cache-4-html5-web-cache/" target="_blank" rel="noopener">【Web缓存机制系列】4 – Web缓存的作用与类型</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Using_the_application_cache" target="_blank" rel="noopener">使用应用缓存</a></li>
+<li><a href="http://www.zhangxinxu.com/wordpress/2017/07/service-worker-cachestorage-offline-develop/" target="_blank" rel="noopener">借助Service Worker和cacheStorage缓存及离线开发</a></li>
+<li>Javascript高级程序编程 第三版</li>
+<li><a href="https://www.cnblogs.com/lyzg/p/5125934.html" target="_blank" rel="noopener">浏览器缓存知识小结及应用</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    zxlg
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://happylg.cn/2017/09/04/http-cache/" title="Web缓存总结">http://happylg.cn/2017/09/04/http-cache/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/http/" rel="tag"># http</a>
+          
+            <a href="/tags/缓存/" rel="tag"># 缓存</a>
+          
+            <a href="/tags/离线应用/" rel="tag"># 离线应用</a>
+          
+            <a href="/tags/前端优化/" rel="tag"># 前端优化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/04/how-browers-work/" rel="next" title="浏览器渲染原理总结">
+                <i class="fa fa-chevron-left"></i> 浏览器渲染原理总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/05/client-storage/" rel="prev" title="Web应用客户端存储">
+                Web应用客户端存储 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/avatar.png" alt="zxlg">
+          <p class="site-author-name" itemprop="name">zxlg</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">65</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">98</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/zxlg1993" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      微博
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/gongzhibin" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
+            </a>
+          </div>
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么使用Web缓存"><span class="nav-number">1.</span> <span class="nav-text">为什么使用Web缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web缓存类型"><span class="nav-number">2.</span> <span class="nav-text">Web缓存类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库数据缓存"><span class="nav-number">2.1.</span> <span class="nav-text">数据库数据缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器端缓存"><span class="nav-number">2.2.</span> <span class="nav-text">服务器端缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#代理服务器缓存"><span class="nav-number">2.2.1.</span> <span class="nav-text">代理服务器缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CDN缓存"><span class="nav-number">2.2.2.</span> <span class="nav-text">CDN缓存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器端缓存"><span class="nav-number">2.3.</span> <span class="nav-text">浏览器端缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web应用层缓存"><span class="nav-number">2.4.</span> <span class="nav-text">Web应用层缓存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器缓存规则"><span class="nav-number">3.</span> <span class="nav-text">浏览器缓存规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不能使用缓存"><span class="nav-number">3.1.</span> <span class="nav-text">不能使用缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强制缓存"><span class="nav-number">3.2.</span> <span class="nav-text">强制缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协商缓存"><span class="nav-number">3.3.</span> <span class="nav-text">协商缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从服务器获取资源"><span class="nav-number">3.4.</span> <span class="nav-text">从服务器获取资源</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http首部字段"><span class="nav-number">4.</span> <span class="nav-text">http首部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分类"><span class="nav-number">4.1.</span> <span class="nav-text">分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通用首部字段"><span class="nav-number">4.1.1.</span> <span class="nav-text">通用首部字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#请求首部字段"><span class="nav-number">4.1.2.</span> <span class="nav-text">请求首部字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#响应首部字段"><span class="nav-number">4.1.3.</span> <span class="nav-text">响应首部字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实体首部字段"><span class="nav-number">4.1.4.</span> <span class="nav-text">实体首部字段</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cache-Control"><span class="nav-number">4.2.</span> <span class="nav-text">Cache-Control</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Cache-Control请求指令表"><span class="nav-number">4.2.1.</span> <span class="nav-text">Cache-Control请求指令表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cache-Control响应指令表"><span class="nav-number">4.2.2.</span> <span class="nav-text">Cache-Control响应指令表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例"><span class="nav-number">4.2.3.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Last-Modified"><span class="nav-number">4.3.</span> <span class="nav-text">Last-Modified</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#If-Modified-Since-Last-Modified-value"><span class="nav-number">4.3.1.</span> <span class="nav-text">If-Modified-Since: Last-Modified-value</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#If-Unmodified-Since-Last-Modified-value"><span class="nav-number">4.3.2.</span> <span class="nav-text">If-Unmodified-Since: Last-Modified-value</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ETag"><span class="nav-number">4.4.</span> <span class="nav-text">ETag</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#If-None-Match-ETag-value"><span class="nav-number">4.4.1.</span> <span class="nav-text">If-None-Match: ETag-value</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#If-Match-ETag-value"><span class="nav-number">4.4.2.</span> <span class="nav-text">If-Match: ETag-value</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP1-0缓存"><span class="nav-number">4.5.</span> <span class="nav-text">HTTP1.0缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Prama"><span class="nav-number">4.5.1.</span> <span class="nav-text">Prama</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Expires"><span class="nav-number">4.5.2.</span> <span class="nav-text">Expires</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#离线应用"><span class="nav-number">5.</span> <span class="nav-text">离线应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#离线应用之AppCache"><span class="nav-number">5.1.</span> <span class="nav-text">离线应用之AppCache</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#启用应用缓存"><span class="nav-number">5.1.1.</span> <span class="nav-text">启用应用缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存清单"><span class="nav-number">5.1.2.</span> <span class="nav-text">缓存清单</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加载文档"><span class="nav-number">5.1.3.</span> <span class="nav-text">加载文档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#存在问题"><span class="nav-number">5.1.4.</span> <span class="nav-text">存在问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#离线应用之Service-Workers"><span class="nav-number">5.2.</span> <span class="nav-text">离线应用之Service Workers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用限制"><span class="nav-number">5.2.1.</span> <span class="nav-text">使用限制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Service-Worker生命周期"><span class="nav-number">5.2.2.</span> <span class="nav-text">Service Worker生命周期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cache和CacheStorage"><span class="nav-number">5.2.3.</span> <span class="nav-text">Cache和CacheStorage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#借助Service-Worker和cacheStorage离线开发"><span class="nav-number">5.2.4.</span> <span class="nav-text">借助Service Worker和cacheStorage离线开发</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">6.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zxlg</span>
+
+  
+</div>
+
+
+  <div class="powered-by">
+    由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  </div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">
+    主题 &mdash;
+    <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+      NexT.Mist
+    </a>
+  </div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  
+
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://happylg.cn/2017/09/04/http-cache/';
+          this.page.identifier = '2017/09/04/http-cache/';
+          this.page.title = 'Web缓存总结';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://happylg.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("hR3ATs8pfE23chEpVt6B1ovg-gzGzoHsz", "oIbFkcd43Cjd1FqkymLs6o2D");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

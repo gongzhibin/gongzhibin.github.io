@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="css,css解析器,css选择器,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zxlg's notes" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="选择器是匹配元素的一种模式，不只是在CSS中，JavaScript对CSS的选择器也是支持的，比如document.querySelector( )和document.querySelectorAll( )。 选择器类型基本选择器 通配符选择器( * ) id选择器( \#ID ) 类选择器( .className ) 元素选择器( E ) 后代选择器( E F ) 子元素选择器( E&amp;gt;F">
+<meta name="keywords" content="css,css解析器,css选择器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS选择器总结">
+<meta property="og:url" content="http://happylg.cn/2017/09/25/css-selector/index.html">
+<meta property="og:site_name" content="zxlg&#39;s notes">
+<meta property="og:description" content="选择器是匹配元素的一种模式，不只是在CSS中，JavaScript对CSS的选择器也是支持的，比如document.querySelector( )和document.querySelectorAll( )。 选择器类型基本选择器 通配符选择器( * ) id选择器( \#ID ) 类选择器( .className ) 元素选择器( E ) 后代选择器( E F ) 子元素选择器( E&amp;gt;F">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://happylg.cn/img/css-selector.jpg">
+<meta property="og:updated_time" content="2019-08-12T12:15:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS选择器总结">
+<meta name="twitter:description" content="选择器是匹配元素的一种模式，不只是在CSS中，JavaScript对CSS的选择器也是支持的，比如document.querySelector( )和document.querySelectorAll( )。 选择器类型基本选择器 通配符选择器( * ) id选择器( \#ID ) 类选择器( .className ) 元素选择器( E ) 后代选择器( E F ) 子元素选择器( E&amp;gt;F">
+<meta name="twitter:image" content="http://happylg.cn/img/css-selector.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://happylg.cn/2017/09/25/css-selector/">
+
+
+
+
+
+  <title>CSS选择器总结 | zxlg's notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zxlg's notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://happylg.cn/2017/09/25/css-selector/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zxlg">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zxlg's notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">CSS选择器总结</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-25T09:14:01+08:00">
+                2017-09-25
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-08-12T20:15:47+08:00">
+                2019-08-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSS/" itemprop="url" rel="index">
+                    <span itemprop="name">CSS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/09/25/css-selector/" class="leancloud_visitors" data-flag-title="CSS选择器总结">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>选择器是匹配元素的一种模式，不只是在CSS中，JavaScript对CSS的选择器也是支持的，比如<code>document.querySelector( )</code>和<code>document.querySelectorAll( )</code>。</p>
+<h2 id="选择器类型"><a href="#选择器类型" class="headerlink" title="选择器类型"></a>选择器类型</h2><h3 id="基本选择器"><a href="#基本选择器" class="headerlink" title="基本选择器"></a>基本选择器</h3><ul>
+<li>通配符选择器( <code>*</code> )</li>
+<li>id选择器( <code>\#ID</code> )</li>
+<li>类选择器( <code>.className</code> )</li>
+<li>元素选择器( <code>E</code> )</li>
+<li>后代选择器( <code>E F</code> )</li>
+<li>子元素选择器( <code>E&gt;F</code> )</li>
+<li>相邻兄弟元素选择器( <code>E + F</code> )</li>
+<li>群组选择器( <code>selector1,selector2,...,selectorN</code> )</li>
+</ul>
+<a id="more"></a>
+<h3 id="属性选择器"><a href="#属性选择器" class="headerlink" title="属性选择器"></a>属性选择器</h3><p>使用CSS3属性选择器，你可以只指定元素的某个属性，或者你还可以同时指定元素的某个属性和其对应的属性值。</p>
+<p><code>E[attr]</code>：只使用属性名，但没有确定任何属性值<br><code>E[attr=&quot;value&quot;]</code>：指定属性名，并指定了该属性的属性值<br><code>E[attr~=&quot;value&quot;]</code>：指定属性名，并且具有属性值，此属性值是一个词列表，并且以空格隔开，其中词列表中包含了一个value词，而且等号前面的<code>~</code>不能不写<br><code>E[attr^=&quot;value&quot;]</code>：指定了属性名，并且有属性值，属性值是以value开头的；<br><code>E[attr$=&quot;value&quot;]</code>：指定了属性名，并且有属性值，而且属性值是以value结束的；<br><code>E[attr*=&quot;value&quot;]</code>：指定了属性名，并且有属性值，而且属值中包含了value；<br><code>E[attr|=&quot;value&quot;]</code>：指定了属性名，并且属性值是value或者以“value-”开头的值( 比如说zh-cn );</p>
+<h3 id="伪类选择器"><a href="#伪类选择器" class="headerlink" title="伪类选择器"></a>伪类选择器</h3><p>伪类选择器的形式就是<code>:xxx</code>， 比如<code>:hover</code>, <code>:link</code>, <code>:nth</code>。</p>
+<h4 id="动态伪类"><a href="#动态伪类" class="headerlink" title="动态伪类"></a>动态伪类</h4><p>这些伪类并不存在于HTML中,而只有当用户和网站交互的时候才能体现出来.<br>动态伪类包含两种，第一种是我们在链接中常看到的锚点伪类，如<code>:link</code>,<code>:visited</code>;<br>另外一种被称作用户行为伪类，如<code>:hover</code>,<code>:active</code>和<code>:focus</code>。</p>
+<h5 id="锚点伪类"><a href="#锚点伪类" class="headerlink" title="锚点伪类"></a>锚点伪类</h5><h6 id="锚点伪类爱恨原则（LoVe-HAte）"><a href="#锚点伪类爱恨原则（LoVe-HAte）" class="headerlink" title="锚点伪类爱恨原则（LoVe/HAte）"></a>锚点伪类爱恨原则（LoVe/HAte）</h6><p>为了可以正确地渲染链接元素的样式，<code>:link</code>伪类选择器应当放在其他伪类选择器的前面，并且遵循LVHA的先后顺序，即：<code>:link</code> — <code>:visited</code> — <code>:hover</code> — <code>:active</code>。</p>
+<h6 id="link"><a href="#link" class="headerlink" title=":link"></a><code>:link</code></h6><p><code>:link</code>伪类选择器是用来选中元素当中的链接。它将会选中所有尚未访问的链接，包括那些已经给定了其他伪类选择器的链接（例如<code>:hover</code>选择器，<code>:active</code>选择器，<code>:visited</code>选择器）。</p>
+<h6 id="visited"><a href="#visited" class="headerlink" title=":visited"></a><code>:visited</code></h6><p><code>:link</code>伪类选择器是用来选中所有已访问过的链接</p>
+<h5 id="用户行为伪类"><a href="#用户行为伪类" class="headerlink" title="用户行为伪类"></a>用户行为伪类</h5><p><code>:hover</code>: 用于当用户把鼠标移动到元素上面时的效果<br><code>:active</code>: 用于用户点击元素那一下的效果( 正发生在点的那一下，松开鼠标左键此动作也就完成了 )<br><code>:focus</code>: 用于元素成为焦点，这个经常用在表单元素上</p>
+<h4 id="UI元素状态伪类"><a href="#UI元素状态伪类" class="headerlink" title="UI元素状态伪类"></a>UI元素状态伪类</h4><p>我们把<code>:enabled</code>,<code>:disabled</code>,<code>:checked</code>伪类称为UI元素状态伪类，这些主要是针对于HTML中的Form元素操作。<br>最常见的比如我们”type=”text”有<code>enable</code>和<code>disabled</code>两种状态，前者为可写状态后者为不可状态；另外”type=”radio”和”type=”checkbox”有<code>checked</code>和<code>unchecked</code>两种状态。<br>IE6-8不支持<code>:checked</code>,<code>:enabled</code>,<code>:disabled</code>这三种选择器。</p>
+<h3 id="CSS3的-nth选择器"><a href="#CSS3的-nth选择器" class="headerlink" title="CSS3的:nth选择器"></a>CSS3的:nth选择器</h3><p>需要注意的是CSS3添加的nth选择器在IE8下不支持。</p>
+<ul>
+<li><code>:first-child</code>选择某个元素的第一个子元素；</li>
+<li><code>:last-child</code>选择某个元素的最后一个子元素；</li>
+<li><code>:nth-child()</code>选择某个元素的一个或多个特定的子元素；</li>
+<li><code>:nth-last-child()</code>选择某个元素的一个或多个特定的子元素，从这个元素的最后一个子元素开始算；</li>
+<li><code>:nth-of-type()</code>选择指定的元素；</li>
+<li><code>:nth-last-of-type()</code>选择指定的元素，从元素的最后一个开始计算；</li>
+<li><code>:first-of-type</code>选择一个上级元素下的第一个同类子元素；</li>
+<li><code>:last-of-type</code>选择一个上级元素的最后一个同类子元素；</li>
+<li><code>:only-child</code>选择的元素是它的父元素的唯一一个了元素；</li>
+<li><code>:only-of-type</code>选择一个元素是它的上级元素的唯一一个相同类型的子元素；</li>
+<li><code>:empty</code>选择的元素里面没有任何内容。</li>
+</ul>
+<h2 id="选择器权重"><a href="#选择器权重" class="headerlink" title="选择器权重"></a>选择器权重</h2><p>权重，也就是选择器的优先级，每条选择器的规则都有其权重，权重大的会覆盖掉权重小的，很多CSS出现问题的场景，都是某处定义了一个更高权重的规则，导致此处规则不生效。</p>
+<h3 id="权重的计算"><a href="#权重的计算" class="headerlink" title="权重的计算"></a>权重的计算</h3><p>通过这篇文章<a href="http://www.w3cplus.com/css/css-specificity-things-you-should-know.html" target="_blank" rel="noopener">你应该知道的一些事情——CSS权重</a>。了解下权重的计算，主要的规则就是:<br><strong>id选择器 &gt; 类，属性选择器和伪类选择器 &gt; 元素和伪元素</strong><br>需要注意的是<code>!improtant</code>,凡是属性值后加上了<code>!important</code>，那么它的值不会被其他值替换。</p>
+<p>根据样式所在位置，对元素的影响也有关系：<strong>内联样式( 标签内style形式 ) &gt; style标签 &gt; link标签</strong>。</p>
+<h2 id="CSS解析器"><a href="#CSS解析器" class="headerlink" title="CSS解析器"></a>CSS解析器</h2><p>HTML 经过解析生成 DOM Tree；而在 CSS 解析完毕后，需要将解析的结果与 DOM Tree 的内容一起进行分析建立一棵 Render tree，最终用来进行绘图。<br>Render tree 中的元素( WebKit 中称为<code>renderers</code>，Firefox 下为<code>frames</code> )与 DOM 元素相对应，但非一一对应：一个 DOM 元素可能会对应多个<code>renderer</code>，如文本折行后，不同的行会成为 Render tree 中不同的<code>renderer</code>。也有的 DOM 元素被 Render tree 完全无视，比如<code>display:none</code>的元素。</p>
+<p>在建立 Render tree 时( WebKit 中的<code>Attachment</code>过程 )，浏览器就要为每个 DOM Tree 中的元素根据 CSS 的解析结果( Style Rules )来确定生成怎样的<code>renderer</code>。对于每个 DOM 元素，必须在所有 Style Rules 中找到符合的<code>selector</code>并将对应的规则进行合并。选择器的解析实际是在这里执行的，在遍历 DOM Tree 时，从 Style Rules 中去寻找对应的<code>selector</code>。</p>
+<h3 id="解析顺序–从右到左原则"><a href="#解析顺序–从右到左原则" class="headerlink" title="解析顺序–从右到左原则"></a>解析顺序–从右到左原则</h3><p>浏览器读取你的选择器，遵循的原则是从选择器的右边到左边读取。换句话说，浏览器读取选择器的顺序是由右到左进行著作权归作者所有，即<strong>选择器从右到左的原则</strong>。</p>
+<p>CSS匹配不是从左到右进行查找，而是从右到左进行查找。如果从左到右的顺序，那么每条选择器都需要遍历整个DOM树，性能很受影响。所谓高效的CSS就是让浏览器在查找style匹配的元素的时候尽量进行少的查找。</p>
+<p>选择器的最后一部分，也就是选择器的最右边部分被称为<strong>“关键选择器”</strong>，它将决定你的选择器的效率如何？是高还是低。</p>
+<h3 id="选择器优化"><a href="#选择器优化" class="headerlink" title="选择器优化"></a>选择器优化</h3><h4 id="选择器效率"><a href="#选择器效率" class="headerlink" title="选择器效率"></a>选择器效率</h4><ul>
+<li>id选择器（<code>#myid</code>）</li>
+<li>类选择器（<code>.myclassname</code>）</li>
+<li>标签选择器（<code>div</code>,<code>h1</code>,<code>p</code>）</li>
+<li>相邻选择器（<code>h1+p</code>）</li>
+<li>子选择器（<code>ul &gt; li</code>）</li>
+<li>后代选择器（<code>li a</code>）</li>
+<li>通配符选择器（<code>*</code>）</li>
+<li>属性选择器（<code>a[rel=&quot;external&quot;</code>]）</li>
+<li>伪类选择器（<code>a:hover</code>,<code>li:nth-child</code>）</li>
+</ul>
+<p>id和类名用于关键选择器上效率是最高的，而CSS3的仿伪类和属性选择器，虽然使用方便，但其效率却是最低的。</p>
+<h4 id="几种书写高效率的CSS选择器"><a href="#几种书写高效率的CSS选择器" class="headerlink" title="几种书写高效率的CSS选择器"></a>几种书写高效率的CSS选择器</h4><ul>
+<li>避免普遍规则</li>
+<li>不要在ID选择器前加标签名或类名</li>
+<li>不要在类名选择器前加标签名</li>
+<li>尽可能使用具体的类别</li>
+<li>避免使用后代选择器</li>
+<li>标签分类规则中不应该包含一个子选择器</li>
+<li>子选择器的问题</li>
+<li>借助相关继承关系</li>
+<li>使用范围内的样式表</li>
+</ul>
+<p>附CSS选择器图：<br><img src="/img/css-selector.jpg" alt="CSS选择器"></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://leohxj.gitbooks.io/front-end-database/html-and-css-basic/css-selector.html" target="_blank" rel="noopener">CSS选择器</a></li>
+<li><a href="http://www.w3cplus.com/css/css-selector-performance" target="_blank" rel="noopener">CSS选择器的优化</a></li>
+<li><a href="https://www.w3cplus.com/css3/pseudo-class-selector" target="_blank" rel="noopener">CSS3 选择器——伪类选择器</a></li>
+<li><a href="https://csswizardry.com/2011/09/writing-efficient-css-selectors/" target="_blank" rel="noopener">Writing efficient CSS selectors</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    zxlg
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://happylg.cn/2017/09/25/css-selector/" title="CSS选择器总结">http://happylg.cn/2017/09/25/css-selector/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/css/" rel="tag"># css</a>
+          
+            <a href="/tags/css解析器/" rel="tag"># css解析器</a>
+          
+            <a href="/tags/css选择器/" rel="tag"># css选择器</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/24/css-clearfix/" rel="next" title="CSS清除浮动/闭合浮动">
+                <i class="fa fa-chevron-left"></i> CSS清除浮动/闭合浮动
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/25/css-all-center/" rel="prev" title="CSS实现水平垂直居中">
+                CSS实现水平垂直居中 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/avatar.png" alt="zxlg">
+          <p class="site-author-name" itemprop="name">zxlg</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">65</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">98</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/zxlg1993" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      微博
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/gongzhibin" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
+            </a>
+          </div>
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#选择器类型"><span class="nav-number">1.</span> <span class="nav-text">选择器类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本选择器"><span class="nav-number">1.1.</span> <span class="nav-text">基本选择器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性选择器"><span class="nav-number">1.2.</span> <span class="nav-text">属性选择器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#伪类选择器"><span class="nav-number">1.3.</span> <span class="nav-text">伪类选择器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#动态伪类"><span class="nav-number">1.3.1.</span> <span class="nav-text">动态伪类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#锚点伪类"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">锚点伪类</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#锚点伪类爱恨原则（LoVe-HAte）"><span class="nav-number">1.3.1.1.1.</span> <span class="nav-text">锚点伪类爱恨原则（LoVe/HAte）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#link"><span class="nav-number">1.3.1.1.2.</span> <span class="nav-text">:link</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#visited"><span class="nav-number">1.3.1.1.3.</span> <span class="nav-text">:visited</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#用户行为伪类"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">用户行为伪类</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UI元素状态伪类"><span class="nav-number">1.3.2.</span> <span class="nav-text">UI元素状态伪类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS3的-nth选择器"><span class="nav-number">1.4.</span> <span class="nav-text">CSS3的:nth选择器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择器权重"><span class="nav-number">2.</span> <span class="nav-text">选择器权重</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#权重的计算"><span class="nav-number">2.1.</span> <span class="nav-text">权重的计算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS解析器"><span class="nav-number">3.</span> <span class="nav-text">CSS解析器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解析顺序–从右到左原则"><span class="nav-number">3.1.</span> <span class="nav-text">解析顺序–从右到左原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择器优化"><span class="nav-number">3.2.</span> <span class="nav-text">选择器优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#选择器效率"><span class="nav-number">3.2.1.</span> <span class="nav-text">选择器效率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#几种书写高效率的CSS选择器"><span class="nav-number">3.2.2.</span> <span class="nav-text">几种书写高效率的CSS选择器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zxlg</span>
+
+  
+</div>
+
+
+  <div class="powered-by">
+    由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  </div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">
+    主题 &mdash;
+    <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+      NexT.Mist
+    </a>
+  </div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  
+
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://happylg.cn/2017/09/25/css-selector/';
+          this.page.identifier = '2017/09/25/css-selector/';
+          this.page.title = 'CSS选择器总结';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://happylg.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("hR3ATs8pfE23chEpVt6B1ovg-gzGzoHsz", "oIbFkcd43Cjd1FqkymLs6o2D");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

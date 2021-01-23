@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="html,inline,block,inline-block,嵌套,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zxlg's notes" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="区别块级元素CSS格式：display:block;总是独占一行，表现为另起一行开始，而且其后的元素也必须另起一行显示;宽度(width)、高度(height)、内边距(padding)和外边距(margin)都可控制;">
+<meta name="keywords" content="html,inline,block,inline-block,嵌套">
+<meta property="og:type" content="article">
+<meta property="og:title" content="行内元素与块级元素及元素嵌套问题总结">
+<meta property="og:url" content="http://happylg.cn/2017/09/22/block-and-inline/index.html">
+<meta property="og:site_name" content="zxlg&#39;s notes">
+<meta property="og:description" content="区别块级元素CSS格式：display:block;总是独占一行，表现为另起一行开始，而且其后的元素也必须另起一行显示;宽度(width)、高度(height)、内边距(padding)和外边距(margin)都可控制;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://happylg.cn/img/content-model.jpg">
+<meta property="og:updated_time" content="2019-08-12T12:15:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="行内元素与块级元素及元素嵌套问题总结">
+<meta name="twitter:description" content="区别块级元素CSS格式：display:block;总是独占一行，表现为另起一行开始，而且其后的元素也必须另起一行显示;宽度(width)、高度(height)、内边距(padding)和外边距(margin)都可控制;">
+<meta name="twitter:image" content="http://happylg.cn/img/content-model.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://happylg.cn/2017/09/22/block-and-inline/">
+
+
+
+
+
+  <title>行内元素与块级元素及元素嵌套问题总结 | zxlg's notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zxlg's notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://happylg.cn/2017/09/22/block-and-inline/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zxlg">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zxlg's notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">行内元素与块级元素及元素嵌套问题总结</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-22T22:13:57+08:00">
+                2017-09-22
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-08-12T20:15:47+08:00">
+                2019-08-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTML/" itemprop="url" rel="index">
+                    <span itemprop="name">HTML</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/09/22/block-and-inline/" class="leancloud_visitors" data-flag-title="行内元素与块级元素及元素嵌套问题总结">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><h3 id="块级元素"><a href="#块级元素" class="headerlink" title="块级元素"></a>块级元素</h3><p>CSS格式：<code>display:block;</code><br>总是独占一行，表现为另起一行开始，而且其后的元素也必须另起一行显示;<br>宽度(<code>width</code>)、高度(<code>height</code>)、内边距(<code>padding</code>)和外边距(<code>margin</code>)都可控制;<br><a id="more"></a><br>块级元素表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">块级元素标签</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>&lt;address&gt;</code></td>
+<td style="text-align:center">定义地址</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;caption&gt;</code></td>
+<td style="text-align:center">定义表格标题</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;dd&gt;</code></td>
+<td style="text-align:center">定义列表中定义条目</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;div&gt;</code></td>
+<td style="text-align:center">定义文档中的分区或节</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;dl&gt;</code></td>
+<td style="text-align:center">定义列表</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;dt&gt;</code></td>
+<td style="text-align:center">定义列表中的项目</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;fieldset&gt;</code></td>
+<td style="text-align:center">定义一个框架集</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;form&gt;</code></td>
+<td style="text-align:center">创建 HTML 表单</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;h1&gt;</code></td>
+<td style="text-align:center">定义最大的标题</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;h2&gt;</code></td>
+<td style="text-align:center">定义副标题</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;h3&gt;</code></td>
+<td style="text-align:center">定义标题</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;h4&gt;</code></td>
+<td style="text-align:center">定义标题</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;h5&gt;</code></td>
+<td style="text-align:center">定义标题</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;h6&gt;</code></td>
+<td style="text-align:center">定义最小的标题</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;hr&gt;</code></td>
+<td style="text-align:center">创建一条水平线</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;legend&gt;</code></td>
+<td style="text-align:center">元素为<code>fieldset</code>元素定义标题</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;li&gt;</code></td>
+<td style="text-align:center">标签定义列表项目</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;noframes&gt;</code></td>
+<td style="text-align:center">为那些不支持框架的浏览器显示文本，于<code>frameset</code>元素内部</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;noscript&gt;</code></td>
+<td style="text-align:center">定义在脚本未被执行时的替代内容</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;ol&gt;</code></td>
+<td style="text-align:center">定义有序列表</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;ul&gt;</code></td>
+<td style="text-align:center">定义无序列表</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;p&gt;</code></td>
+<td style="text-align:center">标签定义段落</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;pre&gt;</code></td>
+<td style="text-align:center">定义预格式化的文本</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;table&gt;</code></td>
+<td style="text-align:center">标签定义HTML表格</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;tbody&gt;</code></td>
+<td style="text-align:center">标签表格主体（正文）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;td&gt;</code></td>
+<td style="text-align:center">表格中的标准单元格</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;tfoot&gt;</code></td>
+<td style="text-align:center">定义表格的页脚（脚注或表注）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;th&gt;</code></td>
+<td style="text-align:center">定义表头单元格</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;thead&gt;</code></td>
+<td style="text-align:center">标签定义表格的表头</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;tr&gt;</code></td>
+<td style="text-align:center">定义表格中的行</td>
+</tr>
+</tbody>
+</table>
+<h3 id="行内元素"><a href="#行内元素" class="headerlink" title="行内元素"></a>行内元素</h3><p>和相邻的内联元素在同一行;<br>水平方向的left/right（<code>padding-left</code>, <code>padding-right</code>, <code>margin-left</code>, <code>margin-right</code>）都产生边距效果;<br>宽度(<code>width</code>)、高度(<code>height</code>)、<strong>内边距的<code>top/bottom</code>(<code>padding-top</code>/<code>padding-bottom</code>)和外边距的<code>top</code>/<code>bottom</code>(<code>margin-top</code>/<code>margin-bottom</code>)都不可改变</strong>，就是里面文字或图片的大小;</p>
+<p>行内元素列表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">行内元素标签</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>&lt;a&gt;</code></td>
+<td style="text-align:center">标签可定义锚</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;abbr&gt;</code></td>
+<td style="text-align:center">表示一个缩写形式</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;acronym&gt;</code></td>
+<td style="text-align:center">定义只取首字母缩写</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;b&gt;</code></td>
+<td style="text-align:center">字体加粗</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;bdo&gt;</code></td>
+<td style="text-align:center">可覆盖默认的文本方向</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;big&gt;</code></td>
+<td style="text-align:center">大号字体加粗</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;br&gt;</code></td>
+<td style="text-align:center">换行</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;cite&gt;</code></td>
+<td style="text-align:center">引用进行定义</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;code&gt;</code></td>
+<td style="text-align:center">定义计算机代码文本</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;dfn&gt;</code></td>
+<td style="text-align:center">定义一个定义项目</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;em&gt;</code></td>
+<td style="text-align:center">定义为强调的内容</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;i&gt;</code></td>
+<td style="text-align:center">斜体文本效果</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;img&gt;</code></td>
+<td style="text-align:center">向网页中嵌入一幅图像</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;input&gt;</code></td>
+<td style="text-align:center">输入框</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;kbd&gt;</code></td>
+<td style="text-align:center">定义键盘文本</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;label&gt;</code></td>
+<td style="text-align:center">标签为<code>input</code>元素定义标注（标记）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;q&gt;</code></td>
+<td style="text-align:center">定义短的引用</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;samp&gt;</code></td>
+<td style="text-align:center">定义样本文本</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;select&gt;</code></td>
+<td style="text-align:center">创建单选或多选菜单</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;small&gt;</code></td>
+<td style="text-align:center">呈现小号字体效果</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;span&gt;</code></td>
+<td style="text-align:center">组合文档中的行内元素</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;strong&gt;</code></td>
+<td style="text-align:center">语气更强的强调的内容</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;sub&gt;</code></td>
+<td style="text-align:center">定义下标文本</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;sup&gt;</code></td>
+<td style="text-align:center">定义上标文本</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;textarea&gt;</code></td>
+<td style="text-align:center">多行的文本输入控件</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;tt&gt;</code></td>
+<td style="text-align:center">打字机或者等宽的文本效果</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;var&gt;</code></td>
+<td style="text-align:center">定义变量</td>
+</tr>
+</tbody>
+</table>
+<h3 id="行内块级元素"><a href="#行内块级元素" class="headerlink" title="行内块级元素"></a>行内块级元素</h3><p>将对象呈现为inline对象，但是对象的内容作为block对象呈现。之后的内联对象会被排列在同一行内。使其同时具有block的宽高特性和inline的同行特性</p>
+<h2 id="嵌套规则"><a href="#嵌套规则" class="headerlink" title="嵌套规则"></a>嵌套规则</h2><p>引用自:<a href="https://www.zhihu.com/question/37797740/answer/73555038" target="_blank" rel="noopener">HTML 标签的嵌套规则</a></p>
+<ol>
+<li><p>块元素可以包含内联元素或某些块元素，但内联元素却不能包含块元素，它只能包含其它的内联元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;&lt;h1&gt;&lt;/h1&gt;&lt;p&gt;&lt;/p&gt;&lt;/div&gt; ------ 对　　</span><br><span class="line">&lt;a href=”#”&gt;&lt;span&gt;&lt;/span&gt;&lt;/a&gt; ------ 对　　</span><br><span class="line">&lt;span&gt;&lt;div&gt;&lt;/div&gt;&lt;/span&gt; ------ 错</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>块级元素不能放在<code>&lt;p&gt;</code>里面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;&lt;ol&gt;&lt;li&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/p&gt; ------ 错</span><br><span class="line">&lt;p&gt;&lt;div&gt;&lt;/div&gt;&lt;/p&gt; ------ 错</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>有几个特殊的块级元素只能包含内嵌元素，不能再包含块级元素，这几个特殊的标签是：<code>h1</code>、<code>h2</code>、<code>h3</code>、<code>h4</code>、<code>h5</code>、<code>h6</code>、<code>p</code>、<code>dt</code></p>
+</li>
+<li><code>li</code>内可以包含<code>div</code>标签—-这一条其实不必单独列出来的，但是网上许多人对此有些疑惑，就在这里略加说明：<code>li</code>和<code>div</code>标签都是装载内容的容器，地位平等，没有级别之分（例如：<code>h1</code>、<code>h2</code>这样森严的等级制度^_^），要知道，<code>li</code>标签连它的父级<code>ul</code>或者是<code>ol</code>都 可以容纳的，为什么有人会觉得<code>li</code>偏偏容纳不下一个<code>div</code>呢？　</li>
+<li>块级元素与块级元素并列、内嵌元素与内嵌元素并列<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;&lt;h2&gt;&lt;/h2&gt;&lt;p&gt;&lt;/p&gt;&lt;/div&gt; ------ 对</span><br><span class="line">&lt;div&gt;&lt;a href=”#”&gt;&lt;/a&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt; ------ 对</span><br><span class="line">&lt;div&gt;&lt;h2&gt;&lt;/h2&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt; ------ 错</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="HTML5元素分类"><a href="#HTML5元素分类" class="headerlink" title="HTML5元素分类"></a>HTML5元素分类</h3><p>引用自：<a href="http://blog.shaochuancs.com/w3c-html5-content-model/" target="_blank" rel="noopener">元素分类与内容模型</a><br>在HTML5中，标准制定者重新定义了HTML元素的分类，并根据这一新的分类定义了元素的内容模型(Content Model) – 对于一个元素而言，哪些子元素是合法的，而哪些子元素是非法的。<br>HTML5中，元素主要分为7类：</p>
+<ol>
+<li>Metadata</li>
+<li>Flow</li>
+<li>Sectioning</li>
+<li>Heading</li>
+<li>Phrasing</li>
+<li>Embedded</li>
+<li>Interactive</li>
+</ol>
+<p><img src="/img/content-model.jpg" alt="Content Model"></p>
+<h4 id="Metadata（元数据元素）"><a href="#Metadata（元数据元素）" class="headerlink" title="Metadata（元数据元素）"></a>Metadata（元数据元素）</h4><p>顾名思义，<strong>Metadata元素意指那些定义文档元数据信息的元素</strong> — 其作用包括：影响文档中其它节点的展现与行为、定义文档与其它外部资源之间的关系等。以下元素属于Metadata：<code>base</code>, <code>link</code>, <code>meta</code>, <code>noscript</code>, <code>script</code>, <code>style</code>, <code>template</code>, <code>title</code>。</p>
+<h4 id="Flow（流式元素）"><a href="#Flow（流式元素）" class="headerlink" title="Flow（流式元素）"></a>Flow（流式元素）</h4><p><strong>所有可以放在body标签内</strong>，构成文档内容的元素均属于Flow元素。因此，除了<code>base</code>, <code>link</code>, <code>meta</code>, <code>style</code>, <code>title</code>等只能放在<code>head</code>标签内的元素外，剩下的所有元素均属于Flow元素。具体包含：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a， abbr， address， area（如果它是map元素的后裔）， article， aside， audio， b，</span><br><span class="line">bdi， bdo， blockquote， br， button， canvas， cite， code， command， datalist， </span><br><span class="line">del， details， dfn， div， dl，em， embed， fieldset， figure， footer， form，</span><br><span class="line">h1， h2， h3， h4， h5， h6， header， hgroup， hr， i， iframe， img， input， </span><br><span class="line">ins， kbd， keygen， label， map， mark， math， menu， meter，nav， noscript， </span><br><span class="line">object， ol， output， p， pre， progress， q， ruby， s， samp， script， section，</span><br><span class="line">select， small， span， strong， style（如果该元素设置了scoped属性）， sub， sup，</span><br><span class="line">svg， table，textarea， time， u， ul， var， video， wbr， text</span><br></pre></td></tr></table></figure></p>
+<h4 id="Sectioning（章节元素）"><a href="#Sectioning（章节元素）" class="headerlink" title="Sectioning（章节元素）"></a>Sectioning（章节元素）</h4><p>Sectioning意指定义页面结构的元素，具体包含以下四个：<code>article</code>, <code>aside</code>, <code>nav</code>, <code>section</code>。</p>
+<h4 id="Heading（标题元素）"><a href="#Heading（标题元素）" class="headerlink" title="Heading（标题元素）"></a>Heading（标题元素）</h4><p>所有标题元素属于Heading，也即以下6个元素：<code>h1</code>, <code>h2</code>, <code>h3</code>, <code>h4</code>, <code>h5</code>, <code>h6</code>。</p>
+<h4 id="Phrasing（段落元素）"><a href="#Phrasing（段落元素）" class="headerlink" title="Phrasing（段落元素）"></a>Phrasing（段落元素）</h4><p><strong>所有可以放在p标签内，构成段落内容的元素均属于Phrasing元素</strong>。因此，所有Phrasing元素均属于Flow元素。在HTML5标准文档中，关于Phrasing元素的原始定义为：</p>
+<blockquote>
+<p>Phrasing content is the text of the document, as well as elements that mark up that text at the intra-paragraph level. Runs of phrasing content form paragraphs.</p>
+</blockquote>
+<p>对于这一定义，个人认为不应当使用“text”这一容易引起误解的词，事实上，一个元素即使不是文本，只要能包含在p标签中成为段落内容的一部分，就可以称之为Phrasing元素。比如：<code>audio</code>、<code>video</code>、<code>img</code>、<code>select</code>、<code>input</code>等元素(经测试，这些元素都可以放置在p标签中)。<br>具体包含如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a（如果其只包含段落式元素）， abbr， area（如果它是map元素的后裔）， audio， b，</span><br><span class="line">bdi， bdo， br， button， canvas， cite， code， command， datalist， </span><br><span class="line">del（如果其只包含段落式元素）， dfn， em， embed， i，iframe， img， input， </span><br><span class="line">ins（如果其只包含段落式元素）， kbd， keygen， label， map（如果其只包含段落式元素），</span><br><span class="line">mark， math， meter， noscript， object， output， progress， q， ruby， s，</span><br><span class="line">samp， script，select， small， span， strong， sub， sup， svg， textarea，</span><br><span class="line">time， u， var， video， wbr， text</span><br></pre></td></tr></table></figure></p>
+<p>Phrasing元素内部一般只能包含别的Phrasing元素。<br>关于Phrasing元素，<a href="https://stackoverflow.com/questions/30233447/what-is-the-difference-between-phrasing-content-and-flow-content" target="_blank" rel="noopener">Stackoverflow上有一个比较精彩的问答</a>，可供参考。</p>
+<h4 id="Embedded（嵌入元素）"><a href="#Embedded（嵌入元素）" class="headerlink" title="Embedded（嵌入元素）"></a>Embedded（嵌入元素）</h4><p>所有用于在网页中<strong>嵌入外部资源的元素</strong>均属于Embedded元素，具体包含以下9个：<code>audio</code>, <code>video</code>, <code>img</code>, <code>canvas</code>, <code>svg</code>, <code>iframe</code>, <code>embed</code>, <code>object</code>, <code>math</code>。</p>
+<h4 id="Interactive（交互元素）"><a href="#Interactive（交互元素）" class="headerlink" title="Interactive（交互元素）"></a>Interactive（交互元素）</h4><p>所有与用户交互有关的元素均属于Interactive元素，包括<code>a</code>, <code>input</code>, <code>textarea</code>, <code>select</code>等。<br>具体包含如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a， audio（如果设置了controls属性）， button， details， embed， iframe，</span><br><span class="line">img（如果设置了usemap属性）， input（如果type属性不为hidden状态）， keygen， label，</span><br><span class="line">menu（如果type属性为toolbar状态），object（如果设置了usemap属性）， select， </span><br><span class="line">textarea， video（如果设置了controls属性）</span><br></pre></td></tr></table></figure></p>
+<h3 id="HTML5内容模型-Content-Model"><a href="#HTML5内容模型-Content-Model" class="headerlink" title="HTML5内容模型(Content Model)"></a>HTML5内容模型(Content Model)</h3><p>根据以上元素分类，HTML5标准文档定义了任何元素的内容模型 — 对于该元素而言，何种子元素才是合法的。<br>比如，对于p元素而言，其内容模型为Phrasing, 这意味着<code>p</code>元素只接受Phrasing元素为子元素，而对于像<code>div</code>这样的非Phrasing元素则并不接受。类似的，<code>li</code>元素的内容模型为Flow，因此任何可以放置在<code>body</code>中的元素都可以作为<code>li</code>元素的子元素。</p>
+<h4 id="透明内容模型-Transparent-content-models"><a href="#透明内容模型-Transparent-content-models" class="headerlink" title="透明内容模型(Transparent content models)"></a>透明内容模型(Transparent content models)</h4><p>值得注意的是，HTML5标准文档在定义元素的内容模型时，会使用一类特殊的分类：<strong>透明内容模型(transparent) — 对于内容模型为透明(transparent)的元素而言，其子元素的合法性由其父元素所决定；如果其父元素的内容模型仍为透明，则查看其祖父元素的情况，并依此类推；如果向上推演至body标签仍未找到任何内容模型非透明的父级元素，则该透明元素内部可包含任何Flow元素。</strong><br>透明元素目前W3C中也没有给出明确的包含哪些元素，从段落元素中推断透明内容模型元素有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a, ins, del, map</span><br></pre></td></tr></table></figure></p>
+<p><strong>典型的具有透明内容模型的元素为<code>a</code>元素</strong>。因此，当<code>a</code>出现在<code>p</code>标签中时，<code>a</code>不能接受<code>div</code>作为子元素；而当<code>a</code>出现在<code>div</code>标签中时，<code>a</code>可以接受<code>div</code>作为子元素。对此，<a href="http://www.zhihu.com/question/34952563" target="_blank" rel="noopener">知乎上有一个问答解释了这种现象</a>。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://www.zhihu.com/question/34952563/answer/60672228" target="_blank" rel="noopener">a 标签为什么能够包含块级元素？</a></li>
+<li><a href="http://blog.shaochuancs.com/w3c-html5-content-model/" target="_blank" rel="noopener">W3C HTML5标准阅读笔记 – 元素分类与内容模型(Content Model)</a></li>
+<li><a href="http://www.w3.org/TR/html5/dom.html#content-models" target="_blank" rel="noopener">content-models</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    zxlg
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://happylg.cn/2017/09/22/block-and-inline/" title="行内元素与块级元素及元素嵌套问题总结">http://happylg.cn/2017/09/22/block-and-inline/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/html/" rel="tag"># html</a>
+          
+            <a href="/tags/inline/" rel="tag"># inline</a>
+          
+            <a href="/tags/block/" rel="tag"># block</a>
+          
+            <a href="/tags/inline-block/" rel="tag"># inline-block</a>
+          
+            <a href="/tags/嵌套/" rel="tag"># 嵌套</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/22/cross-origin/" rel="next" title="跨域总结">
+                <i class="fa fa-chevron-left"></i> 跨域总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/23/http-head/" rel="prev" title="HTTP首部字段解析">
+                HTTP首部字段解析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/avatar.png" alt="zxlg">
+          <p class="site-author-name" itemprop="name">zxlg</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">65</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">98</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/zxlg1993" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      微博
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/gongzhibin" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
+            </a>
+          </div>
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#区别"><span class="nav-number">1.</span> <span class="nav-text">区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#块级元素"><span class="nav-number">1.1.</span> <span class="nav-text">块级元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#行内元素"><span class="nav-number">1.2.</span> <span class="nav-text">行内元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#行内块级元素"><span class="nav-number">1.3.</span> <span class="nav-text">行内块级元素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#嵌套规则"><span class="nav-number">2.</span> <span class="nav-text">嵌套规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML5元素分类"><span class="nav-number">2.1.</span> <span class="nav-text">HTML5元素分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Metadata（元数据元素）"><span class="nav-number">2.1.1.</span> <span class="nav-text">Metadata（元数据元素）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Flow（流式元素）"><span class="nav-number">2.1.2.</span> <span class="nav-text">Flow（流式元素）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sectioning（章节元素）"><span class="nav-number">2.1.3.</span> <span class="nav-text">Sectioning（章节元素）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Heading（标题元素）"><span class="nav-number">2.1.4.</span> <span class="nav-text">Heading（标题元素）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Phrasing（段落元素）"><span class="nav-number">2.1.5.</span> <span class="nav-text">Phrasing（段落元素）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Embedded（嵌入元素）"><span class="nav-number">2.1.6.</span> <span class="nav-text">Embedded（嵌入元素）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Interactive（交互元素）"><span class="nav-number">2.1.7.</span> <span class="nav-text">Interactive（交互元素）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML5内容模型-Content-Model"><span class="nav-number">2.2.</span> <span class="nav-text">HTML5内容模型(Content Model)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#透明内容模型-Transparent-content-models"><span class="nav-number">2.2.1.</span> <span class="nav-text">透明内容模型(Transparent content models)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">3.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zxlg</span>
+
+  
+</div>
+
+
+  <div class="powered-by">
+    由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  </div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">
+    主题 &mdash;
+    <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+      NexT.Mist
+    </a>
+  </div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  
+
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://happylg.cn/2017/09/22/block-and-inline/';
+          this.page.identifier = '2017/09/22/block-and-inline/';
+          this.page.title = '行内元素与块级元素及元素嵌套问题总结';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://happylg.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("hR3ATs8pfE23chEpVt6B1ovg-gzGzoHsz", "oIbFkcd43Cjd1FqkymLs6o2D");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

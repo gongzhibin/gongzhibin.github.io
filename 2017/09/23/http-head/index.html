@@ -1,0 +1,1742 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="HTTP,首部,首部字段,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="zxlg's notes" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="HTTP 首部字段HTTP 首部字段作用起传递重要信息的作用。使用首部字段是为了给浏览器和服务器提供报文主体大小、所使用的语言、认证信息等内容。 HTTP 首部字段结构HTTP首部字段是由首部字段名和字段值构成的，中间用冒号:分隔。">
+<meta name="keywords" content="HTTP,首部,首部字段">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP首部字段解析">
+<meta property="og:url" content="http://happylg.cn/2017/09/23/http-head/index.html">
+<meta property="og:site_name" content="zxlg&#39;s notes">
+<meta property="og:description" content="HTTP 首部字段HTTP 首部字段作用起传递重要信息的作用。使用首部字段是为了给浏览器和服务器提供报文主体大小、所使用的语言、认证信息等内容。 HTTP 首部字段结构HTTP首部字段是由首部字段名和字段值构成的，中间用冒号:分隔。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-12T12:15:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTTP首部字段解析">
+<meta name="twitter:description" content="HTTP 首部字段HTTP 首部字段作用起传递重要信息的作用。使用首部字段是为了给浏览器和服务器提供报文主体大小、所使用的语言、认证信息等内容。 HTTP 首部字段结构HTTP首部字段是由首部字段名和字段值构成的，中间用冒号:分隔。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://happylg.cn/2017/09/23/http-head/">
+
+
+
+
+
+  <title>HTTP首部字段解析 | zxlg's notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zxlg's notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://happylg.cn/2017/09/23/http-head/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zxlg">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zxlg's notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">HTTP首部字段解析</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-23T20:43:11+08:00">
+                2017-09-23
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-08-12T20:15:47+08:00">
+                2019-08-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络/" itemprop="url" rel="index">
+                    <span itemprop="name">网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/09/23/http-head/" class="leancloud_visitors" data-flag-title="HTTP首部字段解析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="HTTP-首部字段"><a href="#HTTP-首部字段" class="headerlink" title="HTTP 首部字段"></a>HTTP 首部字段</h2><h3 id="HTTP-首部字段作用"><a href="#HTTP-首部字段作用" class="headerlink" title="HTTP 首部字段作用"></a>HTTP 首部字段作用</h3><p>起传递重要信息的作用。<br>使用首部字段是为了给浏览器和服务器提供报文主体大小、所使用的语言、认证信息等内容。</p>
+<h3 id="HTTP-首部字段结构"><a href="#HTTP-首部字段结构" class="headerlink" title="HTTP 首部字段结构"></a>HTTP 首部字段结构</h3><p>HTTP首部字段是由首部字段名和字段值构成的，中间用冒号<code>:</code>分隔。<br><a id="more"></a></p>
+<h3 id="四种-HTTP-首部字段类型"><a href="#四种-HTTP-首部字段类型" class="headerlink" title="四种 HTTP 首部字段类型"></a>四种 HTTP 首部字段类型</h3><p>HTTP首部字段根据实际用途被分为以下四种类型。</p>
+<h4 id="通用首部字段（General-Header-Fields）"><a href="#通用首部字段（General-Header-Fields）" class="headerlink" title="通用首部字段（General Header Fields）"></a>通用首部字段（<code>General Header Fields</code>）</h4><p>请求报文和响应报文两方都会使用的首部。</p>
+<h4 id="请求首部字段（Request-Header-Fields）"><a href="#请求首部字段（Request-Header-Fields）" class="headerlink" title="请求首部字段（Request Header Fields）"></a>请求首部字段（<code>Request Header Fields</code>）</h4><p>从客户端向服务器端发送请求报文时使用的首部。补充了请求的附加内容、客户端信息、响应内容相关优先级等信息。</p>
+<h4 id="响应首部字段（Response-Header-Fields）"><a href="#响应首部字段（Response-Header-Fields）" class="headerlink" title="响应首部字段（Response Header Fields）"></a>响应首部字段（<code>Response Header Fields</code>）</h4><p>从服务器端向客户端返回响应报文时使用的首部。补充了响应的附加内容，也会要求客户端附加额外的内容信息。</p>
+<h4 id="实体首部字段（Entity-Header-Fields）"><a href="#实体首部字段（Entity-Header-Fields）" class="headerlink" title="实体首部字段（Entity Header Fields）"></a>实体首部字段（<code>Entity Header Fields</code>）</h4><p>针对请求报文和响应报文的实体部分使用的首部。补充了资源内容更新时间等与实体有关的信息。</p>
+<h3 id="HTTP-1-1-首部字段一览"><a href="#HTTP-1-1-首部字段一览" class="headerlink" title="HTTP/1.1 首部字段一览"></a>HTTP/1.1 首部字段一览</h3><p>Http/1.1规范定义了如下47种首部字段。</p>
+<h4 id="通用首部字段"><a href="#通用首部字段" class="headerlink" title="通用首部字段"></a>通用首部字段</h4><table>
+<thead>
+<tr>
+<th style="text-align:left">首部字段名</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Cache-Control</td>
+<td style="text-align:left">控制缓存的行为</td>
+</tr>
+<tr>
+<td style="text-align:left">Connection</td>
+<td style="text-align:left">逐跳首部、连接的管理</td>
+</tr>
+<tr>
+<td style="text-align:left">Date</td>
+<td style="text-align:left">报文指令</td>
+</tr>
+<tr>
+<td style="text-align:left">Pragma</td>
+<td style="text-align:left">控制缓存的行为</td>
+</tr>
+<tr>
+<td style="text-align:left">Trailer</td>
+<td style="text-align:left">报文末端的首部一览</td>
+</tr>
+<tr>
+<td style="text-align:left">Transfer-Encoding</td>
+<td style="text-align:left">指定报文主体的传输编码方式</td>
+</tr>
+<tr>
+<td style="text-align:left">Upgrade</td>
+<td style="text-align:left">升级为其他协议</td>
+</tr>
+<tr>
+<td style="text-align:left">Via</td>
+<td style="text-align:left">代理服务器的相关信息</td>
+</tr>
+<tr>
+<td style="text-align:left">Warning</td>
+<td style="text-align:left">错误通知</td>
+</tr>
+</tbody>
+</table>
+<h4 id="请求首部字段"><a href="#请求首部字段" class="headerlink" title="请求首部字段"></a>请求首部字段</h4><table>
+<thead>
+<tr>
+<th style="text-align:left">首部字段名</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Accept</td>
+<td style="text-align:left">用户代理可处理的媒体类型</td>
+</tr>
+<tr>
+<td style="text-align:left">Accept-Charset</td>
+<td style="text-align:left">优先的字符集</td>
+</tr>
+<tr>
+<td style="text-align:left">Accept-Encoding</td>
+<td style="text-align:left">优先的内容编码</td>
+</tr>
+<tr>
+<td style="text-align:left">Accept-Language</td>
+<td style="text-align:left">优先的语言（自然语言）</td>
+</tr>
+<tr>
+<td style="text-align:left">Authorization</td>
+<td style="text-align:left">Web认证信息</td>
+</tr>
+<tr>
+<td style="text-align:left">Expect</td>
+<td style="text-align:left">期待服务器的特定行为</td>
+</tr>
+<tr>
+<td style="text-align:left">From</td>
+<td style="text-align:left">用户的电子邮箱地址</td>
+</tr>
+<tr>
+<td style="text-align:left">Host</td>
+<td style="text-align:left">请求资源所在服务器</td>
+</tr>
+<tr>
+<td style="text-align:left">If-Match</td>
+<td style="text-align:left">比较实体标记（ETag)</td>
+</tr>
+<tr>
+<td style="text-align:left">If-Modified-Since</td>
+<td style="text-align:left">比较资源的更新时间</td>
+</tr>
+<tr>
+<td style="text-align:left">If-None-Match</td>
+<td style="text-align:left">比较实体标记（与If-Match相反）</td>
+</tr>
+<tr>
+<td style="text-align:left">If-Range</td>
+<td style="text-align:left">资源未更新时发送实体Byte的范围请求</td>
+</tr>
+<tr>
+<td style="text-align:left">If-Unmodified-Since</td>
+<td style="text-align:left">比较资源的更新时间（与If-Modified-Since相反）</td>
+</tr>
+<tr>
+<td style="text-align:left">Max-Forwards</td>
+<td style="text-align:left">最大传输逐跳数</td>
+</tr>
+<tr>
+<td style="text-align:left">Proxy-Authorization</td>
+<td style="text-align:left">代理服务器要求客户端的认证信息</td>
+</tr>
+<tr>
+<td style="text-align:left">Range</td>
+<td style="text-align:left">实体的字节范围请求</td>
+</tr>
+<tr>
+<td style="text-align:left">Referer</td>
+<td style="text-align:left">对请求中URI的原始获取方</td>
+</tr>
+<tr>
+<td style="text-align:left">TE</td>
+<td style="text-align:left">传输编码的优先级</td>
+</tr>
+<tr>
+<td style="text-align:left">User-Agent</td>
+<td style="text-align:left">HTTP客户端程序的信息</td>
+</tr>
+</tbody>
+</table>
+<h4 id="响应首部字段"><a href="#响应首部字段" class="headerlink" title="响应首部字段"></a>响应首部字段</h4><table>
+<thead>
+<tr>
+<th style="text-align:left">首部字段名</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Accept-Ranges</td>
+<td style="text-align:left">是否接受字节范围请求</td>
+</tr>
+<tr>
+<td style="text-align:left">Age</td>
+<td style="text-align:left">推算资源创建经过时间</td>
+</tr>
+<tr>
+<td style="text-align:left">ETag</td>
+<td style="text-align:left">资源的匹配信息</td>
+</tr>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">令客户端重定向至指定URI</td>
+</tr>
+<tr>
+<td style="text-align:left">Proxy-Authenticate</td>
+<td style="text-align:left">代理服务器对客户端的认证信息</td>
+</tr>
+<tr>
+<td style="text-align:left">Retry-After</td>
+<td style="text-align:left">对再次发起请求的时机要求</td>
+</tr>
+<tr>
+<td style="text-align:left">Server</td>
+<td style="text-align:left">HTTP服务器的安装信息</td>
+</tr>
+<tr>
+<td style="text-align:left">Vary</td>
+<td style="text-align:left">代理服务器缓存的管理信息</td>
+</tr>
+<tr>
+<td style="text-align:left">WWW-Authenticate</td>
+<td style="text-align:left">服务器对客户端的认证信息</td>
+</tr>
+</tbody>
+</table>
+<h4 id="实体首部字段"><a href="#实体首部字段" class="headerlink" title="实体首部字段"></a>实体首部字段</h4><table>
+<thead>
+<tr>
+<th style="text-align:left">首部字段名</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Allow</td>
+<td style="text-align:left">资源可支持的HTTP方法</td>
+</tr>
+<tr>
+<td style="text-align:left">Content-Encoding</td>
+<td style="text-align:left">实体主体适用的编码方式</td>
+</tr>
+<tr>
+<td style="text-align:left">Content-Language</td>
+<td style="text-align:left">实体主体的自然语言</td>
+</tr>
+<tr>
+<td style="text-align:left">Content-Length</td>
+<td style="text-align:left">实体主体的大小（单位：字节）</td>
+</tr>
+<tr>
+<td style="text-align:left">Content-Location</td>
+<td style="text-align:left">替代对应资源的URI</td>
+</tr>
+<tr>
+<td style="text-align:left">Content-MD5</td>
+<td style="text-align:left">实体主体的报文摘要</td>
+</tr>
+<tr>
+<td style="text-align:left">Content-Range</td>
+<td style="text-align:left">实体主体的位置范围</td>
+</tr>
+<tr>
+<td style="text-align:left">Content-Type</td>
+<td style="text-align:left">实体主体的媒体类型</td>
+</tr>
+<tr>
+<td style="text-align:left">Expires</td>
+<td style="text-align:left">实体主体过期的日期时间</td>
+</tr>
+<tr>
+<td style="text-align:left">Last-Modified</td>
+<td style="text-align:left">资源的最后修改日期时间</td>
+</tr>
+</tbody>
+</table>
+<h4 id="End-to-end-首部和-Hop-by-hop-首部"><a href="#End-to-end-首部和-Hop-by-hop-首部" class="headerlink" title="End-to-end 首部和 Hop-by-hop 首部"></a>End-to-end 首部和 Hop-by-hop 首部</h4><h5 id="端到端首部（End-to-end-Header）"><a href="#端到端首部（End-to-end-Header）" class="headerlink" title="端到端首部（End-to-end Header）"></a>端到端首部（End-to-end Header）</h5><p>分在此类别中的首部会转发给请求/响应对应的最终接受目标，且必须保存在由缓存生成的响应中，另外规定它必须被转发。</p>
+<h5 id="逐跳首部（Hop-by-hop-Header）"><a href="#逐跳首部（Hop-by-hop-Header）" class="headerlink" title="逐跳首部（Hop-by-hop Header）"></a>逐跳首部（Hop-by-hop Header）</h5><p>​分在此类别中的首部只对单次转发有效，会因通过缓存或代理而不再转发。HTTP/1.1和之后版本中，如果要使用<code>hop-by-hop</code>首部，需提供<code>Connection</code>首部字段<br>下面列举了HTTP/1.1中的逐跳首部字段。除这8个首部字段之外，其他所有字段都属于端到端首部。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Connection</span><br><span class="line">Keep-Alive</span><br><span class="line">Proxy-Authenticate</span><br><span class="line">Proxy-Authorization</span><br><span class="line">Trailer</span><br><span class="line">TE</span><br><span class="line">Transfer-Enconding</span><br><span class="line">Upgrade</span><br></pre></td></tr></table></figure></p>
+<h2 id="通用首部字段-1"><a href="#通用首部字段-1" class="headerlink" title="通用首部字段"></a>通用首部字段</h2><p>通用首部字段是指，请求报文和响应报文双方都会使用的首部。</p>
+<h3 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h3><p>通过指定首部字段<code>Cache-Control</code>的指令，就能操作缓存的工作机制.</p>
+<h3 id="Connection"><a href="#Connection" class="headerlink" title="Connection"></a>Connection</h3><p><code>Connection</code>首部字段具备两个作用。</p>
+<ol>
+<li>控制不在转发给代理的首部字段</li>
+<li>管理持久连接</li>
+</ol>
+<h4 id="控制不在转发给代理的首部字段"><a href="#控制不在转发给代理的首部字段" class="headerlink" title="控制不在转发给代理的首部字段"></a>控制不在转发给代理的首部字段</h4><p>在客户端发送请求和服务器返回响应内，使用<code>Connection</code>首部字段，可控制不再转发给代理的首部字段（即<code>Hop-by-hop</code>首部）。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">connection: 不再转发的首部字段名</span><br></pre></td></tr></table></figure></p>
+<h4 id="管理持久连接"><a href="#管理持久连接" class="headerlink" title="管理持久连接"></a>管理持久连接</h4><p>HTTP/1.1版本的默认连接都是持久连接。为此，客户端会在持久连接上连续发送请求。当服务器端想明确断开连接时，则指定<code>Connection</code>首部字段的值为<code>Close</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">connection: Keep-Alive</span><br></pre></td></tr></table></figure></p>
+<p>HTTP/1.1之前的HTTP版本的默认连接都是非持久连接。为此，如果想在旧版本的HTTP协议上维持持续连接，则需要指定<code>Connection</code>首部字段的值为<code>Keep-Alive</code>。</p>
+<h3 id="Date"><a href="#Date" class="headerlink" title="Date"></a>Date</h3><p>首部字段<code>Date</code>表明创建HTTP报文的日期和时间。<br>HTTP/1.1协议使用在RFC1123中规定的日期时间的格式，如下示例。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Date: Tue, 03 Dul 2012 04:40:59 GMT</span><br></pre></td></tr></table></figure></p>
+<p>之前的HTTP协议版本中使用在RFC850中定义的格式，如下所示。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Date: Tue, 03-Dul-12 04:40:59 GMT</span><br></pre></td></tr></table></figure></p>
+<p>除此之外，还有一种格式。它与C标准库内的<code>asctime()</code>函数的输出格式一致。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Date: Tug Dul 03 04:40:59 2012</span><br></pre></td></tr></table></figure></p>
+<h3 id="Pragma"><a href="#Pragma" class="headerlink" title="Pragma"></a>Pragma</h3><p><code>Pragma</code>是HTTP/1.1之前版本的历史遗留字段，仅作为与HTTP/1.0的向后兼容而定义。<br>所有的中间服务器如果都能以HTTP/1.1为基准，那直接采用<code>Cache-Control:no-cache</code>指定缓存的处理方式是最理想的。但要整体掌握全部中间服务器使用的HTTP协议版本缺失不现实的。因此，发送的请求会同时含有下面两个首部字段。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cache-Control: no-cache</span><br><span class="line">Pragma: no-cache</span><br></pre></td></tr></table></figure></p>
+<h3 id="Trailer"><a href="#Trailer" class="headerlink" title="Trailer"></a>Trailer</h3><p>首部字段<code>Trailer</code>会事先说明在报文主体后记录了哪些首部字段。该首部字段可应用在HTTP/1.1版本分块传输编码时。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Date: Tue, 03 Jul 2012 04:40:56 GMT</span><br><span class="line">Content-Type: text/html</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Trailer: Expires</span><br><span class="line">(报文主体）</span><br><span class="line">0</span><br><span class="line">Expires: Tue, 28 Sep 2004 23:59:59 GMT</span><br></pre></td></tr></table></figure></p>
+<p>以上用例中，指定首部字段<code>Trailer</code>的值为<code>Expires</code>，在报文主体之后(分块长度0之后）出现了首部字<code>Expires</code>。</p>
+<h3 id="Transfer-Encoding"><a href="#Transfer-Encoding" class="headerlink" title="Transfer-Encoding"></a>Transfer-Encoding</h3><p>首部字段<code>Transfer-Encoding</code>规定了传输报文主体时采用的编码方式。<br>HTTP/1.1的传输编码仅对分块传输编码有效。</p>
+<h3 id="Upgrade"><a href="#Upgrade" class="headerlink" title="Upgrade"></a>Upgrade</h3><p>首部字段<code>Upgrade</code>用于检测<code>HTTP</code>协议以及其他协议是否可使用更高的版本进行通信，其参数值可以用来指定一个完全不同的通信协议。</p>
+<h3 id="Via"><a href="#Via" class="headerlink" title="Via"></a>Via</h3><p>使用首部字段<code>Via</code>是为了追踪客户端与服务器之间的请求和响应报文的传输路径。<br>报文经过代理或网关时，会先在首部字段<code>Via</code>中附加该服务器的信息，然后再进行转发。</p>
+<h3 id="Warning"><a href="#Warning" class="headerlink" title="Warning"></a>Warning</h3><p>HTTP/1.1的<code>Warning</code>首部是从HTTP/1.0的响应首部（<code>Retry-After</code>）演变过来的。该首部通常会告知用户一些与缓存相关的问题的警告。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Warning: 113 gw.hackr.jp:8080 &quot;Heuristic expiration&quot; Tue, 03</span><br></pre></td></tr></table></figure></p>
+<p>Warning首部的格式如下。最后的日期时间部分可省略<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Warning:[警告码][警告的主机:端口号]“[警告内容]”（[日期时间])</span><br></pre></td></tr></table></figure></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">警告码</th>
+<th style="text-align:left">警告内容</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">110</td>
+<td style="text-align:left">Response is stale (响应已过期）</td>
+<td style="text-align:left">代理返回己过期的资源</td>
+</tr>
+<tr>
+<td style="text-align:left">111</td>
+<td style="text-align:left">Revalidation failed (再验证失败））</td>
+<td style="text-align:left">代理再验证资源有效性时失败（服务器无法到达等原因）</td>
+</tr>
+<tr>
+<td style="text-align:left">112</td>
+<td style="text-align:left">Disconnection operation (断开连接操作）</td>
+<td style="text-align:left">代理与互联网连接被故意切断</td>
+</tr>
+<tr>
+<td style="text-align:left">113</td>
+<td style="text-align:left">Heuristic expiration (试探性过期）</td>
+<td style="text-align:left">响应的使用期超过24小时（有效缓存的设定时间大于24小时的情况下）</td>
+</tr>
+<tr>
+<td style="text-align:left">199</td>
+<td style="text-align:left">Miscellaneous warning (杂项警告）</td>
+<td style="text-align:left">任意的警告内容</td>
+</tr>
+<tr>
+<td style="text-align:left">214</td>
+<td style="text-align:left">Transformation applied (使用 了转换）</td>
+<td style="text-align:left">代理对内容编码或媒体类型等执行了某些处理时</td>
+</tr>
+<tr>
+<td style="text-align:left">299</td>
+<td style="text-align:left">Miscellaneous persistent warning (持久杂项警告</td>
+<td style="text-align:left">任意的警告内容</td>
+</tr>
+</tbody>
+</table>
+<h2 id="请求首部字段-1"><a href="#请求首部字段-1" class="headerlink" title="请求首部字段"></a>请求首部字段</h2><p>请求首部字段是从客户端往服务器端发送请求报文中所使用的字段，用于补充请求的附加信息、客户端信息、对响应内容相关的优先级等内容。</p>
+<h3 id="Accept"><a href="#Accept" class="headerlink" title="Accept"></a>Accept</h3><p><code>Accept</code>首部字段可通知服务器，用户代理能够处理的媒体类型及媒体类型的相对优先级。可使用<code>type/subtype</code>这种形式，一次指定多种媒体型。</p>
+<h4 id="文本文件"><a href="#文本文件" class="headerlink" title="文本文件"></a>文本文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">text/html, text/plain, text/css ...</span><br><span class="line">application/xhtml+xml, application/xml...</span><br></pre></td></tr></table></figure>
+<h4 id="图片文件"><a href="#图片文件" class="headerlink" title="图片文件"></a>图片文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">image/jpeg, image/gif，image/png ...</span><br></pre></td></tr></table></figure>
+<h4 id="视频文件"><a href="#视频文件" class="headerlink" title="视频文件"></a>视频文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">video/mpeg, video/quicktime ...</span><br></pre></td></tr></table></figure>
+<h4 id="应用程序使用的二进制文件"><a href="#应用程序使用的二进制文件" class="headerlink" title="应用程序使用的二进制文件"></a>应用程序使用的二进制文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">application/octet-stream, application/zip ...</span><br></pre></td></tr></table></figure>
+<p>当服务器提供多种内容时，将会首先返回权重值（权重值用q表示，默认为1.0，取值0~1，如:q=1.0）最高的媒体类型。</p>
+<h3 id="Accept-Charset"><a href="#Accept-Charset" class="headerlink" title="Accept-Charset"></a>Accept-Charset</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Accept-Charset: iso-8859-5, Unicode-1-1;q=0.8</span><br></pre></td></tr></table></figure>
+<p><code>Accept-Charset</code>首部字段可用来通知服务器用户代理<strong>支持的字符集及字符集的相对优先顺序</strong>。另外，可一次性指定多种字符集。与首部字段<code>Accept</code>相同的是可用权重q值来表示相对优先级。</p>
+<h3 id="Accept-Encoding"><a href="#Accept-Encoding" class="headerlink" title="Accept-Encoding"></a>Accept-Encoding</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Accept-Encoding: gzip, deflate</span><br></pre></td></tr></table></figure>
+<p><code>Accept-Encoding</code>首部字段用来告知服务器用户代理<strong>支持的内容编码及内容编码的优先级顺序</strong>。可一次性指定多种内容编码。</p>
+<ul>
+<li>gzip</li>
+<li>compress</li>
+<li>deflate</li>
+<li>identity</li>
+</ul>
+<h3 id="Accept-Language"><a href="#Accept-Language" class="headerlink" title="Accept-Language"></a>Accept-Language</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Accept - Language: zh-cn., zh;q=0.7^en-us^en;q=0.3</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Accept-Language</code>用来告知服务器用户代理能够处理的<strong>自然语言集</strong>（指中文或英文等），以及自然语言集的相对优先级。可一次指定多种自然语言集。</p>
+<h3 id="Authorization"><a href="#Authorization" class="headerlink" title="Authorization"></a>Authorization</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Authorization: Basic dWVub3NlbjpwYXNzd29yZA==</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Authorization</code>是用来告知服务器，用户代理的认证信息（证书值）。通常，想要通过服务器认证的用户代理会在接收到返回的401状态码响应后，把首部字段<code>Authorization</code>加入请求中。共用缓存在接收到含有<code>Authorization</code>首部字段的请求时的操作处理会略有差异。</p>
+<h3 id="Expect"><a href="#Expect" class="headerlink" title="Expect"></a>Expect</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Expect: 100-continue</span><br></pre></td></tr></table></figure>
+<p>客户端使用首部字段<code>Expect</code>来告知服务器，期望出现的某种特定行为。因服务器无法理解客户端的期望作出回应而发生错误时，会返回状态码 <code>417 Expectation Failed</code>。</p>
+<h3 id="From"><a href="#From" class="headerlink" title="From"></a>From</h3><p>首部字段<code>From</code>用来告知服务器使用用户代理的用户的电子邮件地址。通常，其使用目的就是为了显示搜索引擎等用户代理的负责人的电子邮件联系方式。使用代理时，应尽可能包含<code>From</code>首部字段（但可能会因代理不同，将电子邮件地址记录在<code>User-Agent</code>首部字段内）。</p>
+<h3 id="Host"><a href="#Host" class="headerlink" title="Host"></a>Host</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Host: www.hackr.jp</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Host</code>会告知服务器，请求的资源所处的互联网主机名和端口号。<code>Host</code>首部字段在HTTP/1.1规范内是<strong>唯——个必须被包含</strong>在请求内的首部字段。</p>
+<h3 id="If-Match"><a href="#If-Match" class="headerlink" title="If-Match"></a>If-Match</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">If-Match: &quot;123456&quot;</span><br></pre></td></tr></table></figure>
+<p>形如<code>If-xxx</code>这种样式的请求首部字段，都可称为<strong>条件请求</strong>。服务器接收到附带条件的请求后，只有判断指定条件为真时，才会执行请求。<br>首部字段<code>If-Match</code>，属附带条件之一，它会告知服务器匹配资源所用的实体标记（<code>ETag</code>)值。这时的服务器无法使用<code>弱ETag</code>值。（请参照本章有关首部字段<code>ETag</code>的说明）。<br>服务器会比对<code>If-Match</code>的字段值和资源的<code>ETag</code>值，仅当两者一致时，才会执行请求。反之，则返回状态码<code>412 Precondition Failed</code>的响应。</p>
+<h3 id="If-Modified-Since"><a href="#If-Modified-Since" class="headerlink" title="If-Modified-Since"></a>If-Modified-Since</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">If-Modified-Since: Thu, 15 Apr 2004 00:00:00 GMT</span><br></pre></td></tr></table></figure>
+<p><code>If-Modified-Since</code>用于确认代理或客户端拥有的本地资源的有效性。获取资源的更新日期时间，可通过确认首部字段<code>Last-Modified</code>来确定。</p>
+<h3 id="If-None-Match"><a href="#If-None-Match" class="headerlink" title="If-None-Match"></a>If-None-Match</h3><p>首部字段<code>If-None-Match</code>属于附带条件之一。它和首部字段<code>If-Match</code>作用相反。用于指定<code>If-None-Match</code>字段值的实体标记（<code>ETag</code>)值与请求资源的<code>ETag</code>不一致时，它就告知服务器处理该请求。</p>
+<h3 id="If-Range"><a href="#If-Range" class="headerlink" title="If-Range"></a>If-Range</h3><p>首部字段<code>If-Range</code>属于附带条件之一。它告知服务器若指定的<code>If-Range</code> 字段值（<code>ETag</code>值或者时间）和请求资源的<code>ETag</code>值或时间相一致时，则作为范围请求处理。反之，则返回全体资源。</p>
+<h3 id="If-Unmodified-Since"><a href="#If-Unmodified-Since" class="headerlink" title="If-Unmodified-Since"></a>If-Unmodified-Since</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">If-Unmodified-Since: Thu, 03 ]ul 2012 00:00:00 GMT</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>If-Unmodified-Since</code>和首部字段<code>If-Modified-Since</code>的作用相反。它的作用的是告知服务器，指定的请求资源只有在字段值内指定的日期时间之后，未发生更新的情况下，才能处理请求。如果在指定日期时间后发生了更新，则以状态码<code>412 Precondition Failed</code>作为响应返回。</p>
+<h3 id="Max-Forwards"><a href="#Max-Forwards" class="headerlink" title="Max-Forwards"></a>Max-Forwards</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Max-Forwards: 10</span><br></pre></td></tr></table></figure>
+<p>通过<code>TRACE</code>方法或<code>OPTIONS</code>方法，发送包含首部字段<code>Max-Forwards</code>的请求时， 该字段以十进制整数形式指定可经过的服务器最大数目。服务器在往下一个服务器转发请求之前，<code>Max-Forwards</code>的值减1后重新赋值。当服务器接收到<code>Max-Forwards</code>值为0的请求时，则不再进行转发，而是直接返回响应。</p>
+<h3 id="Proxy-Authorization"><a href="#Proxy-Authorization" class="headerlink" title="Proxy-Authorization"></a>Proxy-Authorization</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Proxy-Authorization: Basic dGlwOjkpNLAGfFY5</span><br></pre></td></tr></table></figure>
+<p>接收到从代理服务器发来的认证质询时，客户端会发送包含首部字段<code>Proxy-Authorization</code>的请求，以告知服务器认证所需要的柄息。</p>
+<h3 id="Range"><a href="#Range" class="headerlink" title="Range"></a>Range</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Range: bytes=5001-10000</span><br></pre></td></tr></table></figure>
+<p>接收到附带<code>Range</code>首部字段请求的服务器，会在处理请求之后返回状态码为<code>206 Partial Content</code>的响应。无法处理该范围请永时，则会返回状态码<code>200 OK</code>的响应及全部资源。</p>
+<h3 id="Referer"><a href="#Referer" class="headerlink" title="Referer"></a>Referer</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Referer: http://www.hackr.jp/index.htm</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Referer</code>会告知服务器请求的原始资源的URI</p>
+<h3 id="TE"><a href="#TE" class="headerlink" title="TE"></a>TE</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TE: gzip, deflate;q=0.5</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>TE</code>会告知服务器客户端能够处理响应的传输编码方式及相对优先级。它和首部字段<code>Accept-Encoding</code>的功能很相像，但是用于传输编码。</p>
+<h3 id="User-Agent"><a href="#User-Agent" class="headerlink" title="User-Agent"></a>User-Agent</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1; W0W64; nv:13.0) Gee</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>User-Agent</code>会将创建请求的浏览器和用户代理名称等信息传达给服务器。<br>由网络爬虫发起请求时，有可能会在字段内添加爬虫作者的电子邮件地址。此外，如果请求经过代理，那么中间也很可能被添加上代理服务器的名称。</p>
+<h2 id="响应首部字段-1"><a href="#响应首部字段-1" class="headerlink" title="响应首部字段"></a>响应首部字段</h2><p>响应首部字段是由服务器端向客户端返回响应报文中所使用的字段，用于补充响应的附加信息、服务器信息，以及对客户端的附加要求等信息。</p>
+<h3 id="Accept-Ranges"><a href="#Accept-Ranges" class="headerlink" title="Accept-Ranges"></a>Accept-Ranges</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Accept-Ranges: bytes</span><br></pre></td></tr></table></figure>
+<p>首部字段Accept-Ranges是用来告知客户端服务器是否能处理范围请求，以指定获取服务器端某个部分的资源。</p>
+<h3 id="Age"><a href="#Age" class="headerlink" title="Age"></a>Age</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Age: 600</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Age</code>能告知客户端，源服务器在多久前创建了响应。字段值的单位为秒。<br>若创建该响应的服务器是缓存服务器，Age值是指缓存后的响应再次发起认证到认证完成的时间值。代理创建响应时必须加上首部字段<code>Age</code>。</p>
+<h3 id="ETag"><a href="#ETag" class="headerlink" title="ETag"></a>ETag</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ETag: &quot;34e544327886546ce7676aff67678acd67&quot;</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>ETag</code>能告知客户端实体标识。它是一种可将资源以字符串形式做<em>唯一性标识</em>的方式。服务器会为每份资源分配对应的<code>ETag</code>。</p>
+<p><strong>强ETag值和弱Tag值</strong><br>强<code>ETag</code>值，不论实体发生多么细微的变化都会改变其值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ETag: &quot;usagi-1234&quot;</span><br></pre></td></tr></table></figure></p>
+<p>弱<code>ETag</code>值只用于提示资源是否相同。只有资源发生了根本改变，产生差异时才会改变<code>ETag</code>值。这时，会在字段值最开始处附加<code>W/</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ETag: W/&quot;usagi-1234n</span><br></pre></td></tr></table></figure></p>
+<h3 id="Location"><a href="#Location" class="headerlink" title="Location"></a>Location</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Location: http://www.usagidesign.jp/sample.html</span><br></pre></td></tr></table></figure>
+<p>使用首部字段<code>Location</code>可以将响应接收方引导至某个与请求URI位置不同的资源。<br>基本上，该字段会配合<code>3xx: Redirection</code>的响应，提供重定向的。</p>
+<h3 id="Proxy-Authenticate"><a href="#Proxy-Authenticate" class="headerlink" title="Proxy-Authenticate"></a>Proxy-Authenticate</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Proxy-Authenticate: Basic realm = &quot;UsagidesignAuth&quot;</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Proxy-Authenticate</code>会把由代理服务器所要求的认证信息发送给客户端。</p>
+<h3 id="Retry-After"><a href="#Retry-After" class="headerlink" title="Retry-After"></a>Retry-After</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Retry-After: 120</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Retry-After</code>告知客户端应该在多久之后再次发送请求。主要配合状态码<code>503 Service Unavailable</code>响应，或<code>3xx Redirect</code>响应一起使用。</p>
+<h3 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Server: Apache/2.2.6 (Unix) PHP/5.2.5</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Server</code>告知客户端当前服务器上安装的HTTP服务器应用程序的信息。不单单会标出服务器上的软件应用名称，还有可能包括版本号和安装时启用的可选项。</p>
+<h3 id="Vary"><a href="#Vary" class="headerlink" title="Vary"></a>Vary</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vary: Accept-Language</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Vary</code>可对缓存进行控制。源服务器会向代理服务器传达关于本地缓存使用方法的命令。</p>
+<h3 id="WWW-Authenticate"><a href="#WWW-Authenticate" class="headerlink" title="WWW-Authenticate"></a>WWW-Authenticate</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WWW-Authentic ate: Basic realm= &quot;Usagidesign Auth&quot;</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>WWW-Authenticate</code>用于HTTP访问认证。它会告知客户端适用于访问请求URI所指定资源的认证方案（<code>Basic</code>或是<code>Digest</code>)和带参数提示的质询（<code>challenge</code>)。状态码<code>401 Unauthorized</code>响应中，肯定带有首部字段<code>WWW-Authenticate</code>。</p>
+<h2 id="实体首部字段-1"><a href="#实体首部字段-1" class="headerlink" title="实体首部字段"></a>实体首部字段</h2><p>实体首部字段是包含在请求报文和响应报文中的实体部分所使用的首部，用于补充内容的更新时间等与实体相关的信息。</p>
+<h3 id="Allow"><a href="#Allow" class="headerlink" title="Allow"></a>Allow</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Allow: GET, HEAD</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Allow</code>用于通知客户端能够支持<code>Request-URI</code>指定资源的所有HTTP方法。当服务器接收到不支持的HTTP方法时，会以状态码<code>405 Method Not Allowed</code>作为响应返回。与此同时，还会把所有能支持的HTTP方法写入首部字段<code>Allow</code>后返回。</p>
+<h3 id="Content-Encoding"><a href="#Content-Encoding" class="headerlink" title="Content-Encoding"></a>Content-Encoding</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Encoding: gzip</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Content-Encoding</code>会告知客户端服务器对实体的主体部分选用的内容编码方式。内容编码是指在不丢失实体信息的前提下所进行的压缩。</p>
+<p>主要采用以下4种内容编码的方式。</p>
+<ul>
+<li>gzip</li>
+<li>compress</li>
+<li>deflate</li>
+<li>identity</li>
+</ul>
+<h3 id="Content-Language"><a href="#Content-Language" class="headerlink" title="Content-Language"></a>Content-Language</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Language: zh-CN</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Content-Language</code>会告知客户端，实体主体使用的自然语言(指中文或英文等语言）。</p>
+<h3 id="Content-Length"><a href="#Content-Length" class="headerlink" title="Content-Length"></a>Content-Length</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content- Length: 15000</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Content-Length</code>表明了实体主体部分的大小（单位是字节）。对实体主体进行内容编码传输时，不能再使用<code>Content-Length</code>首部字段。由于实体主体大小的计算方法略微复杂，所以在此不再展开,可参考RFC2616的4.4。</p>
+<h3 id="Content-Location"><a href="#Content-Location" class="headerlink" title="Content-Location"></a>Content-Location</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Location: http://www.hackr.jp/index-ja.html</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Content-Location</code>给出与报文主体部分相对应的URI和首部字段<code>Location</code>不同，<code>Content-Location</code>表示的是报文主体返回资源对应的URI。</p>
+<h3 id="Content-MD5"><a href="#Content-MD5" class="headerlink" title="Content-MD5"></a>Content-MD5</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-MD5: 0GFkZDUwNGVhNGY3N2MxMDIwZmQ4NTBmY2IyTY==</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Content-MD5</code>是一串由MD5算法生成的值，其目的在于检查报文主体在传输过程中是否保持完整，以及确认传输到达。</p>
+<h3 id="Content-Range"><a href="#Content-Range" class="headerlink" title="Content-Range"></a>Content-Range</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Range: bytes 5001-10000/10000</span><br></pre></td></tr></table></figure>
+<p>针对范围请求，返回响应时使用的首部字段<code>Content-Range</code>，能告知客户端作为响应返回的实体的哪个部分符合范围请求。字段值以字节为单位，表示当前发送部分及整个实体大小。</p>
+<h3 id="Content-Type"><a href="#Content-Type" class="headerlink" title="Content-Type"></a>Content-Type</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Type: text/html; charset=UTF-8</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Content-Type</code>说明了实体主体内对象的媒体类型。和首部字段<code>Accept</code>一样，只能使用<code>type/subtype</code>形式赋值。</p>
+<h3 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Expires: Wed, 04 Dul 2012 08:26:05 GMT</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Expires</code>会将资源失效的日期告知客户端。缓存服务器在接收到含有首部字段<code>Expires</code>的响应后，会以缓存来应答请求，在<code>Expires</code>字段值指定的时间之前，响应的副本会一直被保卷。当超过指定的时间后，缓存服务器在请求发送过来时，会转向源服务器请求资源。</p>
+<h3 id="Last-Modified"><a href="#Last-Modified" class="headerlink" title="Last-Modified"></a>Last-Modified</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Last-Modified: Wed, 23 May 2012 09:59:55 GMT</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Last-Modified</code>指明资源最终修改的时间。一般来说，这个值就是<code>Request-URI</code>指定资源被修改的时间。但类似使用CGI脚本进行动态数据处理时，该值有可能会变成数据最终修改时的时间。</p>
+<h2 id="Cookie-服务的首部字段"><a href="#Cookie-服务的首部字段" class="headerlink" title="Cookie 服务的首部字段"></a>Cookie 服务的首部字段</h2><p>至2013年5月，Cookie的规格标准文档有以下4种。</p>
+<ol>
+<li>网景公司颁布的规格标准</li>
+<li>RFC2109</li>
+<li>RFC2965</li>
+<li>RFC6265</li>
+</ol>
+<p><strong>Cookie</strong>服务的首部字段</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">首部字段名</th>
+<th style="text-align:left">说明</th>
+<th style="text-align:left">首部类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Set-Cookie</td>
+<td style="text-align:left">开始状态管理所使用的Cookie信息</td>
+<td style="text-align:left">响应首部字段</td>
+</tr>
+<tr>
+<td style="text-align:left">Cookie</td>
+<td style="text-align:left">服务器接收到的Cookie信息</td>
+<td style="text-align:left">请求首部字段</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Set-Cookie"><a href="#Set-Cookie" class="headerlink" title="Set-Cookie"></a>Set-Cookie</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: status=enable; expires=Tue, 05 Dul 2011 07:26:31</span><br></pre></td></tr></table></figure>
+<p>当服务器准备开始管理客户端的状态时，会事先告知各种信息。</p>
+<h4 id="expires属性"><a href="#expires属性" class="headerlink" title="expires属性"></a>expires属性</h4><p>Cookie的<code>expires</code>属性指定浏览器可发送Cookie的有效期。</p>
+<h4 id="path属性"><a href="#path属性" class="headerlink" title="path属性"></a>path属性</h4><p>Cookie的<code>path</code>属性可用于限制指定Cookie的发送范围的文件目录。不过另有办法可避开这项限制，看来对其作为安全机制的效果不能抱有期待。</p>
+<h4 id="domain属性"><a href="#domain属性" class="headerlink" title="domain属性"></a>domain属性</h4><p>通过Cookie的<code>domain</code>属性指定的域名可做到与结尾匹配一致。比如，当指定<code>example.com</code>后，除<code>example.com</code>以外，<code>www.example.com</code>或<code>www2.example.com</code>等都可以发送Cookie。</p>
+<h4 id="secure属性"><a href="#secure属性" class="headerlink" title="secure属性"></a>secure属性</h4><p>Cookie的<code>secure</code>属性用于限制Web页面仅在HTTPS安全连接时，才可以发送Cookie。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: name=value; secure</span><br></pre></td></tr></table></figure>
+<h4 id="HttpOnly属性"><a href="#HttpOnly属性" class="headerlink" title="HttpOnly属性"></a>HttpOnly属性</h4><p>Cookie的<code>HttpOnly</code>属性是Cookie的扩展功會泛，它使JavaScript脚本无法获得Cookie。其主要目的为防止跨站脚本攻击（Cross-site scripting，XSS)对Cookie的信息窃取。</p>
+<h3 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookie: status=enable</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>Cookie</code>会告知服务器，当客户端想获得HTTP状态管理支持时，就会在请求中包含从服务器接收到的<code>Cookie</code>。接收到多个<code>Cookie</code>时，同样可以以多个<code>Cookie</code>形式发送。</p>
+<h2 id="非标准首部字段"><a href="#非标准首部字段" class="headerlink" title="非标准首部字段"></a>非标准首部字段</h2><p>HTTP首部字段是可以自行扩展的。所以在Web服务器和浏览器的应用上，会出现各种非标准的首部字段。</p>
+<ol>
+<li><code>X-Frame-Options</code></li>
+<li><code>X-XSS-Protection</code></li>
+<li><code>DNT</code></li>
+<li><code>P3P</code></li>
+</ol>
+<h3 id="X-Frame-Options"><a href="#X-Frame-Options" class="headerlink" title="X-Frame-Options"></a>X-Frame-Options</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X-Frame-Options: DENY</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>X-Frame-Options</code>属于HTTP响应首部，用于控制网站内容在其他Web网站的<code>Frame</code>标签内的显示问题。其主要目的是为了防止点击劫持（click jacking)攻击。</p>
+<h3 id="X-XSS-Protection"><a href="#X-XSS-Protection" class="headerlink" title="X-XSS-Protection"></a>X-XSS-Protection</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X-XSS-Protection: 1</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>X-XSS-Protection</code>属于HTTP响应首部，它是针对跨站脚本攻击（XSS)的一种对策，用于控制浏览器XSS防护机制的开关。</p>
+<h3 id="DNT"><a href="#DNT" class="headerlink" title="DNT"></a>DNT</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DNT: 1</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>DNT</code>属于HTTP请求首部，其中<code>DNT</code>是”Do Not Track”的简称，意为拒绝个人信息被收集，是表不拒绝被精准广告追踪的一种方法。</p>
+<h3 id="P3P"><a href="#P3P" class="headerlink" title="P3P"></a>P3P</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P3P: CP=&quot;CAO DSP LAW CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDe</span><br></pre></td></tr></table></figure>
+<p>首部字段<code>P3P</code>属于HTTP响应首部，通过利用<code>P3P</code> (“The Platform for Privacy Preferences”，在线隐私偏好平台）技术，可以让Web网站上的个人隐私变成一种仅供程序可理解的形式，以达到保护用户隐私的目的。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://github.com/Silence--Thinker/Study-HTTP-Book/blob/master/%E7%AC%AC6%E7%AB%A0HTTP%E9%A6%96%E9%83%A8.md" target="_blank" rel="noopener">《图解HTTP》第6章HTTP首部</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    zxlg
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://happylg.cn/2017/09/23/http-head/" title="HTTP首部字段解析">http://happylg.cn/2017/09/23/http-head/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HTTP/" rel="tag"># HTTP</a>
+          
+            <a href="/tags/首部/" rel="tag"># 首部</a>
+          
+            <a href="/tags/首部字段/" rel="tag"># 首部字段</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/22/block-and-inline/" rel="next" title="行内元素与块级元素及元素嵌套问题总结">
+                <i class="fa fa-chevron-left"></i> 行内元素与块级元素及元素嵌套问题总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/24/css-clearfix/" rel="prev" title="CSS清除浮动/闭合浮动">
+                CSS清除浮动/闭合浮动 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/avatar.png" alt="zxlg">
+          <p class="site-author-name" itemprop="name">zxlg</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">65</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">98</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/zxlg1993" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      微博
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/gongzhibin" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
+            </a>
+          </div>
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-首部字段"><span class="nav-number">1.</span> <span class="nav-text">HTTP 首部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-首部字段作用"><span class="nav-number">1.1.</span> <span class="nav-text">HTTP 首部字段作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-首部字段结构"><span class="nav-number">1.2.</span> <span class="nav-text">HTTP 首部字段结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四种-HTTP-首部字段类型"><span class="nav-number">1.3.</span> <span class="nav-text">四种 HTTP 首部字段类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通用首部字段（General-Header-Fields）"><span class="nav-number">1.3.1.</span> <span class="nav-text">通用首部字段（General Header Fields）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#请求首部字段（Request-Header-Fields）"><span class="nav-number">1.3.2.</span> <span class="nav-text">请求首部字段（Request Header Fields）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#响应首部字段（Response-Header-Fields）"><span class="nav-number">1.3.3.</span> <span class="nav-text">响应首部字段（Response Header Fields）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实体首部字段（Entity-Header-Fields）"><span class="nav-number">1.3.4.</span> <span class="nav-text">实体首部字段（Entity Header Fields）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-1-1-首部字段一览"><span class="nav-number">1.4.</span> <span class="nav-text">HTTP/1.1 首部字段一览</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通用首部字段"><span class="nav-number">1.4.1.</span> <span class="nav-text">通用首部字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#请求首部字段"><span class="nav-number">1.4.2.</span> <span class="nav-text">请求首部字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#响应首部字段"><span class="nav-number">1.4.3.</span> <span class="nav-text">响应首部字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实体首部字段"><span class="nav-number">1.4.4.</span> <span class="nav-text">实体首部字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#End-to-end-首部和-Hop-by-hop-首部"><span class="nav-number">1.4.5.</span> <span class="nav-text">End-to-end 首部和 Hop-by-hop 首部</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#端到端首部（End-to-end-Header）"><span class="nav-number">1.4.5.1.</span> <span class="nav-text">端到端首部（End-to-end Header）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#逐跳首部（Hop-by-hop-Header）"><span class="nav-number">1.4.5.2.</span> <span class="nav-text">逐跳首部（Hop-by-hop Header）</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通用首部字段-1"><span class="nav-number">2.</span> <span class="nav-text">通用首部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cache-Control"><span class="nav-number">2.1.</span> <span class="nav-text">Cache-Control</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Connection"><span class="nav-number">2.2.</span> <span class="nav-text">Connection</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#控制不在转发给代理的首部字段"><span class="nav-number">2.2.1.</span> <span class="nav-text">控制不在转发给代理的首部字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#管理持久连接"><span class="nav-number">2.2.2.</span> <span class="nav-text">管理持久连接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Date"><span class="nav-number">2.3.</span> <span class="nav-text">Date</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pragma"><span class="nav-number">2.4.</span> <span class="nav-text">Pragma</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Trailer"><span class="nav-number">2.5.</span> <span class="nav-text">Trailer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transfer-Encoding"><span class="nav-number">2.6.</span> <span class="nav-text">Transfer-Encoding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Upgrade"><span class="nav-number">2.7.</span> <span class="nav-text">Upgrade</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Via"><span class="nav-number">2.8.</span> <span class="nav-text">Via</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Warning"><span class="nav-number">2.9.</span> <span class="nav-text">Warning</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请求首部字段-1"><span class="nav-number">3.</span> <span class="nav-text">请求首部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Accept"><span class="nav-number">3.1.</span> <span class="nav-text">Accept</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#文本文件"><span class="nav-number">3.1.1.</span> <span class="nav-text">文本文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图片文件"><span class="nav-number">3.1.2.</span> <span class="nav-text">图片文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#视频文件"><span class="nav-number">3.1.3.</span> <span class="nav-text">视频文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应用程序使用的二进制文件"><span class="nav-number">3.1.4.</span> <span class="nav-text">应用程序使用的二进制文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Accept-Charset"><span class="nav-number">3.2.</span> <span class="nav-text">Accept-Charset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Accept-Encoding"><span class="nav-number">3.3.</span> <span class="nav-text">Accept-Encoding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Accept-Language"><span class="nav-number">3.4.</span> <span class="nav-text">Accept-Language</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Authorization"><span class="nav-number">3.5.</span> <span class="nav-text">Authorization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Expect"><span class="nav-number">3.6.</span> <span class="nav-text">Expect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#From"><span class="nav-number">3.7.</span> <span class="nav-text">From</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Host"><span class="nav-number">3.8.</span> <span class="nav-text">Host</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#If-Match"><span class="nav-number">3.9.</span> <span class="nav-text">If-Match</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#If-Modified-Since"><span class="nav-number">3.10.</span> <span class="nav-text">If-Modified-Since</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#If-None-Match"><span class="nav-number">3.11.</span> <span class="nav-text">If-None-Match</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#If-Range"><span class="nav-number">3.12.</span> <span class="nav-text">If-Range</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#If-Unmodified-Since"><span class="nav-number">3.13.</span> <span class="nav-text">If-Unmodified-Since</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Max-Forwards"><span class="nav-number">3.14.</span> <span class="nav-text">Max-Forwards</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Proxy-Authorization"><span class="nav-number">3.15.</span> <span class="nav-text">Proxy-Authorization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Range"><span class="nav-number">3.16.</span> <span class="nav-text">Range</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Referer"><span class="nav-number">3.17.</span> <span class="nav-text">Referer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TE"><span class="nav-number">3.18.</span> <span class="nav-text">TE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#User-Agent"><span class="nav-number">3.19.</span> <span class="nav-text">User-Agent</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#响应首部字段-1"><span class="nav-number">4.</span> <span class="nav-text">响应首部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Accept-Ranges"><span class="nav-number">4.1.</span> <span class="nav-text">Accept-Ranges</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Age"><span class="nav-number">4.2.</span> <span class="nav-text">Age</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ETag"><span class="nav-number">4.3.</span> <span class="nav-text">ETag</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Location"><span class="nav-number">4.4.</span> <span class="nav-text">Location</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Proxy-Authenticate"><span class="nav-number">4.5.</span> <span class="nav-text">Proxy-Authenticate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Retry-After"><span class="nav-number">4.6.</span> <span class="nav-text">Retry-After</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Server"><span class="nav-number">4.7.</span> <span class="nav-text">Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vary"><span class="nav-number">4.8.</span> <span class="nav-text">Vary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WWW-Authenticate"><span class="nav-number">4.9.</span> <span class="nav-text">WWW-Authenticate</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实体首部字段-1"><span class="nav-number">5.</span> <span class="nav-text">实体首部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Allow"><span class="nav-number">5.1.</span> <span class="nav-text">Allow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Content-Encoding"><span class="nav-number">5.2.</span> <span class="nav-text">Content-Encoding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Content-Language"><span class="nav-number">5.3.</span> <span class="nav-text">Content-Language</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Content-Length"><span class="nav-number">5.4.</span> <span class="nav-text">Content-Length</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Content-Location"><span class="nav-number">5.5.</span> <span class="nav-text">Content-Location</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Content-MD5"><span class="nav-number">5.6.</span> <span class="nav-text">Content-MD5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Content-Range"><span class="nav-number">5.7.</span> <span class="nav-text">Content-Range</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Content-Type"><span class="nav-number">5.8.</span> <span class="nav-text">Content-Type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Expires"><span class="nav-number">5.9.</span> <span class="nav-text">Expires</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Last-Modified"><span class="nav-number">5.10.</span> <span class="nav-text">Last-Modified</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cookie-服务的首部字段"><span class="nav-number">6.</span> <span class="nav-text">Cookie 服务的首部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-Cookie"><span class="nav-number">6.1.</span> <span class="nav-text">Set-Cookie</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#expires属性"><span class="nav-number">6.1.1.</span> <span class="nav-text">expires属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#path属性"><span class="nav-number">6.1.2.</span> <span class="nav-text">path属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#domain属性"><span class="nav-number">6.1.3.</span> <span class="nav-text">domain属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#secure属性"><span class="nav-number">6.1.4.</span> <span class="nav-text">secure属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HttpOnly属性"><span class="nav-number">6.1.5.</span> <span class="nav-text">HttpOnly属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cookie"><span class="nav-number">6.2.</span> <span class="nav-text">Cookie</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非标准首部字段"><span class="nav-number">7.</span> <span class="nav-text">非标准首部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#X-Frame-Options"><span class="nav-number">7.1.</span> <span class="nav-text">X-Frame-Options</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#X-XSS-Protection"><span class="nav-number">7.2.</span> <span class="nav-text">X-XSS-Protection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNT"><span class="nav-number">7.3.</span> <span class="nav-text">DNT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#P3P"><span class="nav-number">7.4.</span> <span class="nav-text">P3P</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">8.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zxlg</span>
+
+  
+</div>
+
+
+  <div class="powered-by">
+    由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  </div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">
+    主题 &mdash;
+    <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+      NexT.Mist
+    </a>
+  </div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  
+
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://happylg.cn/2017/09/23/http-head/';
+          this.page.identifier = '2017/09/23/http-head/';
+          this.page.title = 'HTTP首部字段解析';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://happylg.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("hR3ATs8pfE23chEpVt6B1ovg-gzGzoHsz", "oIbFkcd43Cjd1FqkymLs6o2D");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
